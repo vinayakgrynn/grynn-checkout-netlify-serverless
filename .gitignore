@@ -9,4 +9,4 @@ yarn.lock
 # Local Netlify folder
 .netlifynode_modules
 .netlify
-.stripe
+stripe
