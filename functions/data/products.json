@@ -1,0 +1,18 @@
+[
+  {
+    "sku": "Product 1",
+    "name": "Product 1",
+    "description": "Look at this pretty grynn product 1. Photo by Vinayak Patel.",
+    "image": "https://www.bepipe.com/images/calendarSampleA.png",
+    "amount": 100,
+    "currency": "USD"
+  },
+  {
+    "sku": "Product 2",
+    "name": "Product 2",
+    "description": "We’re going on an adventure!",
+    "image": "https://www.bepipe.com/images/calendarSample.png",
+    "amount": 150,
+    "currency": "USD"
+  }
+]

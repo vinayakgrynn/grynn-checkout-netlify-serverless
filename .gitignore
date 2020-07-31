@@ -1,0 +1,12 @@
+# Sensitive env variables
+.env
+
+# Dependencies
+node_modules
+package-lock.json
+yarn.lock
+
+# Local Netlify folder
+.netlifynode_modules
+.netlify
+.stripe

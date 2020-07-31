@@ -1,0 +1,13 @@
+[build]
+  command = "npm run functions"
+  publish = "public"
+  functions = "functions"
+
+[dev]
+  publish = "public"
+  functions = "functions"
+
+[template.environment]
+  STRIPE_PUBLISHABLE_KEY = "pk_test_51HAbz2AQ0qxfxSJ1BFA6VdksLhae4TOWuqTgb3jgZD2Ep9Zu9xGvP3hn8u5LKjDM6fVKG8Xh8dnHoNkzshrVto2L00F63wjGpz"
+  STRIPE_SECRET_KEY = "sk_test_51HAbz2AQ0qxfxSJ1jggW2kn1pxJB6891cSZk9AkwvlOiv2y6JMonxPHaVXgz6cQHAxhOTn7GDkyAqLNJKCD8oClP00NqDqfZeD"
+  #STRIPE_WEBHOOK_SECRET = "[Optional] Add your webhook secret here: whsec_xxx"
