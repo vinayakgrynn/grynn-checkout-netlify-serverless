@@ -8,7 +8,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 const inventory = require('./data/products.json');
 
 
-exports.handler = (event, context, callback) => {
+exports.handler = async (event, context, callback) => { //= async (event) =>
 
   // const { sku, quantity } = JSON.parse(event.body);
 
