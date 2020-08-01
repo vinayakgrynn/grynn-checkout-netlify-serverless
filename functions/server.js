@@ -5,32 +5,10 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 });
 
 
-
-const calculateOrderAmount = items => {
-  // Replace this constant with a calculation of the order's amount
-  // Calculate the order total on the server to prevent
-  // people from directly manipulating the amount on the client
-  return 15;
-};
-
-
-
-/*
- * Product data can be loaded from anywhere. In this case, we’re loading it from
- * a local JSON file, but this could also come from an async call to your
- * inventory management service, a database query, or some other API call.
- *
- * The important thing is that the product info is loaded from somewhere trusted
- * so you know the pricing information is accurate.
- */
-
-
-
 const inventory = require('./data/products.json');
 
 
-
-exports.handler = async (event) => {
+exports.handler = (event, context, callback) => {
 
   // const { sku, quantity } = JSON.parse(event.body);
 
@@ -57,6 +35,5 @@ exports.handler = async (event) => {
     }),
   };
 
-  
   
 };
