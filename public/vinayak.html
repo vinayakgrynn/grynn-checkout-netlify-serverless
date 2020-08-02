@@ -514,16 +514,21 @@ function displayPayment(){
 </div>
 </div>
       
-      <button id="payment-form-submit" class="stripe-button">
-        <div class="spinner hidden" id="payment-form-spinner"></div>
-        <span id="payment-form-button-text">Pay Now</span>
-      </button>
-      <p id="payment-form-card-error" role="alert"></p>
-      <p class="result-message hidden">
-        Payment succeeded, see the result in your
-        <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
-      </p>
-    </form> `
+<button id="payment-form-submit" class="stripe-button">
+    <div class="spinner hidden" id="payment-form-spinner"></div>
+    <span id="payment-form-button-text">Pay Now</span>
+</button>
+
+<p id="payment-form-card-error" role="alert"></p>
+
+<br>
+
+<p class="result-message hidden">
+Payment succeeded, see the result in your
+<a href="https://dashboard.stripe.com/test/dashboard" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+</p>
+
+</form> `
 
   
   $('.payment-holder').html(form);
@@ -859,7 +864,7 @@ var showError = function(errorMsgText) {
 };
 
 
-
+  
 // Show a spinner on payment submission
 var loading = function(isLoading) {
   if (isLoading) {
@@ -875,13 +880,9 @@ var loading = function(isLoading) {
 };
 
 
-
 }
 
-
-
 </script>
-
 
 </body>
 </html>
