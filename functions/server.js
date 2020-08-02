@@ -27,42 +27,19 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
   cart = [];
 
   cart = JSON.parse(event.body);
-
-  var obj = {};
-  
   
   // Count cart 
   var totalCount = 0;
-  for (var item in cart) {
-      totalCount += cart[item].count;
-  }
-  
-
-  // Total cart
   var totalCart = 0;
+
   for (var item in cart) {
+      console.log(item, cart[item]);
+      totalCount += cart[item].count;
       totalCart += cart[item].price * cart[item].count;
   }
-  totalCart = Number(totalCart.toFixed(2));
-  
 
-  // List cart
-  var cartCopy = [];
-  for (i in cart) {
-      item = cart[i];
-      itemCopy = {};
-      for (p in item) {
-        itemCopy[p] = item[p];
-
-      }
-      itemCopy.total = Number(item.price * item.count).toFixed(2);
-      cartCopy.push(itemCopy);
-  }
-    
-  
   console.log("totalCount: ", totalCount);
   console.log("totalCart: ", totalCart);
-  console.log("cartCopy: ", cartCopy);
 
 
   ///////////////////////////
