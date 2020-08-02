@@ -54,11 +54,32 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
 
 
   const paymentIntent = await stripe.paymentIntents.create({
+    description: 'Software development services',
+    shipping: {
+      name: 'Jenny Rosen',
+      address: {
+        line1: '510 Townsend St',
+        postal_code: '98140',
+        city: 'San Francisco',
+        state: 'CA',
+        country: 'US',
+      },
+    },
     amount: totalCart,
     currency: "usd",
-    description: 'Fruits Exported'
+    payment_method_types: ['card'],
   });
 
+  var customer = await stripe.customers.create({
+  name: 'Jenny Rosen',
+  address: {
+    line1: '510 Townsend St',
+    postal_code: '98140',
+    city: 'San Francisco',
+    state: 'CA',
+    country: 'US',
+  }
+});
 
 
   return {
