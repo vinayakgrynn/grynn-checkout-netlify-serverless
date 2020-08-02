@@ -24,9 +24,9 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
   //////////////////////////
   /////////////////////////
   
-cart = [];
+//cart = [];
 
-cart = JSON.parse(event.body);
+var cart = JSON.parse(event.body);
 
 console.log(" cart.length, cart ",cart.length , cart, cart[0]);
 
