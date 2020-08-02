@@ -29,13 +29,7 @@ console.log(event.body);
 
 const cart = JSON.parse(data);
 const len = cart.length;
-  
-function format(amount, currency) {
-    return new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency,
-    }).format((amount / 100).toFixed(2));
-}
+
 
 var totalCount = 0.0;
 var totalCart = 0.0;
@@ -61,7 +55,8 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
 
   const paymentIntent = await stripe.paymentIntents.create({
     amount: totalCart,
-    currency: "usd"
+    currency: "usd",
+    description: 'Fruits Exported'
   });
 
 
