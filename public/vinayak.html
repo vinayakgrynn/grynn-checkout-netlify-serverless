@@ -793,7 +793,7 @@ fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
     card.on("change", function (event) {
       // Disable the Pay button if there are no card details in the Element
       document.querySelector(".stripe-button").disabled = event.empty;
-      document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
+      document.querySelector("#payment-form-card-error").textContent = event.error ? event.error.message : "";
     });
 
     var form = document.getElementById("payment-form");
@@ -851,7 +851,7 @@ var orderComplete = function(paymentIntentId) {
 // Show the customer the error from Stripe if their card fails to charge
 var showError = function(errorMsgText) {
   loading(false);
-  var errorMsg = document.querySelector("#card-error");
+  var errorMsg = document.querySelector("#payment-form-card-error");
   errorMsg.textContent = errorMsgText;
   setTimeout(function() {
     errorMsg.textContent = "";
@@ -884,5 +884,4 @@ var loading = function(isLoading) {
 
 
 </body>
-
 </html>
