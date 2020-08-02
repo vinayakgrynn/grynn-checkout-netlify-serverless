@@ -16,6 +16,7 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
 
   // const validatedQuantity = quantity > 0 && quantity < 11 ? quantity : 1;
 
+
   console.log(event.body);
 
 
@@ -24,32 +25,30 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
   /////////////////////////
   
   cart = [];
+
   cart = JSON.parse(event.body);
 
   var obj = {};
   
+  
   // Count cart 
-  obj.totalCount = function () {
-    var totalCount = 0;
-    for (var item in cart) {
+  var totalCount = 0;
+  for (var item in cart) {
       totalCount += cart[item].count;
-    }
-    return totalCount;
-  };
+  }
+  
 
   // Total cart
-  obj.totalCart = function () {
-    var totalCart = 0;
-    for (var item in cart) {
+  var totalCart = 0;
+  for (var item in cart) {
       totalCart += cart[item].price * cart[item].count;
-    }
-    return Number(totalCart.toFixed(2));
-  };
+  }
+  totalCart = Number(totalCart.toFixed(2));
+  
 
   // List cart
-  obj.listCart = function () {
-    var cartCopy = [];
-    for (i in cart) {
+  var cartCopy = [];
+  for (i in cart) {
       item = cart[i];
       itemCopy = {};
       for (p in item) {
@@ -58,14 +57,12 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
       }
       itemCopy.total = Number(item.price * item.count).toFixed(2);
       cartCopy.push(itemCopy);
-    }
-    return cartCopy;
-  };
+  }
+    
   
-  console.log("obj: ", obj);
-  console.log("obj.listCart: ", obj.listCart);
-  console.log("obj.totalCart: ", obj.totalCart);
-  console.log("obj.totalCount: ", obj.totalCount);
+  console.log("totalCount: ", totalCount);
+  console.log("totalCart: ", totalCart);
+  console.log("cartCopy: ", cartCopy);
 
 
   ///////////////////////////
