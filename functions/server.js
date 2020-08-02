@@ -17,8 +17,6 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
   // const validatedQuantity = quantity > 0 && quantity < 11 ? quantity : 1;
 
 
-  console.log(event.body);
-
 
   ///////////////////////////
   //////////////////////////
@@ -36,10 +34,10 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
 const cart = todoItem;
 const len = cart.length;
 
-
 var totalCount = 0;
 var totalCart = 0;
 
+console.log(len, cart[0], cart);
 
 for (i = 0; i < len; i++) {
   console.log("Cart: ", cart[i]);
