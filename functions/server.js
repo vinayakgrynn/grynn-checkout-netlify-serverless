@@ -25,12 +25,18 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
   /////////////////////////
   
 
-const ss = event.body;
-const vv = JSON.parse(ss);
-const cart = JSON.parse(event.body).payload;
+  const data = JSON.parse(event.body)
+  console.log("Function `todo-create` invoked", data)
+  const todoItem = {
+    data: data
+  }
+  
+  console.log(todoItem, data);
+  
+const cart = JSON.parse(event.body);
 const len = cart.length;
 
-console.log(typeof(ss), typeof(vv), typeof(cart), typeof(cart[0]));
+console.log(typeof(todoItem), typeof(data), typeof(cart), event, context );
 
 console.log(" cart.length, cart , querystring.parse(event.body) " , cart.length , cart, querystring.parse(event.body));
 
