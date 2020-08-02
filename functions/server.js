@@ -51,7 +51,7 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
 
 
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: 15,
+    amount: totalCart,
     currency: "usd"
   });
 
