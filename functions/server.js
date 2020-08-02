@@ -18,6 +18,10 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
 
   console.log(event.body);
 
+
+  ///////////////////////////
+  //////////////////////////
+  /////////////////////////
   
   cart = [];
   cart = JSON.parse(event.body);
@@ -59,6 +63,15 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
   };
   
   console.log("obj: ", obj);
+  console.log("obj.listCart: ", obj.listCart);
+  console.log("obj.totalCart: ", obj.totalCart);
+  console.log("obj.totalCount: ", obj.totalCount);
+
+
+  ///////////////////////////
+  //////////////////////////
+  /////////////////////////
+
 
   const paymentIntent = await stripe.paymentIntents.create({
     amount: 15,
