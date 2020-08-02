@@ -508,24 +508,17 @@ function displayPayment(){
 
     <form id="payment-form">
 
-
-
 <div class="form-row">
 <div class="col-md-6 form-group">
 <div id="card-element"></div>
 </div>
 </div>
-
-
-
-
-
-
-      <button id="payment-form-submit">
-        <div class="spinner hidden" id="spinner"></div>
+      
+      <button id="payment-form-submit" class="stripe-button">
+        <div class="spinner hidden" id="payment-form-spinner"></div>
         <span id="payment-form-button-text">Pay Now</span>
       </button>
-      <p id="card-error" role="alert"></p>
+      <p id="payment-form-card-error" role="alert"></p>
       <p class="result-message hidden">
         Payment succeeded, see the result in your
         <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
@@ -589,6 +582,7 @@ function load_address(){
 }
 
 
+
 function save_address(){
 
   console.log("Saving_address...");
@@ -620,6 +614,7 @@ function save_address(){
   
   sessionStorage.setItem('address', JSON.stringify(address));
   
+
 }
 
 
@@ -628,7 +623,7 @@ function hideAllForms(){
   $(".vCart").hide();
   $('.form-holder').hide();
   $('.vPrevious').hide();
-  
+  $('.next-address').hide();
 }
 
 
@@ -637,6 +632,7 @@ function checkRelevance(){
   if (state == 0){
     hideAllForms();
     $(".vCart").show();
+    $('.next-address').show();
     displayCart();
 
   }
@@ -645,6 +641,7 @@ function checkRelevance(){
     hideAllForms();
     $('.form-holder').show();
     $('.vPrevious').show();
+    $('.next-address').show();
     displayAddressForm();
     load_address();
 
@@ -749,13 +746,14 @@ console.log("Loading datavv: ", purchase);
 
 var address = get_address();
 
-console.log("Loading_address_form...", address);
+console.log("Loading_address_form...", address, address.email);
 
 
 // Disable the button until we have Stripe set up on the page
-//document.querySelector("stripe-button").disabled = true;
+document.querySelector(".stripe-button").disabled = true;
 
-///
+
+
 fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
 
   method: "POST",
@@ -794,7 +792,7 @@ fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
 
     card.on("change", function (event) {
       // Disable the Pay button if there are no card details in the Element
-      document.querySelector("button").disabled = event.empty;
+      document.querySelector(".stripe-button").disabled = event.empty;
       document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
     });
 
@@ -815,7 +813,7 @@ var payWithCard = function(stripe, card, clientSecret) {
   loading(true);
   stripe
     .confirmCardPayment(clientSecret, {
-      receipt_email: document.getElementById('email').value,
+      receipt_email: address.email,
       payment_method: {
         card: card
       }
@@ -845,7 +843,7 @@ var orderComplete = function(paymentIntentId) {
       "https://dashboard.stripe.com/test/payments/" + paymentIntentId
     );
   document.querySelector(".result-message").classList.remove("hidden");
-  document.querySelector("button").disabled = true;
+  document.querySelector(".stripe-button").disabled = true;
 };
 
 
@@ -866,13 +864,13 @@ var showError = function(errorMsgText) {
 var loading = function(isLoading) {
   if (isLoading) {
     // Disable the button and show a spinner
-    document.querySelector("button").disabled = true;
-    document.querySelector("#spinner").classList.remove("hidden");
-    document.querySelector("#button-text").classList.add("hidden");
+    document.querySelector(".stripe-button").disabled = true;
+    document.querySelector("#payment-form-spinner").classList.remove("hidden");
+    document.querySelector("#payment-form-button-text").classList.add("hidden");
   } else {
-    document.querySelector("button").disabled = false;
-    document.querySelector("#spinner").classList.add("hidden");
-    document.querySelector("#button-text").classList.remove("hidden");
+    document.querySelector(".stripe-button").disabled = false;
+    document.querySelector("#payment-form-spinner").classList.add("hidden");
+    document.querySelector("#payment-form-button-text").classList.remove("hidden");
   }
 };
 
@@ -886,5 +884,5 @@ var loading = function(isLoading) {
 
 
 </body>
-</html>
 
+</html>
