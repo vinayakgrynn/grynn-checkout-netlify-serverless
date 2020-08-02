@@ -23,21 +23,17 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
   /////////////////////////
   
 
-  const data = JSON.parse(event.body)
-  console.log("Function `todo-create` invoked", data)
-  const todoItem = {
-    data: data
-  }
+const data = JSON.parse(event.body);
   
-//console.log(todoItem, data);
-  
-const cart = todoItem;
+console.log(event.body);
+
+const cart = JSON.parse(data);
 const len = cart.length;
 
 var totalCount = 0;
 var totalCart = 0;
 
-console.log(len, cart[0], cart);
+console.log(typeof(cart), len, cart);
 
 for (i = 0; i < len; i++) {
   console.log("Cart: ", cart[i]);
