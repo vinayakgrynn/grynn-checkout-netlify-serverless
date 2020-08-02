@@ -31,14 +31,11 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
     data: data
   }
   
-  console.log(todoItem, data);
+//console.log(todoItem, data);
   
-const cart = JSON.parse(event.body);
+const cart = todoItem;
 const len = cart.length;
 
-console.log(typeof(todoItem), typeof(data), typeof(cart), event, context );
-
-console.log(" cart.length, cart , querystring.parse(event.body) " , cart.length , cart, querystring.parse(event.body));
 
 var totalCount = 0;
 var totalCart = 0;
