@@ -49,6 +49,7 @@ for (i = 0; i < len; i++) {
 }
 
 totalCart = (totalCart).toFixed(2);
+totalCart = parseInt(totalCart * 100);
 console.log("totalCount,  totalCart: ", totalCount, totalCart);
 
 
