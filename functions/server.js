@@ -24,22 +24,24 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
   //////////////////////////
   /////////////////////////
   
-  cart = [];
+cart = [];
 
-  cart = JSON.parse(event.body);
-  
-  // Count cart 
-  var totalCount = 0;
-  var totalCart = 0;
+cart = JSON.parse(purchase);
 
-  for (var item in cart) {
-      console.log(item, cart[item]);
-      totalCount += cart[item].count;
-      totalCart += cart[item].price * cart[item].count;
-  }
+console.log("cart: ", cart);
 
-  console.log("totalCount: ", totalCount);
-  console.log("totalCart: ", totalCart);
+var totalCount = 0;
+var totalCart = 0;
+var len = cart.length;
+
+for (i = 0; i < len; i++) {
+  console.log("Cart: ", cart[i]);
+  totalCount += cart[i].count;
+  totalCart += cart[i].price;
+}
+
+console.log("totalCount,  totalCart: ", totalCount, totalCart);
+
 
 
   ///////////////////////////
