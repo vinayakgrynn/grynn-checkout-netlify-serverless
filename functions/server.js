@@ -29,9 +29,16 @@ console.log(event.body);
 
 const cart = JSON.parse(data);
 const len = cart.length;
+  
+function format(amount, currency) {
+    return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency,
+    }).format((amount / 100).toFixed(2));
+}
 
-var totalCount = 0;
-var totalCart = 0;
+var totalCount = 0.0;
+var totalCart = 0.0;
 
 console.log(typeof(cart), len, cart);
 
@@ -41,6 +48,7 @@ for (i = 0; i < len; i++) {
   totalCart += cart[i].price;
 }
 
+totalCart = (totalCart).toFixed(2);
 console.log("totalCount,  totalCart: ", totalCount, totalCart);
 
 
