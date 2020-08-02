@@ -224,9 +224,13 @@ fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
   body: JSON.stringify(purchase)
 })
   .then(function(result) {
+    console.log("result.json(): ", result.json());
     return result.json();
   })
   .then(function(data) {
+  
+    console.log("data: ", data);
+    
     var elements = stripe.elements();
 
     var style = {
