@@ -28,7 +28,7 @@ cart = [];
 
 cart = JSON.parse(event.body);
 
-console.log("cart: ", cart);
+console.log(" cart.length, cart ",cart.length , cart, cart[0]);
 
 var totalCount = 0;
 var totalCart = 0;
