@@ -25,17 +25,17 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
   /////////////////////////
   
 
-var ss = event.body;
-var vv = JSON.parse(ss);
-var cart = vv;
+const ss = event.body;
+const vv = JSON.parse(ss);
+const cart = vv;
   
 console.log(typeof(ss), typeof(vv), typeof(cart), typeof(cart[0]));
 
 console.log(" cart.length, cart ",cart.length , cart, cart[0]);
 
-var totalCount = 0;
-var totalCart = 0;
-var len = cart.length;
+const totalCount = 0;
+const totalCart = 0;
+const len = cart.length;
 
 for (i = 0; i < len; i++) {
   console.log("Cart: ", cart[i]);
