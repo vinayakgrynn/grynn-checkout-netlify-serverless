@@ -16,7 +16,7 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
 
   // const validatedQuantity = quantity > 0 && quantity < 11 ? quantity : 1;
 
-
+  console.log(event.body);
 
   const paymentIntent = await stripe.paymentIntents.create({
     amount: 15,
