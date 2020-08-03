@@ -780,6 +780,8 @@ fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
   })
   .then(function(data) {
 
+    console.log(data);    
+
     var elements = stripe.elements();
 
     var style = {
@@ -834,9 +836,11 @@ var payWithCard = function(stripe, card, clientSecret) {
     .then(function(result) {
       if (result.error) {
         // Show error to your customer
+        console.log("Error Message...");
         showError(result.error.message);
       } else {
         // The payment succeeded!
+        console.log("The payment succeeded!");
         orderComplete(result.paymentIntent.id);
       }
     });
