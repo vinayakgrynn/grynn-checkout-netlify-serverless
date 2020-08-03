@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -206,6 +205,8 @@ var shoppingCart = function () {
     this.count = count;
   }
 
+
+  // address = JSON.parse(sessionStorage.getItem('address'))[0];
   // Save cart
   function saveCart() {
     sessionStorage.setItem('shoppingCart', JSON.stringify(cart));
@@ -558,18 +559,7 @@ function load_address(){
   for (i = 0; i < x.length; i++) {
     
     if (x[i].tagName == "INPUT"){
-      /*
-      if (address[i][x[i].id] === 'undefined' || address[i][x[i].id] === "")
-      {
-        //console.log( "Undefined: ", address[i][x[i].id] );
-      }
-      else
-      {
-        //console.log( "Defined: ", address[i][x[i].id] );
-        x[i].value = address[i][x[i].id];
-      }
-      */
-
+      
       if (address[x[i].id] === 'undefined' || address[x[i].id] === "" || address[x[i].id] === undefined)
       {
         console.log( "Undefined: ", address[x[i].id] );
@@ -619,8 +609,8 @@ function save_address(){
   
   sessionStorage.setItem('address', JSON.stringify(address));
   
-
 }
+
 
 
 function hideAllForms(){
@@ -630,6 +620,7 @@ function hideAllForms(){
   $('.vPrevious').hide();
   $('.next-address').hide();
 }
+
 
 
 function checkRelevance(){
@@ -661,7 +652,6 @@ function checkRelevance(){
     displayPayment();
 
   }
-
 
   // document.getElementById("secure-form").submit();
   // https://stripe.com/docs/payments#online
@@ -754,11 +744,71 @@ var address = get_address();
 console.log("Loading_address_form...", address, address.email);
 
 
+//cart = [];
+
+var cart = JSON.parse(purchase);
+
+console.log("cart: ", cart);
+
+var totalCount = 0;
+var totalCart = 0;
+var len = cart.length;
+
+for (i = 0; i < len; i++) {
+  console.log("Cart: ", cart[i]);
+  totalCount += cart[i].count;
+  totalCart += cart[i].price;
+}
+
+console.log("totalCount,  totalCart: ", totalCount, totalCart);
+
+
+
+$.ajax({
+    type: 'POST',
+    url: 'https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server',
+    crossDomain: true,
+    data: cart,
+    dataType: 'json',
+    beforeSend: function (xhr) {
+
+        xhr.setRequestHeader('Accept', 'application/json');
+
+    },
+    success: function(responseData, textStatus, jqXHR) {
+        
+        alert("Success: ", responseData, textStatus, jqXHR);
+        
+        console.log("Success: ", responseData, textStatus, jqXHR);
+
+    },
+    error: function (xhr, textStatus, errorThrown) {
+
+        alert("Error: ", xhr.responseText , textStatus, errorThrown, xhr);
+
+        console.log("Error: ", xhr.responseText , textStatus, errorThrown, xhr);
+
+    },
+    complete: function (responseData, textStatus) {
+
+        alert(responseData, textStatus);
+
+        console.log("Complete: ", responseData, textStatus);
+
+    },
+
+});
+
+
+
+
+
 // Disable the button until we have Stripe set up on the page
-document.querySelector(".stripe-button").disabled = true;
+// document.querySelector(".stripe-button").disabled = true;
 
 
 
+/*
 fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
 
   method: "POST",
@@ -772,6 +822,7 @@ fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
     return result.json();
   })
   .then(function(data) {
+
     var elements = stripe.elements();
 
     var style = {
@@ -864,7 +915,7 @@ var showError = function(errorMsgText) {
 };
 
 
-  
+
 // Show a spinner on payment submission
 var loading = function(isLoading) {
   if (isLoading) {
@@ -879,10 +930,14 @@ var loading = function(isLoading) {
   }
 };
 
+*/
 
 }
 
+
+
 </script>
+
 
 </body>
 </html>
