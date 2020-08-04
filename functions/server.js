@@ -16,8 +16,6 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
 
   // const validatedQuantity = quantity > 0 && quantity < 11 ? quantity : 1;
 
-
-
   ///////////////////////////
   //////////////////////////
   /////////////////////////
@@ -42,16 +40,15 @@ for (i = 0; i < len; i++) {
   totalCart += cart[i].price;
 }
 
+var vtotal = cart.total;
+console.log("cart.total: ", vtotal);
 totalCart = (totalCart).toFixed(2);
 totalCart = parseInt(totalCart * 100);
 console.log("totalCount,  totalCart: ", totalCount, totalCart);
 
-
-
-  ///////////////////////////
-  //////////////////////////
-  /////////////////////////
-
+///////////////////////////
+//////////////////////////
+/////////////////////////
 
   const paymentIntent = await stripe.paymentIntents.create({
     description: 'Software development services',
