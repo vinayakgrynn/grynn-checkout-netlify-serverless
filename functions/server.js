@@ -40,7 +40,7 @@ for (i = 0; i < len; i++) {
   totalCart += cart[i].price;
 }
 
-var vtotal = cart.total;
+var vtotal = cart[0].total;
 console.log("cart.total: ", vtotal);
 totalCart = (totalCart).toFixed(2);
 totalCart = parseInt(totalCart * 100);
