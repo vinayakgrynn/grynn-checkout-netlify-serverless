@@ -1020,8 +1020,8 @@ fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
 
     card.on("change", function (event) {
       // Disable the Pay button if there are no card details in the Element
-      // document.querySelector("#payment-form-submit").disabled = event.empty;
-      // document.querySelector("#payment-form-card-error").textContent = event.error ? event.error.message : "";
+      document.querySelector("#payment-form-submit").disabled = true;
+      document.querySelector("#payment-form-card-error").textContent = event.error ? event.error.message : "";
     });
 
     var form = document.getElementById("payment-form");
