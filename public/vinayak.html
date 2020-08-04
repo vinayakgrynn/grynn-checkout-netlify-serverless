@@ -728,9 +728,6 @@ function displayPayment(){
 
 <br>
 
-<p class="result-message hidden">
-See the result in your <a href="https://dashboard.stripe.com/test/dashboard" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
-</p>
 
 </form> `
 
@@ -1020,7 +1017,7 @@ fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
 
     card.on("change", function (event) {
       // Disable the Pay button if there are no card details in the Element
-      document.querySelector("#payment-form-submit").disabled = true;
+      document.querySelector(".stripe-button").disabled = event.empty; 
       document.querySelector("#payment-form-card-error").textContent = event.error ? event.error.message : "";
     });
 
@@ -1093,12 +1090,12 @@ $("#stripe-result-modal").modal({show: true});
 var loading = function(isLoading) {
   if (isLoading) {
     // Disable the button and show a spinner
-    document.querySelector(".stripe-button").disabled = true;
+    //document.querySelector(".stripe-button").disabled = true;
     document.querySelector("#payment-form-spinner").classList.remove("stripe-hidden");
     document.querySelector("#payment-form-button-text").classList.add("stripe-hidden");
   } else {
     // Enable the button and Hide the spinner
-    document.querySelector(".stripe-button").disabled = false;
+    //document.querySelector(".stripe-button").disabled = false;
     document.querySelector("#payment-form-spinner").classList.add("stripe-hidden");
     document.querySelector("#payment-form-button-text").classList.remove("stripe-hidden");
   }
