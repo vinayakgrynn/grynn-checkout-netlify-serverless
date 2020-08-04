@@ -31,6 +31,9 @@ body {
   align-self: center;
 }
 
+.stripe-hidden {
+  display: none;
+}
 
 .stripe-input {
   border-radius: 6px;
@@ -695,7 +698,7 @@ function displayPayment(){
 </div>
       
 <button id="payment-form-submit" class="stripe-button">
-    <div class="spinner hidden" id="payment-form-spinner"></div>
+    <div class="spinner stripe-hidden" id="payment-form-spinner"></div>
     <span id="payment-form-button-text">Pay Now</span>
 </button>
 
