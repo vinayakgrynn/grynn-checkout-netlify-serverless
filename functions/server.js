@@ -36,8 +36,8 @@ console.log(typeof(cart), len, cart);
 
 for (i = 0; i < len; i++) {
   console.log("Cart: ", cart[i]);
-  totalCount += cart[i].count;
-  totalCart += cart[i].total;
+  totalCount += cart[i].count ;
+  totalCart += parseFloat( cart[i].total );
 }
 
 console.log("totalCount,  totalCart: ", totalCount, totalCart);
