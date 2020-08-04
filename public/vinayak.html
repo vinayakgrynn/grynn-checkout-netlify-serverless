@@ -902,13 +902,13 @@ var payWithCard = function(stripe, card, clientSecret) {
     .then(function(result) {
       if (result.error) {
         // Show error to your customer
-        console.log("Error Message...");
+        console.log("Error Message...", result);
         closeCart();
         DisplayPaymentResult( result.error.message, true);
         showError(result.error.message);
       } else {
         // The payment succeeded!
-        console.log("The payment succeeded!");
+        console.log("The payment succeeded! \n", result);
         closeCart();
         DisplayPaymentResult( result.paymentIntent.id, false);
         orderComplete(result.paymentIntent.id, false);
@@ -924,12 +924,12 @@ function DisplayPaymentResult( message, error )
 var res = "<p>";
 
 if (error){
-  res += "Payment was unsuccessful.<br>Error: " + "message";
+  res += "Payment was unsuccessful.<br>Error: &nbsp; &nbsp; " + "message";
 }
 else
 {
   link = "https://dashboard.stripe.com/test/payments/" + message;
-  res += `Payment successful.<br>Link: <a href="+link+" class="btn btn-primary">Payment Id</a>`
+  res += `Payment successful.<br>Link: &nbsp; &nbsp; <a href="+link+">Payment Id</a>`
 }
 
 res += "<p>";
