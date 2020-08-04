@@ -42,7 +42,7 @@ for (i = 0; i < len; i++) {
 
 //var vtotal = cart[0].total;
 //console.log("cart.total: ", vtotal);
-totalCart = (totalCart).toFixed(2);
+//totalCart = (totalCart).toFixed(2);
 totalCart = parseInt(totalCart * 100);
 console.log("totalCount,  totalCart: ", totalCount, totalCart);
 
