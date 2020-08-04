@@ -1090,12 +1090,12 @@ $("#stripe-result-modal").modal({show: true});
 var loading = function(isLoading) {
   if (isLoading) {
     // Disable the button and show a spinner
-    //document.querySelector(".stripe-button").disabled = true;
+    document.querySelector(".stripe-button").disabled = true;
     document.querySelector("#payment-form-spinner").classList.remove("stripe-hidden");
     document.querySelector("#payment-form-button-text").classList.add("stripe-hidden");
   } else {
     // Enable the button and Hide the spinner
-    //document.querySelector(".stripe-button").disabled = false;
+    document.querySelector(".stripe-button").disabled = false;
     document.querySelector("#payment-form-spinner").classList.add("stripe-hidden");
     document.querySelector("#payment-form-button-text").classList.remove("stripe-hidden");
   }
