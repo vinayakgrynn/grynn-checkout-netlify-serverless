@@ -929,6 +929,7 @@ $('.grynn-order-now').click(function (event) {
 
 function closeCart(){
   shoppingCart.clearCart();
+  displayCart();
   $('#cart').modal('hide');
   state = 0;
 }
