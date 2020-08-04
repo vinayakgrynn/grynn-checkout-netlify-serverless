@@ -40,10 +40,11 @@ for (i = 0; i < len; i++) {
   totalCart += cart[i].total;
 }
 
+console.log("totalCount,  totalCart: ", totalCount, totalCart);
 //var vtotal = cart[0].total;
 //console.log("cart.total: ", vtotal);
-//totalCart = (totalCart).toFixed(2);
-totalCart = parseInt(totalCart * 100);
+var vtotal = (totalCart).toFixed(2);
+totalCart = parseInt(vtotal * 100);
 console.log("totalCount,  totalCart: ", totalCount, totalCart);
 
 ///////////////////////////
