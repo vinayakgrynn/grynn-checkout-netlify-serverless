@@ -928,10 +928,17 @@ $('.grynn-order-now').click(function (event) {
 
 
 function closeCart(){
+  // Reset Cart
+  state = 0;
+  checkRelevance();
+
+  // Clear Cart items
   shoppingCart.clearCart();
   displayCart();
+
+  // Hide Cart Modal View
   $('#cart').modal('hide');
-  state = 0;
+  
 }
 
 
