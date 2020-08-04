@@ -924,12 +924,12 @@ function DisplayPaymentResult( message, error )
 var res = "<p>";
 
 if (error){
-  res += "Payment was unsuccessful.<br>Error: &nbsp; &nbsp; " + "message";
+  res += "Payment was unsuccessful.";
 }
 else
 {
   linkv = "https://dashboard.stripe.com/test/payments/" + message;
-  res += "Payment successful.<br>Link: &nbsp; &nbsp; <a href=\"" + linkv + "\">Payment Id</a>";
+  res += 'Payment successful.<br>Payment Id: &nbsp; &nbsp; <a href="' + linkv + '">' + linkv + '</a>';
 }
 
 res += "<p>";
