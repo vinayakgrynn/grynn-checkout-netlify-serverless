@@ -987,11 +987,11 @@ function checkedStatus()
 
   if( $('#ship-address-checkbox').is(":checked") === true)
   {
-    // ship-address-group
-    document.querySelector("#ship-address-group").classList.remove("stripe-hidden");
+    document.querySelector("#ship-address-group").classList.add("stripe-hidden");
   }
   else{
-    document.querySelector("#ship-address-group").classList.add("stripe-hidden");
+    // ship-address-group
+    document.querySelector("#ship-address-group").classList.remove("stripe-hidden");
   }
 
 }
