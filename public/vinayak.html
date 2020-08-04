@@ -12,18 +12,26 @@
 
 <style>
 
+
+
 body {
   background-color: #F8F9FA;
   padding-top: 80px;
 }
 
+
+
 .show-cart li {
   display: flex;
 }
 
+
+
 .card {
   margin-bottom: 20px;
 }
+
+
 
 .card-img-top {
   width: 200px;
@@ -31,20 +39,13 @@ body {
   align-self: center;
 }
 
+
+
 .stripe-hidden {
   display: none;
 }
 
-.stripe-input {
-  border-radius: 6px;
-  margin-bottom: 6px;
-  padding: 12px;
-  border: 1px solid rgba(50, 50, 93, 0.1);
-  height: 44px;
-  font-size: 16px;
-  width: 100%;
-  background: white;
-}
+
 
 .stripe-form {
   width: 30vw;
@@ -54,6 +55,19 @@ body {
     0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
   border-radius: 7px;
   padding: 40px;
+}
+
+
+
+input {
+  border-radius: 6px;
+  margin-bottom: 6px;
+  padding: 12px;
+  border: 1px solid rgba(50, 50, 93, 0.1);
+  height: 44px;
+  font-size: 16px;
+  width: 100%;
+  background: white;
 }
 
 
@@ -77,12 +91,12 @@ body {
 
 
 /* spinner/processing state, errors */
-.spinner,
-.spinner:before,
-.spinner:after {
+.stripe-spinner,
+.stripe-spinner:before,
+.stripe-spinner:after {
   border-radius: 50%;
 }
-.spinner {
+.stripe-spinner {
   color: #ffffff;
   font-size: 22px;
   text-indent: -99999px;
@@ -95,12 +109,12 @@ body {
   -ms-transform: translateZ(0);
   transform: translateZ(0);
 }
-.spinner:before,
-.spinner:after {
+.stripe-spinner:before,
+.stripe-spinner:after {
   position: absolute;
   content: "";
 }
-.spinner:before {
+.stripe-spinner:before {
   width: 10.4px;
   height: 20.4px;
   background: #5469d4;
@@ -112,7 +126,7 @@ body {
   -webkit-animation: loading 2s infinite ease 1.5s;
   animation: loading 2s infinite ease 1.5s;
 }
-.spinner:after {
+.stripe-spinner:after {
   width: 10.4px;
   height: 10.2px;
   background: #5469d4;
@@ -124,6 +138,7 @@ body {
   -webkit-animation: loading 2s infinite ease;
   animation: loading 2s infinite ease;
 }
+
 
 @-webkit-keyframes loading {
   0% {
@@ -146,6 +161,7 @@ body {
   }
 }
 
+
 @media only screen and (max-width: 600px) {
   form {
     width: 80vw;
@@ -154,10 +170,9 @@ body {
 
 
 
-
-
-
 </style>
+
+
 
 <script>
   window.console = window.console || function(t) {};
@@ -698,7 +713,7 @@ function displayPayment(){
 </div>
       
 <button id="payment-form-submit" class="stripe-button">
-    <div class="spinner stripe-hidden" id="payment-form-spinner"></div>
+    <div class="stripe-spinner stripe-hidden" id="payment-form-spinner"></div>
     <span id="payment-form-button-text">Pay Now</span>
 </button>
 
