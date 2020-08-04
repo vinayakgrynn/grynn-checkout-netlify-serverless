@@ -928,8 +928,8 @@ if (error){
 }
 else
 {
-  link = "https://dashboard.stripe.com/test/payments/" + message;
-  res += `Payment successful.<br>Link: &nbsp; &nbsp; <a href="+link+">Payment Id</a>`
+  linkv = "https://dashboard.stripe.com/test/payments/" + message;
+  res += "Payment successful.<br>Link: &nbsp; &nbsp; <a href=\"" + linkv + "\">Payment Id</a>";
 }
 
 res += "<p>";
@@ -939,7 +939,6 @@ $('.stripe-result-modal-body').html(res);
 $("#stripe-result-modal").modal({show: true});
 
 }
-
 
 
 
