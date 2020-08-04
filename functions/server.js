@@ -37,11 +37,11 @@ console.log(typeof(cart), len, cart);
 for (i = 0; i < len; i++) {
   console.log("Cart: ", cart[i]);
   totalCount += cart[i].count;
-  totalCart += cart[i].price;
+  totalCart += cart[i].total;
 }
 
-var vtotal = cart[0].total;
-console.log("cart.total: ", vtotal);
+//var vtotal = cart[0].total;
+//console.log("cart.total: ", vtotal);
 totalCart = (totalCart).toFixed(2);
 totalCart = parseInt(totalCart * 100);
 console.log("totalCount,  totalCart: ", totalCount, totalCart);
