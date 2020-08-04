@@ -863,6 +863,7 @@ function checkRelevance(){
 }
 
 
+
 var state = 0;
 // This Runs when Page is Loaded.
 $( document ).ready(function() {
@@ -925,6 +926,7 @@ $('.grynn-order-now').click(function (event) {
 
 
 
+
 function closeCart(){
   shoppingCart.clearCart();
   $('#cart').modal('hide');
@@ -954,7 +956,6 @@ var address = get_address();
 console.log("Loading_address_form...", address, address.email);
 
 
-//cart = [];
 
 var cart = JSON.parse(purchase);
 
@@ -973,16 +974,20 @@ for (i = 0; i < len; i++) {
 console.log("totalCount,  totalCart: ", totalCount, totalCart);
 
 
+
 // Disable the button until we have Stripe set up on the page
-document.querySelector("#payment-form-submit").disabled = true;
+document.querySelector(".stripe-button").disabled = true;
 
 fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
 
   method: "POST",
+
   headers: {
     "Content-Type": "application/json"
   },
+
   body: JSON.stringify(purchase)
+
 })
   .then(function(result) {
     //console.log(result.json());
