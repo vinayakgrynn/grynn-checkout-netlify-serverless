@@ -21,6 +21,19 @@ body {
 
 
 
+input {
+  border-radius: 6px;
+  margin-bottom: 6px;
+  padding: 12px;
+  border: 1px solid rgba(50, 50, 93, 0.1);
+  height: 44px;
+  font-size: 16px;
+  width: 100%;
+  background: white;
+}
+
+
+
 .show-cart li {
   display: flex;
 }
@@ -704,7 +717,8 @@ function displayPayment(){
 <form id="payment-form" class="stripe-form">
 
 <div id="card-element"></div>
-      
+<br>
+
 <button id="payment-form-submit" class="stripe-button">
     <div class="stripe-spinner stripe-hidden" id="payment-form-spinner"></div>
     <span id="payment-form-button-text">Pay Now</span>
@@ -963,9 +977,7 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
 
 
 // Disable the button until we have Stripe set up on the page
-document.querySelector(".stripe-button").disabled = true;
-
-
+document.querySelector("#payment-form-submit").disabled = true;
 
 fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
 
@@ -1008,8 +1020,8 @@ fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
 
     card.on("change", function (event) {
       // Disable the Pay button if there are no card details in the Element
-      document.querySelector(".stripe-button").disabled = event.empty;
-      document.querySelector("#payment-form-card-error").textContent = event.error ? event.error.message : "";
+      // document.querySelector("#payment-form-submit").disabled = event.empty;
+      // document.querySelector("#payment-form-card-error").textContent = event.error ? event.error.message : "";
     });
 
     var form = document.getElementById("payment-form");
@@ -1038,9 +1050,7 @@ var payWithCard = function(stripe, card, clientSecret) {
       if (result.error) {
         // Show error to your customer
         console.log("Error Message...", result);
-        closeCart();
         DisplayPaymentResult( result.error.message, true);
-        showError(result.error.message);
       } else {
         // The payment succeeded!
         console.log("The payment succeeded! \n", result);
@@ -1079,44 +1089,17 @@ $("#stripe-result-modal").modal({show: true});
 
 /* ------- UI helpers ------- */
 
-// Shows a success message when the payment is complete
-var orderComplete = function(paymentIntentId) {
-  loading(false);
-  document
-    .querySelector(".result-message a")
-    .setAttribute(
-      "href",
-      "https://dashboard.stripe.com/test/payments/" + paymentIntentId
-    );
-  document.querySelector(".result-message").classList.remove("hidden");
-  document.querySelector(".stripe-button").disabled = true;
-};
-
-
-
-// Show the customer the error from Stripe if their card fails to charge
-var showError = function(errorMsgText) {
-  loading(false);
-  var errorMsg = document.querySelector("#payment-form-card-error");
-  errorMsg.textContent = errorMsgText;
-  setTimeout(function() {
-    errorMsg.textContent = "";
-  }, 4000);
-};
-
-
-
 // Show a spinner on payment submission
 var loading = function(isLoading) {
   if (isLoading) {
     // Disable the button and show a spinner
-    document.querySelector(".stripe-button").disabled = true;
-    document.querySelector("#payment-form-spinner").classList.remove("hidden");
-    document.querySelector("#payment-form-button-text").classList.add("hidden");
+    document.querySelector("#payment-form-submit").disabled = true;
+    document.querySelector("#payment-form-spinner").classList.remove("stripe-hidden");
+    document.querySelector("#payment-form-button-text").classList.add("stripe-hidden");
   } else {
-    document.querySelector(".stripe-button").disabled = false;
-    document.querySelector("#payment-form-spinner").classList.add("hidden");
-    document.querySelector("#payment-form-button-text").classList.remove("hidden");
+    document.querySelector("#payment-form-submit").disabled = false;
+    document.querySelector("#payment-form-spinner").classList.add("stripe-hidden");
+    document.querySelector("#payment-form-button-text").classList.remove("stripe-hidden");
   }
 };
 
