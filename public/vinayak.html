@@ -176,6 +176,33 @@ body {
 
 
 
+<!-- Modal -->
+<div class="modal" id="stripe-result-modal" tabindex="-1" role="dialog" aria-labelledby="stripe-result-modal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="#stripe-result-modal-long-title">Result</h5>
+      </div>
+
+      <div class="stripe-result-modal-body">
+      </div>
+
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#stripe-result-modal" data-show="false">
+        Close
+      </button>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -355,8 +382,6 @@ $('.clear-cart').click(function () {
 
 
 
-
-
 function displayCart() {
   var cartArray = shoppingCart.listCart();
   var output = "";
@@ -379,14 +404,13 @@ function displayCart() {
 
 
 
-
 // Delete item button
-
 $('.show-cart').on("click", ".delete-item", function (event) {
   var name = $(this).data('name');
   shoppingCart.removeItemFromCartAll(name);
   displayCart();
 });
+
 
 
 // -1
@@ -397,12 +421,14 @@ $('.show-cart').on("click", ".minus-item", function (event) {
 });
 
 
+
 // +1
 $('.show-cart').on("click", ".plus-item", function (event) {
   var name = $(this).data('name');
   shoppingCart.addItemToCart(name);
   displayCart();
 });
+
 
 
 // Item count input
@@ -494,9 +520,10 @@ Shipping address is the same as my billing address
 </form>
 `
   
-  $('.form-holder').html(form);
+$('.form-holder').html(form);
 
 }
+
 
 
 function displayPayment(){
@@ -504,8 +531,7 @@ function displayPayment(){
   var form = "";
 
   form = `
-
-    <form id="payment-form">
+<form id="payment-form">
 
 <div class="form-row">
 <div class="col-md-6 form-group">
@@ -523,8 +549,7 @@ function displayPayment(){
 <br>
 
 <p class="result-message hidden">
-Payment succeeded, see the result in your
-<a href="https://dashboard.stripe.com/test/dashboard" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+See the result in your <a href="https://dashboard.stripe.com/test/dashboard" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
 </p>
 
 </form> `
@@ -537,6 +562,7 @@ Payment succeeded, see the result in your
 }
 
 
+
 function get_address(){
   var address = [];
 
@@ -544,6 +570,7 @@ function get_address(){
 
   return address;
 }
+
 
 
 function load_address(){
@@ -720,10 +747,17 @@ $('.grynn-order-now').click(function (event) {
 
 
 
+function closeCart(){
+  shoppingCart.clearCart();
+  $('#cart').modal('hide');
+  state = 0;
+}
+
+
+
 function LoadPayment(){
 
 // Strip Client JS
-
 
 // Stripe Publishable API key.
 var stripe = Stripe("pk_test_51HAbz2AQ0qxfxSJ1BFA6VdksLhae4TOWuqTgb3jgZD2Ep9Zu9xGvP3hn8u5LKjDM6fVKG8Xh8dnHoNkzshrVto2L00F63wjGpz");
@@ -837,14 +871,43 @@ var payWithCard = function(stripe, card, clientSecret) {
       if (result.error) {
         // Show error to your customer
         console.log("Error Message...");
+        closeCart();
+        DisplayPaymentResult( result.error.message, true);
         showError(result.error.message);
       } else {
         // The payment succeeded!
         console.log("The payment succeeded!");
-        orderComplete(result.paymentIntent.id);
+        closeCart();
+        DisplayPaymentResult( result.paymentIntent.id, true);
+        orderComplete(result.paymentIntent.id, false);
       }
     });
 };
+
+
+
+function DisplayPaymentResult( message, error )
+{
+
+var res = "<p>";
+
+if (error){
+  res += "Payment was unsuccessful.<br>Error: " + "message";
+}
+else
+{
+  link = "https://dashboard.stripe.com/test/payments/" + paymentIntentId;
+  res += `Payment successful.<br>Link: <a href="+link+" class="btn btn-primary">Payment Id</a>`
+}
+
+res += "<p>";
+  
+$('.stripe-result-modal-body').html(res);
+
+$("#stripe-result-modal").modal({show: true});
+
+}
+
 
 
 
