@@ -80,6 +80,8 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
 });
 
 
+  console.log("clientSecret: ", paymentIntent.client_secret);
+  
   return {
     statusCode: 200,
     headers: {"Access-Control-Allow-Origin":"*"},
