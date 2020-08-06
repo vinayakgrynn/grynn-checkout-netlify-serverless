@@ -9,17 +9,20 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
   
   
 stripe.customers.list(
-  { email: "vinayak.patel@grynn.in" , limit: 1 },
+  { email: "vinayak.patel@grynn.in" , limit: 100 },
+  
   function(err, customers) {
+    
     console.log(err, customers);
     
     return {
             statusCode: 200,
             headers: {"Access-Control-Allow-Origin":"*"},
             body: customers
-        };
+    };
     
   }
+  
 );
   
   
