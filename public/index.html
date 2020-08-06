@@ -1370,6 +1370,9 @@ function alterMenu() {
   //console.log(login);
 }
 
+
+
+
 function alertFunction() {
 
   setTimeout(
@@ -1396,43 +1399,45 @@ function alertFunction() {
 }
 
 
+
 window.onload = alterMenu;
+
+
+
+function loginNetlifyIdentity() {
+
+  netlifyIdentity.refresh().then((jwt)=>console.log(jwt));
+
+  //const user = netlifyIdentity.currentUser();
+
+}
+
+
+
+function logoutNetlifyIdentity() {
+  
+}
 
 
 
 netlifyIdentity.open();
 
-
-
 // Get the current user:
-const user = netlifyIdentity.currentUser();
-
+//const user = netlifyIdentity.currentUser();
 
 
 // Bind to events
-netlifyIdentity.on('init', user => console.log('init', user));
+netlifyIdentity.on('login', user => loginNetlifyIdentity());
 
-netlifyIdentity.refresh().then((jwt)=>console.log(jwt));
-
-
-
-netlifyIdentity.on('login', user => console.log('login', user));
-
-netlifyIdentity.on('logout', () => console.log('Logged out'));
-
-
-
-// Refresh the user's JWT
-// Note: this method returns a promise.
-netlifyIdentity.refresh().then((jwt)=>console.log(jwt));
-
+netlifyIdentity.on('logout', user => logoutNetlifyIdentity());
 
 
 // Change language
-//netlifyIdentity.setLocale('en');
+netlifyIdentity.setLocale('en');
 
-// modalContainer
-var md = document.querySelector(".modalContainer").classList.add("visuallyHidden");
+
+// Close the modal
+netlifyIdentity.close();
 
 
 
@@ -1441,5 +1446,7 @@ var md = document.querySelector(".modalContainer").classList.add("visuallyHidden
 
 
 </body>
+
+
 
 </html>
