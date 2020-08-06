@@ -21,9 +21,10 @@ const https = require('https');
 
 const options = {
     hostname: 'https://api.stripe.com/v1/search?query=vinayak.patel@grynn.in&prefix=false',
-    path: '/get',
+    port: 443,
+    method: 'GET',
     headers: {
-        'Authorization': 'Bearer ' + process.env.STRIPE_SECRET_KEY 
+        Authorization: ' Bearer ' + process.env.STRIPE_SECRET_KEY 
     }
 }
 
