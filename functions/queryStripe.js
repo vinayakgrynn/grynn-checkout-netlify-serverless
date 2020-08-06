@@ -51,7 +51,7 @@ https.get(options, (response) => {
 
 const request = require('request');
 
-const options = {
+const roptions = {
   url: 'https://api.stripe.com/v1/search?query="+email+"&prefix=false',
   headers: {
     "authorization": process.env.STRIPE_SECRET_KEY
@@ -68,14 +68,14 @@ function callback(error, response, body) {
   
 }
 
-request.get(options, callback);
+request.get(roptions, callback);
 
   
 return {
     statusCode: 200,
     headers: {"Access-Control-Allow-Origin":"*"},
     body: JSON.stringify({
-      //sessionId: paymentIntent.id,
+      sessionId: "Hello",
       //clientSecret: paymentIntent.client_secret,
       //publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
     }),
