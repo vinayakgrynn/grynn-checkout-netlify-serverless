@@ -20,7 +20,7 @@ var email = "vinayak.patel@grynn.in";
 const https = require('https');
 
 const options = {
-    hostname: 'https://api.stripe.com/v1/search?query=" + email + "&prefix=false',
+    hostname: 'https://api.stripe.com/v1/search?query=vinayak.patel@grynn.in&prefix=false',
     path: '/get',
     headers: {
         'Authorization': 'Bearer ' + process.env.STRIPE_SECRET_KEY 
@@ -63,9 +63,9 @@ https.get(options, (response) => {
 const request = require('request');
 
 const roptions = {
-  url: 'https://api.stripe.com/v1/search?query="+email+"&prefix=false',
+  url: 'https://api.stripe.com/v1/search?query=vinayak.patel@grynn.in&prefix=false',
   headers: {
-    "authorization": process.env.STRIPE_SECRET_KEY
+    'Authorization': 'Bearer ' + process.env.STRIPE_SECRET_KEY 
   }
 };
 
