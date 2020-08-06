@@ -6,9 +6,9 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 
 exports.handler = async (event, context, callback) => { //= async (event) =>
 
-const data = JSON.parse(event.body);
+//const data = JSON.parse(event.body);
   
-console.log(event.body);
+//console.log(event.body);
 
 //const cart = JSON.parse(data);
 
@@ -75,7 +75,7 @@ return {
     statusCode: 200,
     headers: {"Access-Control-Allow-Origin":"*"},
     body: JSON.stringify({
-      sessionId: "Hello",
+      //sessionId: "Hello",
       //clientSecret: paymentIntent.client_secret,
       //publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
     }),
