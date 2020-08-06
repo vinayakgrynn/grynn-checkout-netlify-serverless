@@ -6,6 +6,14 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 
 exports.handler = async (event, context, callback) => { //= async (event) =>
 
+  
+  
+stripe.customers.list(
+  { email: "vinayak.patel@grynn.in" },
+  function(err, customers) {
+    console.log(err, customers);
+  }
+);
 //const data = JSON.parse(event.body);
   
 //console.log(event.body);
