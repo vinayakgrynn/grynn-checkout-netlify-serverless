@@ -29,19 +29,15 @@ stripe.customers.list(
   
 
 //const data = JSON.parse(event.body);
-  
 //console.log(event.body);
-
 //const cart = JSON.parse(data);
-
 //const len = cart.length;
 
 var email = "vinayak.patel@grynn.in";
   
-  
 const https = require('https');
 
-var vurl = encodeURI('https://api.stripe.com/v1/search?query='+ encodeURIComponent("vinayak.patel@grynn.in") + '&prefix=false');
+var vurl = "https://api.stripe.com/v1/search?query=vinayak.patel@grynn.in&prefix=false"; // encodeURI('https://api.stripe.com/v1/search?query='+ encodeURIComponent("vinayak.patel@grynn.in") + '&prefix=false');
 
 //var vurl = encodeURI('https://api.stripe.com/v1/search?query='+ encodeURIComponent(vinayak.patel@grynn.in) + '&prefix=false');
 
