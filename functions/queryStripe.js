@@ -19,12 +19,18 @@ var email = "vinayak.patel@grynn.in";
   
 const https = require('https');
 
+var vurl = encodeURI('https://api.stripe.com/v1/search?query=vinayak.patel@grynn.in&prefix=false');
+
+var vBearer = ' Bearer ' + process.env.STRIPE_SECRET_KEY ;
+  
+console.log(vurl, vBearer);
+
 const options = {
-    hostname: 'https://api.stripe.com/v1/search?query=vinayak.patel@grynn.in&prefix=false',
+    hostname: vurl ,
     port: 443,
     method: 'GET',
     headers: {
-        Authorization: ' Bearer ' + process.env.STRIPE_SECRET_KEY 
+        Authorization: vBearer
     }
 }
 
@@ -64,9 +70,9 @@ https.get(options, (response) => {
 const request = require('request');
 
 const roptions = {
-  url: 'https://api.stripe.com/v1/search?query=vinayak.patel@grynn.in&prefix=false',
+  url: vurl ,
   headers: {
-    'Authorization': 'Bearer ' + process.env.STRIPE_SECRET_KEY 
+    'Authorization': vBearer
   }
 };
 
