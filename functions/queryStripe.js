@@ -4,9 +4,9 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   maxNetworkRetries: 2,
 });
 
+
 exports.handler = async (event, context, callback) => { //= async (event) =>
 
-  
   
 stripe.customers.list(
   { email: "vinayak.patel@grynn.in" , limit: 100 },
@@ -27,6 +27,7 @@ stripe.customers.list(
   
   
   
+/*
 
 //const data = JSON.parse(event.body);
 //console.log(event.body);
@@ -108,6 +109,6 @@ function callback(error, response, body) {
 
 request.get(roptions, callback);
 
-
+*/
   
 };
