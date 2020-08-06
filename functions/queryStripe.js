@@ -9,11 +9,22 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
   
   
 stripe.customers.list(
-  { email: "vinayak.patel@grynn.in" },
+  { email: "vinayak.patel@grynn.in" , limit: 1 },
   function(err, customers) {
     console.log(err, customers);
+    
+    return {
+            statusCode: 200,
+            headers: {"Access-Control-Allow-Origin":"*"},
+            body: JSON.stringify(customers),
+        };
+    
   }
 );
+  
+  
+  
+
 //const data = JSON.parse(event.body);
   
 //console.log(event.body);
@@ -22,6 +33,7 @@ stripe.customers.list(
 
 //const len = cart.length;
 
+  /*
 var email = "vinayak.patel@grynn.in";
   
   
@@ -98,7 +110,7 @@ function callback(error, response, body) {
 
 request.get(roptions, callback);
 
-  
+  */
 
   
 };
