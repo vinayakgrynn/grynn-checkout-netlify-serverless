@@ -1935,7 +1935,8 @@ function loginNetlifyIdentity(user) {
   netlifyIdentity.refresh().then((jwt)=>console.log(jwt));
   
   console.log("User: ", user);
-  console.log("User's Email: ", user[0].email, user.email, user[0] , user);
+  console.log(user);
+  console.log(user.e.email);
 }
 
 
