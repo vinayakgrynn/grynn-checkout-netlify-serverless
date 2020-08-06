@@ -5,7 +5,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 });
 
 
-exports.handler = async (event, context, callback) => { //= async (event) =>
+exports.handler = async (event, context, callback) => { 
 
   
 console.log("Start of function");
