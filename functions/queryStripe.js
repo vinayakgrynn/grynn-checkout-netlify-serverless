@@ -30,6 +30,13 @@ const customerR = await stripe.customers.list(
 
 console.log(customerR, customerRetrieve);
  
+return {
+    statusCode: 200,
+    headers: {"Access-Control-Allow-Origin":"*"},
+    body: customerR,
+  };
+  
+  
 }; 
   
 /*
