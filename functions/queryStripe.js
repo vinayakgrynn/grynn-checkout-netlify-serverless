@@ -13,11 +13,7 @@ console.log("Start of function");
 stripe.customers.list(
   {limit: 3},
   function(err, customers) {
-    return {
-            statusCode: 200,
-            headers: {"Access-Control-Allow-Origin":"*"},
-            body: "Hello "
-    };
+    console.log(err, customers);
   }  
 );
   
