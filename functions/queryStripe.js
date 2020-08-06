@@ -37,6 +37,17 @@ https.get(options, (response) => {
 
     response.on('end', function () {
         console.log("https: ", result);
+      
+      
+      
+        return {
+            statusCode: 200,
+            headers: {"Access-Control-Allow-Origin":"*"},
+            body: JSON.stringify(result),
+        };
+      
+      
+      
     });
 
 });
@@ -71,14 +82,6 @@ function callback(error, response, body) {
 request.get(roptions, callback);
 
   
-return {
-    statusCode: 200,
-    headers: {"Access-Control-Allow-Origin":"*"},
-    body: JSON.stringify({
-      //sessionId: "Hello",
-      //clientSecret: paymentIntent.client_secret,
-      //publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-    }),
-  };
+
   
 };
