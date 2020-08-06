@@ -1930,18 +1930,19 @@ window.onload = alterMenu;
 
 
 
-function loginNetlifyIdentity() {
+function loginNetlifyIdentity(user) {
 
   netlifyIdentity.refresh().then((jwt)=>console.log(jwt));
-
-  const user = netlifyIdentity.currentUser();
-
+  
+  console.log("User: ", user);
 }
 
 
 
-function logoutNetlifyIdentity() {
-  
+function logoutNetlifyIdentity(user) {
+  // Unbind from events
+  netlifyIdentity.off('login'); // to unbind all registered handlers
+  netlifyIdentity.off('login', loginNetlifyIdentity); // to unbind a single handler
 }
 
 
@@ -1950,13 +1951,13 @@ netlifyIdentity.open();
 
 
 // Get the current user:
-//const user = netlifyIdentity.currentUser();
+const user = netlifyIdentity.currentUser();
 
 
 // Bind to events
-netlifyIdentity.on('login', user => loginNetlifyIdentity());
+netlifyIdentity.on('login', user => loginNetlifyIdentity(user));
 
-netlifyIdentity.on('logout', user => logoutNetlifyIdentity());
+netlifyIdentity.on('logout', user => logoutNetlifyIdentity(user));
 
 
 // Change language
