@@ -23,7 +23,7 @@ const options = {
     hostname: 'https://api.stripe.com/v1/search?query=" + email + "&prefix=false',
     path: '/get',
     headers: {
-        "authorization": process.env.STRIPE_SECRET_KEY
+        'Authorization': 'Bearer ' + process.env.STRIPE_SECRET_KEY 
     }
 }
 
