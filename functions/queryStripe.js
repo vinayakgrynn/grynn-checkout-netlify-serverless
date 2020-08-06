@@ -11,23 +11,24 @@ exports.handler = async (event, context, callback) => {
 console.log("Start of function");
 
   
-stripe.customers.retrieve(
+const customerRetrieve = await stripe.customers.retrieve(
   'cus_HkLQEQdW1HTzYx',
   function(err, customer) {
     // asynchronously called
-    console.log(err, customers);
+    console.log(err, customer);
   }
 );
   
   
-/* 
-stripe.customers.list(
+
+const customerR = await stripe.customers.list(
   {limit: 3},
   function(err, customers) {
     console.log(err, customers);
   }  
 );
-*/
+
+console.log(customerR, customerRetrieve);
  
 }; 
   
