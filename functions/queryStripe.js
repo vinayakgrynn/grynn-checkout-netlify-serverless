@@ -7,13 +7,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 
 exports.handler = async (event, context, callback) => { //= async (event) =>
 
-
-stripe.customers.list(
-  {limit: 3},
-  function(err, customers) {
-    // asynchronously called
-  }
-);
   
 console.log("Start of function");
 
@@ -30,7 +23,8 @@ stripe.customers.list(
   }  
 );
   
-  
+ 
+}; 
   
 /*
 
@@ -116,4 +110,3 @@ request.get(roptions, callback);
 
 */
   
-};
