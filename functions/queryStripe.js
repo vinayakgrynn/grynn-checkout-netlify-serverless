@@ -15,6 +15,39 @@ console.log(event.body);
 //const len = cart.length;
 
 var email = "vinayak.patel@grynn.in";
+  
+  
+const https = require('https');
+
+const options = {
+    hostname: 'https://api.stripe.com/v1/search?query=" + email + "&prefix=false',
+    path: '/get',
+    headers: {
+        "authorization": process.env.STRIPE_SECRET_KEY
+    }
+}
+
+https.get(options, (response) => {
+
+    var result = ''
+    
+    response.on('data', function (chunk) {
+        result += chunk;
+    });
+
+    response.on('end', function () {
+        console.log("https: ", result);
+    });
+
+});
+  
+  
+  
+  
+  
+  
+  
+  
 
 const request = require('request');
 
@@ -28,11 +61,17 @@ const options = {
 function callback(error, response, body) {
   if (!error && response.statusCode == 200) {
     const info = JSON.parse(body);
-    console.log(info.stargazers_count + " Stars");
-    console.log(info.forks_count + " Forks");
+    console.log("Requests: ", info);
   }
   
-  return {
+  
+  
+}
+
+request.get(options, callback);
+
+  
+return {
     statusCode: 200,
     headers: {"Access-Control-Allow-Origin":"*"},
     body: JSON.stringify({
@@ -41,10 +80,5 @@ function callback(error, response, body) {
       //publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
     }),
   };
-  
-}
-
-request.get(options, callback);
-
   
 };
