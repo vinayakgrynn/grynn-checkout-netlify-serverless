@@ -1,28 +1,33 @@
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-03-02',
-  maxNetworkRetries: 2,
+  maxNetworkRetries: 200,
 });
 
 
 exports.handler = async (event, context, callback) => { //= async (event) =>
 
-  
+
 stripe.customers.list(
-  { email: "vinayak.patel@grynn.in" , limit: 100 },
-  
+  {limit: 3},
   function(err, customers) {
-    
-    console.log(err, customers);
-    
+    // asynchronously called
+  }
+);
+  
+console.log("Start of function");
+
+stripe.customers.list(
+  {limit: 3},
+  function(err, customers) {
+    console.log(err, customers);    
+    console.log("End of function");
     return {
             statusCode: 200,
             headers: {"Access-Control-Allow-Origin":"*"},
             body: customers
     };
-    
-  }
-  
+  }  
 );
   
   
