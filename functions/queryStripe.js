@@ -19,7 +19,9 @@ var email = "vinayak.patel@grynn.in";
   
 const https = require('https');
 
-var vurl = encodeURI('https://api.stripe.com/v1/search?query='+ encodeURIComponent(vinayak.patel@grynn.in) + '&prefix=false');
+var vurl = encodeURI('https://api.stripe.com/v1/search?query='+ encodeURIComponent("vinayak.patel@grynn.in") + '&prefix=false');
+
+//var vurl = encodeURI('https://api.stripe.com/v1/search?query='+ encodeURIComponent(vinayak.patel@grynn.in) + '&prefix=false');
 
 var vBearer = 'Bearer ' + process.env.STRIPE_SECRET_KEY ;
   
