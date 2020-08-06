@@ -1,48 +1,1442 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
+
 <head>
-  <title>A static website</title>
 
-  <!-- include the widget -->
-  <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Vinayak Shopping Kart</title>
+
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+<style>
+
+
+
+.navbar-nav {
+  flex-direction: row;
+}
+    
+.nav-link {
+  padding-right: .5rem !important;
+  padding-left: .5rem !important;
+}
+    
+/* Fixes dropdown menus placed on the right side */
+.ml-auto .dropdown-menu {
+  left: auto !important;
+  right: 0px;
+}
+
+
+
+body {
+  background-color: #F8F9FA;
+  padding-top: 80px;
+}
+
+
+
+input {
+  border-radius: 6px;
+  margin-bottom: 6px;
+  padding: 12px;
+  border: 1px solid rgba(50, 50, 93, 0.1);
+  height: 44px;
+  font-size: 16px;
+  width: 100%;
+  background: white;
+}
+
+
+
+.show-cart li {
+  display: flex;
+}
+
+
+
+.card {
+  margin-bottom: 20px;
+}
+
+
+
+.card-img-top {
+  width: 200px;
+  height: 200px;
+  align-self: center;
+}
+
+
+
+.stripe-hidden {
+  display: none;
+}
+
+
+
+.stripe-form {
+  width: 30vw;
+  min-width: 500px;
+  align-self: center;
+  box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
+    0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+  border-radius: 7px;
+  padding: 40px;
+}
+
+
+
+.stripe-button {
+  background: #5469d4;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  border-radius: 0 0 4px 4px;
+  border: 0;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: block;
+  transition: all 0.2s ease;
+  box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+  width: 100%;
+}
+
+
+
+/* spinner/processing state, errors */
+.stripe-spinner,
+.stripe-spinner:before,
+.stripe-spinner:after {
+  border-radius: 50%;
+}
+.stripe-spinner {
+  color: #ffffff;
+  font-size: 22px;
+  text-indent: -99999px;
+  margin: 0px auto;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  box-shadow: inset 0 0 0 2px;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+.stripe-spinner:before,
+.stripe-spinner:after {
+  position: absolute;
+  content: "";
+}
+.stripe-spinner:before {
+  width: 10.4px;
+  height: 20.4px;
+  background: #5469d4;
+  border-radius: 20.4px 0 0 20.4px;
+  top: -0.2px;
+  left: -0.2px;
+  -webkit-transform-origin: 10.4px 10.2px;
+  transform-origin: 10.4px 10.2px;
+  -webkit-animation: loading 2s infinite ease 1.5s;
+  animation: loading 2s infinite ease 1.5s;
+}
+.stripe-spinner:after {
+  width: 10.4px;
+  height: 10.2px;
+  background: #5469d4;
+  border-radius: 0 10.2px 10.2px 0;
+  top: -0.1px;
+  left: 10.2px;
+  -webkit-transform-origin: 0px 10.2px;
+  transform-origin: 0px 10.2px;
+  -webkit-animation: loading 2s infinite ease;
+  animation: loading 2s infinite ease;
+}
+
+
+@-webkit-keyframes loading {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes loading {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+
+@media only screen and (max-width: 600px) {
+  form {
+    width: 80vw;
+  }
+}
+
+
+
+</style>
+
+
+
+<script>
+  window.console = window.console || function(t) {};
+</script>
+
+<script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+<script src="https://js.stripe.com/v3/"></script>
+
+
+<script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+
 </head>
-<body>
-  <!-- Add a menu:
-   Log in / Sign up - when the user is not logged in
-   Username / Log out - when the user is logged in
-  -->
-  <div data-netlify-identity-menu></div>
 
-  <!-- Add a simpler button:
-    Simple button that will open the modal.
-  -->
-  <div data-netlify-identity-button>Login with Netlify Identity</div>
+
+
+<body translate="no">
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-inverse bg-inverse fixed-top bg-faded">
+
+
+
+
+
+
+<div id="login" data-netlify-identity-menu></div>
+
+
+
+
+
+
+<ul class="navbar-nav ml-auto">
+
+<div class="row">
+
+<div class="col">
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</button>
+
+<button class="clear-cart btn btn-danger">Clear Cart</button>
+
+</div>
+
+</div>
+
+</ul>
+
+
+
+
+
+</nav>
+
+
+
+<div class="container">
+<div class="row">
+<div class="col">
+<div class="card" style="width: 20rem;">
+<img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
+<div class="card-block">
+<h4 class="card-title">Orange</h4>
+<p class="card-text">Price: $0.5</p>
+<a href="#" data-name="Orange" data-price="0.5" class="add-to-cart btn btn-primary">Add to cart</a>
+</div>
+</div>
+</div>
+<div class="col">
+<div class="card" style="width: 20rem;">
+<img class="card-img-top" src="http://images.all-free-download.com/images/graphicthumb/vector_illustration_of_ripe_bananas_567893.jpg" alt="Card image cap">
+<div class="card-block">
+<h4 class="card-title">Banana</h4>
+<p class="card-text">Price: $1.22</p>
+<a href="#" data-name="Banana" data-price="1.22" class="add-to-cart btn btn-primary">Add to cart</a>
+</div>
+</div>
+</div>
+<div class="col">
+<div class="card" style="width: 20rem;">
+<img class="card-img-top" src="https://3.imimg.com/data3/IC/JO/MY-9839190/organic-lemon-250x250.jpg" alt="Card image cap">
+<div class="card-block">
+<h4 class="card-title">Lemon</h4>
+<p class="card-text">Price: $5</p>
+<a href="#" data-name="Lemon" data-price="5" class="add-to-cart btn btn-primary">Add to cart</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header">
+
+<h5 class="modal-title" id="ModalLabel">Secure Cart</h5>
+
+
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal-body">
+
+
+<div class=" h-100 d-flex justify-content-center align-items-center">
+<div class="payment-holder"></div>
+</div>
+
+
+<div class="form-holder"></div>
+
+<table class="show-cart table vCart"></table>
+
+<div class="vCart">Total price: $<span class="total-cart vCart"></span></div>
+
+</div>
+
+
+
+<div class="modal-footer">
+
+<button type="button" class="btn btn-secondary vCart" data-dismiss="modal">Close</button>
+
+<button type="button" class="btn btn-secondary vPrevious">Back</button>
+
+<button type="button" class="next-address btn btn-primary">Next</button>
+
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal" id="stripe-result-modal" tabindex="-1" role="dialog" aria-labelledby="stripe-result-modal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+
+
+<div class="modal-header">
+      <h5 class="modal-title" id="#stripe-result-modal-long-title">Result</h5>
+</div>
+
+
+
+<div class="modal-body">
+
+      <div class="stripe-result-modal-body">
+
+      </div>
+
+</div>
+
+
+
+<div class="modal-footer">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#stripe-result-modal" data-show="false">
+        Close
+      </button>
+</div>
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+
+<script src="https://cdn.rawgit.com/PascaleBeier/bootstrap-validate/v2.2.0/dist/bootstrap-validate.js" ></script>
+
+
+
+
+<script id="rendered-js">
+
+
+// ************************************************
+// Shopping Cart API
+// ************************************************
+
+var shoppingCart = function () {
+  // =============================
+  // Private methods and propeties
+  // =============================
+  cart = [];
+
+  // Constructor
+  function Item(name, price, count) {
+    this.name = name;
+    this.price = price;
+    this.count = count;
+  }
+
+
+
+  // Save cart
+  function saveCart() {
+    sessionStorage.setItem('shoppingCart', JSON.stringify(cart));
+  }
+
+  // Load cart
+  function loadCart() {
+    cart = JSON.parse(sessionStorage.getItem('shoppingCart'));
+  }
+
+  if (sessionStorage.getItem("shoppingCart") != null) {
+    loadCart();
+  }
+
+
+  // =============================
+  // Public methods and propeties
+  // =============================
+  var obj = {};
+
+  // Add to cart
+  obj.addItemToCart = function (name, price, count) {
+    for (var item in cart) {
+      if (cart[item].name === name) {
+        cart[item].count++;
+        saveCart();
+        return;
+      }
+    }
+    var item = new Item(name, price, count);
+    cart.push(item);
+    saveCart();
+  };
+
+  // Set count from item
+  obj.setCountForItem = function (name, count) {
+    for (var i in cart) {
+      if (cart[i].name === name) {
+        cart[i].count = count;
+        break;
+      }
+    }
+  };
+
+  // Remove item from cart
+  obj.removeItemFromCart = function (name) {
+    for (var item in cart) {
+      if (cart[item].name === name) {
+        cart[item].count--;
+        if (cart[item].count === 0) {
+          cart.splice(item, 1);
+        }
+        break;
+      }
+    }
+    saveCart();
+  };
+
+  // Remove all items from cart
+  obj.removeItemFromCartAll = function (name) {
+    for (var item in cart) {
+      if (cart[item].name === name) {
+        cart.splice(item, 1);
+        break;
+      }
+    }
+    saveCart();
+  };
+
+  // Clear cart
+  obj.clearCart = function () {
+    cart = [];
+    saveCart();
+  };
+
+  // Count cart 
+  obj.totalCount = function () {
+    var totalCount = 0;
+    for (var item in cart) {
+      totalCount += cart[item].count;
+    }
+    return totalCount;
+  };
+
+  // Total cart
+  obj.totalCart = function () {
+    var totalCart = 0;
+    for (var item in cart) {
+      totalCart += cart[item].price * cart[item].count;
+    }
+    return Number(totalCart.toFixed(2));
+  };
+
+  // List cart
+  obj.listCart = function () {
+    var cartCopy = [];
+    for (i in cart) {
+      item = cart[i];
+      itemCopy = {};
+      for (p in item) {
+        itemCopy[p] = item[p];
+
+      }
+      itemCopy.total = Number(item.price * item.count).toFixed(2);
+      cartCopy.push(itemCopy);
+    }
+    return cartCopy;
+  };
+
+  // cart : Array
+  // Item : Object/Class
+  // addItemToCart : Function
+  // removeItemFromCart : Function
+  // removeItemFromCartAll : Function
+  // clearCart : Function
+  // countCart : Function
+  // totalCart : Function
+  // listCart : Function
+  // saveCart : Function
+  // loadCart : Function
+
+
+  return obj;
+
+}();
+
+
+// *****************************************
+// Triggers / Events
+// *****************************************
+
+
+// Add item
+$('.add-to-cart').click(function (event) {
+  event.preventDefault();
+  var name = $(this).data('name');
+  var price = Number($(this).data('price'));
+  shoppingCart.addItemToCart(name, price, 1);
+  displayCart();
+});
+
+
+// Clear items
+$('.clear-cart').click(function () {
+  shoppingCart.clearCart();
+  displayCart();
+});
+
+
+
+function displayCart() {
+  var cartArray = shoppingCart.listCart();
+  var output = "";
+  for (var i in cartArray) {
+    output += "<tr>" +
+    "<td>" + cartArray[i].name + "</td>" +
+    "<td>(" + cartArray[i].price + ")</td>" +
+    "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-name=" + cartArray[i].name + ">-</button>" +
+    "<input type='number' class='item-count form-control' data-name='" + cartArray[i].name + "' value='" + cartArray[i].count + "'>" +
+    "<button class='plus-item btn btn-primary input-group-addon' data-name=" + cartArray[i].name + ">+</button></div></td>" +
+    "<td><button class='delete-item btn btn-danger' data-name=" + cartArray[i].name + ">X</button></td>" +
+    " = " +
+    "<td>" + cartArray[i].total + "</td>" +
+    "</tr>";
+  }
+  $('.show-cart').html(output);
+  $('.total-cart').html(shoppingCart.totalCart());
+  $('.total-count').html(shoppingCart.totalCount());
+}
+
+
+
+// Delete item button
+$('.show-cart').on("click", ".delete-item", function (event) {
+  var name = $(this).data('name');
+  shoppingCart.removeItemFromCartAll(name);
+  displayCart();
+});
+
+
+
+// -1
+$('.show-cart').on("click", ".minus-item", function (event) {
+  var name = $(this).data('name');
+  shoppingCart.removeItemFromCart(name);
+  displayCart();
+});
+
+
+
+// +1
+$('.show-cart').on("click", ".plus-item", function (event) {
+  var name = $(this).data('name');
+  shoppingCart.addItemToCart(name);
+  displayCart();
+});
+
+
+
+// Item count input
+$('.show-cart').on("change", ".item-count", function (event) {
+  var name = $(this).data('name');
+  var count = Number($(this).val());
+  shoppingCart.setCountForItem(name, count);
+  displayCart();
+});
+
+
+function displayAddressForm() {
+
+  var form = "";
+
+// onsubmit="event.preventDefault(); validateMyForm();"
+form = `<form id="secure-form" class="needs-validation" onsubmit="event.preventDefault();">
+
+<div class="form-row">
+<div class="col-md-6 form-group">
+<label for="firstname">First Name</label>
+
+<input type="text" class="form-control" id="firstname" placeholder="First Name" required>
+<div class="invalid-feedback">
+Valid first name is required.
+</div>
+</div>
+<div class="col-md-6 form-group">
+<label for="lastname">Last Name</label>
+<input type="text" class="form-control" id="lastname" placeholder="Last Name" required>
+<div class="invalid-feedback">
+Valid last name is required.
+</div>
+</div>
+</div>
+<div class="form-group">
+<label for="email">Email</label>
+<input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+</div>
+
+
+<hr>
+<br>
+
+<label for="adress"><b>Billing Address: </b></label>
+<br>
+<br>
+
+<div class="form-group">
+<label for="address">Street Address</label>
+<input type="text" class="form-control" id="bill-address" placeholder="1234 Main Street" required>
+<div class="invalid-feedback">
+Please enter your shipping address.
+</div>
+</div>
+<div class="form-group">
+<label for="address2">Street Address 2
+<span class="text-muted">(Optional)</span>
+</label>
+<input type="text" class="form-control" id="bill-address2" placeholder="Flat No">
+</div>
+<div class="row">
+<div class="col-md-4 form-group">
+<label for="country">Country</label>
+<select type="text" class="form-control" id="bill-country" required>
+<option value>Choose...</option>
+<option>United Kingdom</option>
+</select>
+<div class="invalid-feedback">
+Please select a valid country.
+</div>
+</div>
+<div class="col-md-4 form-group">
+<label for="city">City</label>
+<select type="text" class="form-control" id="bill-city" required>
+<option value>Choose...</option>
+<option>London</option>
+</select>
+<div class="invalid-feedback">
+Please provide a valid city.
+</div>
+</div>
+<div class="col-md-4 form-group">
+<label for="postcode">Postcode</label>
+<select type="text" class="form-control" id="bill-postcode" required>
+<option value>Choose...</option>
+<option>NW6 2LS</option>
+</select>
+<div class="invalid-feedback">
+Postcode required.
+</div>
+</div>
+</div>
+
+
+
+
+<hr>
+
+<div class="form-check">
+<input type="checkbox" class="form-check-input" id="ship-address-checkbox" onclick="checkedStatus()" checked>
+<label for="shipping-adress" class="form-check-label">Shipping address is the same as my billing address</label>
+</div>
+
+<hr>
+<br>
+
+ 
+<div id="ship-address-group" class="ship-address-group">
+
+
+<label for="adress"><b>Shipping Address: </b></label>
+<span class="text-muted">(Optional)</span>
+<br>
+<br>
+
+<div class="form-group">
+<label for="address">Street Address</label>
+<input type="text" class="form-control" id="ship-address" placeholder="1234 Main Street" >
+<div class="invalid-feedback">
+Please enter your shipping address.
+</div>
+</div>
+<div class="form-group">
+<label for="address2">Street Address 2
+<span class="text-muted">(Optional)</span>
+</label>
+<input type="text" class="form-control" id="ship-address2" placeholder="Flat No">
+</div>
+<div class="row">
+<div class="col-md-4 form-group">
+<label for="country">Country</label>
+<select type="text" class="form-control" id="ship-country" >
+<option value>Choose...</option>
+<option>United Kingdom</option>
+</select>
+<div class="invalid-feedback">
+Please select a valid country.
+</div>
+</div>
+<div class="col-md-4 form-group">
+<label for="city">City</label>
+<select type="text" class="form-control" id="ship-city" >
+<option value>Choose...</option>
+<option>London</option>
+</select>
+<div class="invalid-feedback">
+Please provide a valid city.
+</div>
+</div>
+<div class="col-md-4 form-group">
+<label for="postcode">Postcode</label>
+<select type="text" class="form-control" id="ship-postcode" >
+<option value>Choose...</option>
+<option>NW6 2LS</option>
+</select>
+<div class="invalid-feedback">
+Postcode required.
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br>
+
+<hr>
+
+<br>
+
+
+
+
+
+<div class="row">
+
+<div class="col-md-6 form-group ">
+<button type="button" class="btn btn-secondary vPrevious float-left"  onclick="vPrevious()" >Back</button>
+
+</div>
+
+<div class="col-md-6 form-group ">
+<button class="btn btn-primary float-right" type="submit" onclick="validateForm()">Next</button> 
+</div>
+
+</div>
+
+
+
+
+
+
+
+</form>
+`
   
+$('.form-holder').html(form);
+
+}
+
+
+
+function validateForm() {
+
+  console.log("validateForm clicked...");
+
+  var x = document.getElementById("secure-form");
+
+  if (x.checkValidity() === true)
+  {
+    save_address();
+    hideAllForms();
+    $('.payment-holder').show();
+    $('.vPrevious').show();
+    displayPayment();
+  }
+
+}
+
+
+function displayPayment(){
+
+  var form = "";
+
+  form = `
+
+<!-- Display a payment form -->
+
+<form id="payment-form" class="stripe-form">
+
+<div id="card-element"></div>
+<br>
+
+<button id="payment-form-submit" class="stripe-button">
+    <div class="stripe-spinner stripe-hidden" id="payment-form-spinner"></div>
+    <span id="payment-form-button-text">Pay Now</span>
+</button>
+
+<p id="payment-form-card-error" role="alert"></p>
+
+<br>
+
+
+</form> `
+
+
   
-  <script>
-// Open the modal
+  $('.payment-holder').html(form);
+
+  LoadPayment();
+
+}
+
+
+
+function get_address(){
+  var address = [];
+
+  var content = sessionStorage.getItem('address');
+  console.log(content);
+
+  if(content){
+    address = JSON.parse(content)[0];
+  }
+  return address;
+}
+
+
+
+function load_address(){
+
+  var address = get_address();
+
+  console.log("Loading_address...", address);
+  
+  var x = document.getElementById("secure-form");
+
+  for (i = 0; i < x.length; i++) {
+    
+    if (x[i].tagName == "INPUT"){
+      
+      if (address[x[i].id] === 'undefined' || address[x[i].id] === "" || address[x[i].id] === undefined)
+      {
+        console.log( "Undefined: ", address[x[i].id] );
+      }
+      else
+      {
+        console.log( "Defined: ", address[x[i].id] );
+        x[i].value = address[x[i].id];
+      }
+
+    }
+
+  }
+
+}
+
+
+
+function save_address(){
+
+  console.log("Saving_address...");
+
+  var address = [];
+
+  var x = document.getElementById("secure-form");
+
+  var key = {};
+
+  for (i = 0; i < x.length; i++) {
+    
+    if (x[i].tagName == "INPUT"){
+
+      //var obj = {};
+      //obj[x[i].id] = x[i].value;
+      //address.push(obj);
+
+      key[x[i].id] = x[i].value;
+
+    }
+
+  }
+  
+  address.push(key);
+  
+  console.log("Obj key: ", key);
+
+  console.log(address);
+  
+  sessionStorage.setItem('address', JSON.stringify(address));
+  
+}
+
+
+
+
+function hideAllForms(){
+  $('.payment-holder').hide();
+  $(".vCart").hide();
+  $('.form-holder').hide();
+  $('.vPrevious').hide();
+  $('.next-address').hide();
+}
+
+
+
+/// ship-address-checkbox ///
+
+function checkedStatus()
+{
+
+  if( $('#ship-address-checkbox').is(":checked") === true)
+  {
+    document.querySelector("#ship-address-group").classList.add("stripe-hidden");
+  }
+  else{
+    // ship-address-group
+    document.querySelector("#ship-address-group").classList.remove("stripe-hidden");
+  }
+
+}
+
+
+function checkRelevance(){
+
+  if (state === 0){
+    hideAllForms();
+    $(".vCart").show();
+    $('.next-address').show();
+    displayCart();
+  }
+
+  if (state === 1){
+    hideAllForms();
+    $('.form-holder').show();
+    //$('.vPrevious').show();
+    //$('.next-address').show();
+    displayAddressForm();
+    load_address();
+    checkedStatus();
+  }
+
+  // Payment Gateway //
+  if (state === 2){
+    save_address();
+    hideAllForms();
+    $('.payment-holder').show();
+    $('.vPrevious').show();
+    displayPayment();
+  }
+
+  // document.getElementById("secure-form").submit();
+  // https://stripe.com/docs/payments#online
+  // https://stripe.com/docs/payments/integration-builder
+  
+}
+
+
+
+var state = 0;
+// This Runs when Page is Loaded.
+$( document ).ready(function() {
+  console.log( "Page Reloaded...\nLoading Data..." );
+  state = 0;
+  checkRelevance();
+});
+
+
+
+
+
+
+
+
+$('.next-address').click(function (event) {
+  event.preventDefault();
+  state += 1;
+  checkRelevance();
+});
+
+
+function vPrevious(){
+  event.preventDefault();
+  state -= 1;
+  checkRelevance();
+}
+
+
+$('.vPrevious').click(function (event) {
+  event.preventDefault();
+  state -= 1;
+  checkRelevance();
+});
+
+
+
+$('.grynn-order-now').click(function (event) {
+
+  event.preventDefault();
+
+  var cartArray = shoppingCart.listCart();
+
+  cartArray.push("")
+
+  console.log(cartArray);
+
+  //alert(shoppingCart.totalCart());
+
+
+  var datavv = JSON.stringify(cartArray);
+
+  $.ajax({
+    type: 'POST',
+    url: 'https://priceless-sammet-5f9486.netlify.app/.netlify/functions/shop',
+    crossDomain: true,
+    data: datavv,
+    dataType: 'json',
+    success: function(responseData, textStatus, jqXHR) {
+        //var value = responseData.name;
+        alert(responseData);
+        //alert(value);
+    },
+    error: function (responseData, textStatus, errorThrown) {
+        alert(errorThrown);
+    }
+  });
+
+
+});
+
+
+
+
+function closeCart(){
+  // Reset Cart
+  state = 0;
+  checkRelevance();
+
+  // Clear Cart items
+  shoppingCart.clearCart();
+  displayCart();
+
+  // Hide Cart Modal View
+  $('#cart').modal('hide');
+  
+}
+
+
+
+function LoadPayment(){
+
+// Strip Client JS
+
+// Stripe Publishable API key.
+var stripe = Stripe("pk_test_51HAbz2AQ0qxfxSJ1BFA6VdksLhae4TOWuqTgb3jgZD2Ep9Zu9xGvP3hn8u5LKjDM6fVKG8Xh8dnHoNkzshrVto2L00F63wjGpz");
+
+
+var cartArray = shoppingCart.listCart();
+
+console.log("Loading Cart: ", cartArray);
+
+var purchase = JSON.stringify(cartArray);
+
+console.log("Loading datavv: ", purchase);
+
+var address = get_address();
+
+console.log("Loading_address_form...", address, address.email);
+
+
+
+var cart = JSON.parse(purchase);
+
+console.log("cart: ", cart);
+
+var totalCount = 0;
+var totalCart = 0;
+var len = cart.length;
+
+for (i = 0; i < len; i++) {
+  console.log("Cart: ", cart[i]);
+  totalCount += cart[i].count;
+  totalCart += cart[i].price;
+}
+
+console.log("totalCount,  totalCart: ", totalCount, totalCart);
+
+
+
+// Disable the button until we have Stripe set up on the page
+document.querySelector(".stripe-button").disabled = true;
+
+fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
+
+  method: "POST",
+
+  headers: {
+    "Content-Type": "application/json"
+  },
+
+  body: JSON.stringify(purchase)
+
+})
+  .then(function(result) {
+    //console.log(result.json());
+    return result.json();
+  })
+  .then(function(data) {
+
+    console.log(data);    
+
+    var elements = stripe.elements();
+
+    var style = {
+      base: {
+        color: "#32325d",
+        fontFamily: 'Arial, sans-serif',
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          color: "#32325d"
+        }
+      },
+      invalid: {
+        fontFamily: 'Arial, sans-serif',
+        color: "#fa755a",
+        iconColor: "#fa755a"
+      }
+    };
+
+    var card = elements.create("card", { style: style });
+    // Stripe injects an iframe into the DOM
+    card.mount("#card-element");
+
+    card.on("change", function (event) {
+      // Disable the Pay button if there are no card details in the Element
+      document.querySelector(".stripe-button").disabled = event.empty; 
+      document.querySelector("#payment-form-card-error").textContent = event.error ? event.error.message : "";
+    });
+
+    var form = document.getElementById("payment-form");
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+      // Complete payment when the submit button is clicked
+      payWithCard(stripe, card, data.clientSecret);
+    });
+  });
+
+
+
+// Calls stripe.confirmCardPayment
+// If the card requires authentication Stripe shows a pop-up modal to
+// prompt the user to enter authentication details without leaving your page.
+var payWithCard = function(stripe, card, clientSecret) {
+  loading(true);
+  stripe
+    .confirmCardPayment(clientSecret, {
+      receipt_email: address.email,
+      payment_method: {
+        card: card
+      }
+    })
+    .then(function(result) {
+      if (result.error) {
+        // Show error to your customer
+        console.log("Error Message...", result);
+        DisplayPaymentResult( result.error.message, true);
+      } else {
+        // The payment succeeded!
+        console.log("The payment succeeded! \n", result);
+        closeCart();
+        DisplayPaymentResult( result.paymentIntent.id, false);
+        orderComplete(result.paymentIntent.id, false);
+      }
+    });
+};
+
+
+
+function DisplayPaymentResult( message, error )
+{
+
+var res = "<p>";
+
+if (error){
+  res += "Payment was unsuccessful.";
+}
+else
+{
+  linkv = "https://dashboard.stripe.com/test/payments/" + message;
+  res += 'Payment completed successfully.<br><br>Payment Id: &nbsp; &nbsp; <a href="' + linkv + '">' + message + '</a>';
+}
+
+res += "<p>";
+  
+$('.stripe-result-modal-body').html(res);
+
+$("#stripe-result-modal").modal({show: true});
+
+}
+
+
+
+/* ------- UI helpers ------- */
+
+// Show a spinner on payment submission
+var loading = function(isLoading) {
+  if (isLoading) {
+    // Disable the button and show a spinner
+    document.querySelector(".stripe-button").disabled = true;
+    document.querySelector("#payment-form-spinner").classList.remove("stripe-hidden");
+    document.querySelector("#payment-form-button-text").classList.add("stripe-hidden");
+  } else {
+    // Enable the button and Hide the spinner
+    document.querySelector(".stripe-button").disabled = false;
+    document.querySelector("#payment-form-spinner").classList.add("stripe-hidden");
+    document.querySelector("#payment-form-button-text").classList.remove("stripe-hidden");
+  }
+};
+
+
+
+}
+
+
+
+</script>
+
+
+<script>
+
+function alterMenu() {
+
+  document.querySelector(".netlify-identity-menu").classList.add("navbar-nav");
+
+  document.querySelector(".netlify-identity-menu").classList.add("ml-auto");
+
+  document.querySelectorAll(".netlify-identity-item").forEach( function(item, index){
+    item.classList.add("nav-item");
+  });
+
+  document.querySelector(".netlify-identity-login").classList.add("nav-link");
+
+  document.querySelector(".netlify-identity-signup").classList.add("nav-link");
+
+  //var login = document.getElementById('login');
+
+  //console.log(login);
+}
+
+function alertFunction() {
+
+  setTimeout(
+
+    function() {
+
+      document.querySelector(".netlify-identity-menu").classList.add("navbar-nav");
+
+      document.querySelector(".netlify-identity-menu").classList.add("ml-auto");
+
+      document.querySelectorAll(".netlify-identity-item").forEach( function(item, index){
+          item.classList.add("nav-item");
+      });
+
+      document.querySelector(".netlify-identity-login").classList.add("nav-link");
+
+      document.querySelector(".netlify-identity-signup").classList.add("nav-link");
+
+      var login = document.getElementById('login');
+
+      console.log(login);
+
+  }, 1);
+}
+
+
+window.onload = alterMenu;
+
+
+
 netlifyIdentity.open();
 
-// Change language
-netlifyIdentity.setLocale('en');
+
 
 // Get the current user:
 const user = netlifyIdentity.currentUser();
 
+
+
 // Bind to events
 netlifyIdentity.on('init', user => console.log('init', user));
-netlifyIdentity.on('login', user => console.log('login', user));
-netlifyIdentity.on('logout', () => console.log('Logged out'));
-netlifyIdentity.on('error', err => console.error('Error', err));
-netlifyIdentity.on('open', () => console.log('Widget opened'));
-netlifyIdentity.on('close', () => console.log('Widget closed'));
 
-// refresh the user's JWT
-netlifyIdentity.refresh().then((jwt)=>console.log(jwt))
+netlifyIdentity.refresh().then((jwt)=>console.log(jwt));
+
+
+
+netlifyIdentity.on('login', user => console.log('login', user));
+
+netlifyIdentity.on('logout', () => console.log('Logged out'));
+
+
+
+// Refresh the user's JWT
+// Note: this method returns a promise.
+netlifyIdentity.refresh().then((jwt)=>console.log(jwt));
+
+
+
+// Change language
+//netlifyIdentity.setLocale('en');
+
 
 
 </script>
-  
-  
+
+
+
 </body>
+
 </html>
