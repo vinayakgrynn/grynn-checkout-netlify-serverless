@@ -36,7 +36,6 @@ stripe.customers.list(
 
 //const len = cart.length;
 
-  /*
 var email = "vinayak.patel@grynn.in";
   
   
@@ -47,7 +46,7 @@ var vurl = encodeURI('https://api.stripe.com/v1/search?query='+ encodeURICompone
 //var vurl = encodeURI('https://api.stripe.com/v1/search?query='+ encodeURIComponent(vinayak.patel@grynn.in) + '&prefix=false');
 
 var vBearer = 'Bearer ' + process.env.STRIPE_SECRET_KEY ;
-  
+
 console.log(vurl, vBearer);
 
 const options = {
@@ -103,8 +102,8 @@ const roptions = {
 
 function callback(error, response, body) {
   if (!error && response.statusCode == 200) {
-    const info = JSON.parse(body);
-    console.log("Requests: ", info);
+    //const info = JSON.parse(body);
+    console.log("Requests: ", body, response, error);
   }
   
   
@@ -113,7 +112,6 @@ function callback(error, response, body) {
 
 request.get(roptions, callback);
 
-  */
 
   
 };
