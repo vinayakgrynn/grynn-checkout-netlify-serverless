@@ -67,21 +67,16 @@ const paymentIntent = await stripe.paymentIntents.create({
 });
 
   
+console.log("paymentIntent: ", paymentIntent );
   
-  console.log("customer: ", cust );
-  
-  console.log("paymentIntent: ", paymentIntent );
-  
-  //console.log("clientSecret: ", paymentIntent.client_secret);
-  
-  return {
+return {
     statusCode: 200,
     headers: {"Access-Control-Allow-Origin":"*"},
     body: JSON.stringify({
       clientSecret: paymentIntent.client_secret,
       publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
     }),
-  };
+};
   
   
 };
