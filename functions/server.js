@@ -21,11 +21,16 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
   /////////////////////////
   
 
-const data = JSON.parse(event.body);
+const datav = JSON.parse(event.body);
   
 console.log(event.body);
 
-const cart = JSON.parse(data);
+const data = JSON.parse(datav);
+  
+console.log(data);
+  
+const address = data[0];
+const cart = data[1];
 const len = cart.length;
 
 
