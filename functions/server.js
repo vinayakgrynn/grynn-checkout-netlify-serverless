@@ -33,6 +33,8 @@ const address = data[0];
 const cart = data[1];
 const len = cart.length;
 
+console.log("address", address);
+console.log("cart", cart);
 
 var totalCount = 0.0;
 var totalCart = 0.0;
