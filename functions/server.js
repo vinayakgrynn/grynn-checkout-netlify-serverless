@@ -23,11 +23,11 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
 
 const datav = JSON.parse(event.body);
   
-console.log(event.body);
+//console.log(event.body);
 
 const data = JSON.parse(datav);
   
-console.log(data);
+//console.log(data);
   
 const address = data[0];
 const cart = data[1];
@@ -39,7 +39,7 @@ console.log("\ncart\n", typeof(cart), cart);
 var totalCount = 0.0;
 var totalCart = 0.0;
 
-console.log(typeof(cart), len, cart);
+//console.log(typeof(cart), len, cart);
 
 for (i = 0; i < len; i++) {
   console.log("Cart: ", cart[i]);
