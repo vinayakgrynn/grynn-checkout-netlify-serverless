@@ -1973,37 +1973,63 @@ function logoutNetlifyIdentity(user) {
 
 
 
-netlifyIdentity.open();
-
-
-// Get the current user:
-const user = netlifyIdentity.currentUser();
-
-
-// Bind to events
-netlifyIdentity.on('login', user => loginNetlifyIdentity(user));
-
-netlifyIdentity.on('logout', user => logoutNetlifyIdentity(user));
-
-//////////////
-netlifyIdentity.on('init', user => console.log('init', user));
-
-netlifyIdentity.on('error', err => console.error('Error', err));
-
-netlifyIdentity.on('open', () => console.log('Widget opened'));
-
-netlifyIdentity.on('close', () => console.log('Widget closed'));
-/////////////
-
-// Change language
-netlifyIdentity.setLocale('en');
-
-
-// Close the modal
-netlifyIdentity.close();
+function netlifyIdentityWidgetopened() {
+  $('#cart').modal('hide');
+}
 
 
 
+function netlifyIdentityWidgetclosed() {
+  $('#cart').modal('show');
+}
+
+
+
+
+
+
+
+
+try {
+
+
+
+  netlifyIdentity.open();
+
+
+  // Get the current user:
+  const user = netlifyIdentity.currentUser();
+
+
+  // Bind to events
+  netlifyIdentity.on('login', user => loginNetlifyIdentity(user));
+
+  netlifyIdentity.on('logout', user => logoutNetlifyIdentity(user));
+
+  //////////////
+  netlifyIdentity.on('init', user => console.log('init', user));
+
+  netlifyIdentity.on('error', err => console.error('Error', err));
+
+  netlifyIdentity.on('open', () => console.log('Widget opened'));
+
+  netlifyIdentity.on('close', () => console.log('Widget closed'));
+  /////////////
+
+  // Change language
+  netlifyIdentity.setLocale('en');
+
+
+  // Close the modal
+  netlifyIdentity.close();
+
+
+
+}
+catch(err) {
+  console.log("Some Error")
+  console.log(err)
+}
 
 
 
@@ -2060,7 +2086,7 @@ q = faunadb.query;
 
 
 
-var serverClient = new faunadb.Client({ secret: 'fnADyojQPaACBn-MYZrq7zYRE5WHlqtLTDPmUu5I' });
+var serverClient = new faunadb.Client({ secret: 'YZrq7zYRE5WHlqtLTDPmUu5I' });
 
 
 
@@ -2171,7 +2197,14 @@ serverClient.query(
 
 
 
+
 */
+
+
+
+
+
+
 
 
 
