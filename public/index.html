@@ -2011,9 +2011,9 @@ try {
 
   netlifyIdentity.on('error', err => console.error('Error', err));
 
-  netlifyIdentity.on('open', () => console.log('Widget opened'));
+  netlifyIdentity.on('open', () => netlifyIdentityWidgetopened() );
 
-  netlifyIdentity.on('close', () => console.log('Widget closed'));
+  netlifyIdentity.on('close', () => netlifyIdentityWidgetclosed() );
   /////////////
 
   // Change language
