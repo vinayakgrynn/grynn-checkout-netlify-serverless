@@ -27,7 +27,7 @@ const datav = JSON.parse(event.body);
 
 const data = JSON.parse(datav);
   
-//console.log(data);
+console.log(data);
   
 const address = data[0];
 const cart = data[1];
