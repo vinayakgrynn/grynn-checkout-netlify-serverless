@@ -48,8 +48,7 @@ for (i = 0; i < len; i++) {
 }
 
 console.log("totalCount,  totalCart: ", totalCount, totalCart);
-//var vtotal = cart[0].total;
-//console.log("cart.total: ", vtotal);
+
 var vtotal = (totalCart).toFixed(2);
 totalCart = parseInt(vtotal * 100);
 console.log("totalCount,  totalCart: ", totalCount, totalCart);
@@ -61,18 +60,19 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
   const paymentIntent = await stripe.paymentIntents.create({
     description: 'Software development services',
     shipping: {
-      name: 'Jenny Rosen',
+      name: address.firstname + " " + address.lastname ,
       address: {
-        line1: '510 Townsend St',
-        postal_code: '98140',
-        city: 'San Francisco',
+        line1: address.ship-address + "  " + address.ship-address2 ,
+        postal_code: address.ship-postcode ,
+        city: address.ship-city ,
         state: 'CA',
-        country: 'US',
+        country: address.ship-country,
       },
     },
     amount: totalCart,
     currency: "usd",
     payment_method_types: ['card'],
+    receipt_email: address.email
   });
 
   var customer = await stripe.customers.create({
@@ -85,7 +85,8 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
     country: 'US',
   }
 });
-
+  
+  console.log("customer: ", customer );
 
   console.log("clientSecret: ", paymentIntent.client_secret);
   
