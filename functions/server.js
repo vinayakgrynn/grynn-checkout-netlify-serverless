@@ -55,30 +55,9 @@ var vtotal = (totalCart).toFixed(2);
 totalCart = parseInt(vtotal * 100);
 console.log("totalCount,  totalCart: ", totalCount, totalCart);
 
-///////////////////////////
-//////////////////////////
-/////////////////////////
-
-  const paymentIntent = await stripe.paymentIntents.create({
-    description: 'Software development services',
-    shipping: {
-      name: address.firstname + " " + address.lastname ,
-      phone: address.tel,
-      address: {
-        line1: address.shipaddress + "  " + address.shipaddress2 ,
-        postal_code: address.shippostcode ,
-        city: address.shipcity ,
-        state: 'CA',
-        country: address.shipcountry,
-      },
-    },
-    amount: totalCart,
-    currency: "usd",
-    payment_method_types: ['card'],
-    receipt_email: address.email
-  });
-
-  var customer = await stripe.customers.create({
+  
+  
+  const cust = await stripe.customers.create({
   name: address.firstname + " " + address.lastname ,
   phone: address.tel,
   email: address.email,
@@ -101,9 +80,36 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
       },
   },
   
-});
+  });
   
-  console.log("customer: ", customer );
+  
+///////////////////////////
+//////////////////////////
+/////////////////////////
+
+  const paymentIntent = await stripe.paymentIntents.create({
+    description: 'Software development services',
+    customer: cust.id ,
+    shipping: {
+      name: address.firstname + " " + address.lastname ,
+      phone: address.tel,
+      address: {
+        line1: address.shipaddress + "  " + address.shipaddress2 ,
+        postal_code: address.shippostcode ,
+        city: address.shipcity ,
+        state: 'CA',
+        country: address.shipcountry,
+      },
+    },
+    amount: totalCart,
+    currency: "usd",
+    payment_method_types: ['card'],
+    receipt_email: address.email
+  });
+
+  
+  
+  console.log("customer: ", cust );
   
   console.log("paymentIntent: ", paymentIntent );
   
@@ -115,7 +121,6 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
     statusCode: 200,
     headers: {"Access-Control-Allow-Origin":"*"},
     body: JSON.stringify({
-      //sessionId: paymentIntent.id,
       clientSecret: paymentIntent.client_secret,
       publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
     }),
