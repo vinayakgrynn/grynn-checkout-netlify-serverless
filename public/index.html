@@ -305,6 +305,8 @@ input {
 </div>
 </div>
 
+
+
 <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog modal-lg" role="document">
 <div class="modal-content">
@@ -334,9 +336,34 @@ input {
 <div class="modal-body">
 
 
+
+
 <div class=" h-100 d-flex justify-content-center align-items-center">
 <div class="payment-holder"></div>
 </div>
+
+
+
+
+<div class=" h-100 d-flex justify-content-center align-items-center">
+<div class="signin-holder">
+
+  <p class="text-left">Sign in</p>
+  <p class="text-left">Have an account already?</p>
+  <!-- Add a simpler button: Simple button that will open the modal.-->
+  <div class="btn btn-outline-primary on-top-modal-body" data-netlify-identity-button></div>
+
+<hr>
+  <p class="text-left">New to Grynn.com?</p>
+  <button type="button" class="btn btn-secondary" onclick="vGuestLogin()">Continue as guest</button>
+
+<br>
+
+
+</div>
+</div>
+
+
 
 
 <div class="form-holder"></div>
@@ -412,25 +439,6 @@ input {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -439,9 +447,7 @@ input {
 
 
 
-
-<script src="https://cdn.rawgit.com/PascaleBeier/bootstrap-validate/v2.2.0/dist/bootstrap-validate.js" ></script>
-
+<script src="https://cdn.jsdelivr.net/gh/fauna/faunadb-js-release@latest/faunadb-min.js"></script>
 
 
 
@@ -680,11 +686,17 @@ function displayAddressForm() {
   var form = "";
 
 // onsubmit="event.preventDefault(); validateMyForm();"
+
+
 form = `<form id="secure-form" class="needs-validation" onsubmit="event.preventDefault();">
+
+
 
 <div class="form-row">
 <div class="col-md-6 form-group">
 <label for="firstname">First Name</label>
+
+
 
 <input type="text" class="form-control" id="firstname" placeholder="First Name" required>
 <div class="invalid-feedback">
@@ -706,6 +718,14 @@ Valid last name is required.
 <label for="email">Email</label>
 <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
 </div>
+
+
+
+<div class="form-group">
+<label for="tel">Phone Number <span class="text-muted">Format: (+41-123456789) (Optional)</span></label>
+<input type="tel" class="form-control" id="tel" pattern="[+]{0,1}[0-9]{0,3}-[0-9]{4,14}" placeholder="Your Phone Number">
+</div>
+
 
 
 <hr>
@@ -1357,10 +1377,6 @@ Please select a valid country.
 
 
 
-
-
-
-
 <br>
 
 <hr>
@@ -1369,13 +1385,7 @@ Please select a valid country.
 
 
 
-
-
-
-
 <br>
-
-
 
 
 
@@ -1509,7 +1519,7 @@ function load_address(){
 
 function save_address(){
 
-  console.log("Saving_address...");
+  //console.log("Saving_address...");
 
   var address = [];
 
@@ -1533,9 +1543,8 @@ function save_address(){
   
   address.push(key);
   
-  console.log("Obj key: ", key);
-
-  console.log(address);
+  //console.log("Obj key: ", key);
+  //console.log(address);
   
   sessionStorage.setItem('address', JSON.stringify(address));
   
@@ -1550,6 +1559,8 @@ function hideAllForms(){
   $('.form-holder').hide();
   $('.vPrevious').hide();
   $('.next-address').hide();
+  $(".signin-holder").hide();
+  $(".vGuestLogin").hide();
 }
 
 
@@ -1582,6 +1593,12 @@ function checkRelevance(){
 
   if (state === 1){
     hideAllForms();
+    $(".signin-holder").show();
+    $('.vPrevious').show();
+  }
+
+  if (state === 2){
+    hideAllForms();
     $('.form-holder').show();
     //$('.vPrevious').show();
     //$('.next-address').show();
@@ -1591,7 +1608,7 @@ function checkRelevance(){
   }
 
   // Payment Gateway //
-  if (state === 2){
+  if (state === 3){
     save_address();
     hideAllForms();
     $('.payment-holder').show();
@@ -1612,15 +1629,10 @@ function checkRelevance(){
 var state = 0;
 // This Runs when Page is Loaded.
 $( document ).ready(function() {
-  console.log( "Page Reloaded...\nLoading Data..." );
+  //console.log( "Page Reloaded...\nLoading Data..." );
   state = 0;
   checkRelevance();
 });
-
-
-
-
-
 
 
 
@@ -1631,11 +1643,20 @@ $('.next-address').click(function (event) {
 });
 
 
+function vGuestLogin () {
+  event.preventDefault();
+  state += 1;
+  checkRelevance();
+  //closeCart();
+}
+
+
 function vPrevious(){
   event.preventDefault();
   state -= 1;
   checkRelevance();
 }
+
 
 
 $('.vPrevious').click(function (event) {
@@ -1654,7 +1675,7 @@ $('.grynn-order-now').click(function (event) {
 
   cartArray.push("")
 
-  console.log(cartArray);
+  //console.log(cartArray);
 
   //alert(shoppingCart.totalCart());
 
@@ -1709,15 +1730,15 @@ var stripe = Stripe("pk_test_51HAbz2AQ0qxfxSJ1BFA6VdksLhae4TOWuqTgb3jgZD2Ep9Zu9x
 
 var cartArray = shoppingCart.listCart();
 
-console.log("Loading Cart: ", cartArray);
+//console.log("Loading Cart: ", cartArray);
 
 var purchase = JSON.stringify(cartArray);
 
-console.log("Loading datavv: ", purchase);
+//console.log("Loading datavv: ", purchase);
 
 var address = get_address();
 
-console.log("Loading_address_form...", address, address.email);
+//console.log("Loading_address_form...", address, address.email);
 
 
 
@@ -1964,6 +1985,15 @@ netlifyIdentity.on('login', user => loginNetlifyIdentity(user));
 
 netlifyIdentity.on('logout', user => logoutNetlifyIdentity(user));
 
+//////////////
+netlifyIdentity.on('init', user => console.log('init', user));
+
+netlifyIdentity.on('error', err => console.error('Error', err));
+
+netlifyIdentity.on('open', () => console.log('Widget opened'));
+
+netlifyIdentity.on('close', () => console.log('Widget closed'));
+/////////////
 
 // Change language
 netlifyIdentity.setLocale('en');
@@ -1988,7 +2018,7 @@ netlifyIdentity.close();
 ////// Stripe Query
 
 // https://api.stripe.com/v1/search?query=vinayak.patel@grynn.in&prefix=false
-
+/*
 
 fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/queryStripe", {
 
@@ -2010,6 +2040,151 @@ fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/queryStripe"
 
   }
 );
+
+*/
+
+
+
+
+
+
+
+try {
+
+
+
+///// Fauna DB /////
+
+
+q = faunadb.query;
+
+
+
+var serverClient = new faunadb.Client({ secret: 'fnADyojQPaACBn-MYZrq7zYRE5WHlqtLTDPmUu5I' });
+
+
+
+/*
+serverClient.query(
+  faunadb.query.Create(
+    faunadb.query.Collection('grynntable'),
+    { data: { title: 'What I had for breakfast ..' } },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Get(
+    q.Match(q.Index('posts_by_title'), 'What I had for breakfast ..')
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Update(
+    q.Ref(q.Collection('grynntable'), '273181600287556102'),
+    { data: { title: 'Vinayak is the best programmer...' } },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Get(q.Ref(q.Collection('grynntable'), '273181600287556102'))
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.CreateIndex({
+    name: 'posts_by_title',
+    source: q.Collection('grynntable'),
+    terms: [{ field: ['data', 'title'] }],
+  })
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Create(
+    q.Collection('grynntable'),
+    { data: { title: 'What I had for breakfast ..' } },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+
+
+
+serverClient.query(
+  q.Create(
+    q.Collection('grynntable'),
+    { data: { title : '123456789' ,  key_value: 'some value is 123456789'} },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Get(
+    q.Match(q.Index('posts_by_title'), '123456789')
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+
+
+
+
+
+
+serverClient.query(
+  q.Create(
+    q.Collection('grynntable'),
+    { data: { title : 'netlify_ID deepak grynn' ,  key_value: 'stripe_ID deepak strip 12356790'} },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+*/
+
+
+
+
+
+
+serverClient.query(
+  q.Get(
+    q.Match(q.Index('posts_by_title'), 'vinayak')
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+
+
+
+}
+catch(err) {
+  console.log("Some Error")
+  console.log(err)
+}
+
 
 </script>
 
