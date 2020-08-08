@@ -29,11 +29,11 @@ const data = JSON.parse(datav);
   
 //console.log(data);
   
-const address = JSON.parse(data[0]);
+const address = data[0];
 const cart = data[1];
 const len = cart.length;
 
-console.log("\nJSON:\n", typeof(address), address.bill-city);
+console.log("\nJSON:\n", typeof(address),address["bill-city"] , address.bill-city);
 console.log("\naddress\n",typeof(address), address);
 console.log("\ncart\n", typeof(cart), cart);
 
