@@ -737,7 +737,7 @@ Valid last name is required.
 
 <div class="form-group">
 <label for="address">Street Address</label>
-<input type="text" class="form-control" id="bill-address" placeholder="1234 Main Street" required>
+<input type="text" class="form-control" id="billaddress" placeholder="1234 Main Street" required>
 <div class="invalid-feedback">
 Please enter your shipping address.
 </div>
@@ -746,7 +746,7 @@ Please enter your shipping address.
 
 <div class="form-group">
 <label for="address2">Street Address 2<span class="text-muted">(Optional)</span></label>
-<input type="text" class="form-control" id="bill-address2" placeholder="Flat No">
+<input type="text" class="form-control" id="billaddress2" placeholder="Flat No">
 </div>
 
 
@@ -755,7 +755,7 @@ Please enter your shipping address.
 
 <div class="col-md-6 form-group">
 <label for="city">City</label>
-<input type="text" class="form-control" id="bill-city" placeholder="City" required>
+<input type="text" class="form-control" id="billcity" placeholder="City" required>
 <div class="invalid-feedback">
 Please provide a valid city.
 </div>
@@ -763,7 +763,7 @@ Please provide a valid city.
 
 <div class="col-md-6 form-group">
 <label for="postcode">Postcode</label>
-<input type="text" class="form-control" id="bill-postcode" placeholder="Postcode" required>
+<input type="text" class="form-control" id="billpostcode" placeholder="Postcode" required>
 <div class="invalid-feedback">
 Postcode required.
 </div>
@@ -781,7 +781,7 @@ Postcode required.
 <div class="col-md-4 form-group">
 
 <label for="country">Country</label>
-<select type="text" class="form-control" id="bill-country" required>
+<select type="text" class="form-control" id="billcountry" required>
 <option value>Choose...</option>
 <option value="Afganistan">Afghanistan</option>
    <option value="Albania">Albania</option>
@@ -1049,7 +1049,7 @@ Please select a valid country.
 
 
 <div class="form-check">
-<input type="checkbox" class="form-check-input" id="ship-address-checkbox" onclick="checkedStatus()" checked>
+<input type="checkbox" class="form-check-input" id="shipaddress-checkbox" onclick="checkedStatus()" checked>
 <label for="shipping-adress" class="form-check-label">Shipping address is the same as my billing address</label>
 </div>
 
@@ -1061,7 +1061,7 @@ Please select a valid country.
 
 
  
-<div id="ship-address-group" class="ship-address-group">
+<div id="shipaddress-group" class="shipaddress-group">
 <label for="adress"><b>Shipping Address: </b></label>
 <span class="text-muted">(Optional)</span>
 <br>
@@ -1069,7 +1069,7 @@ Please select a valid country.
 
 <div class="form-group">
 <label for="address">Street Address</label>
-<input type="text" class="form-control" id="ship-address" placeholder="1234 Main Street" >
+<input type="text" class="form-control" id="shipaddress" placeholder="1234 Main Street" >
 <div class="invalid-feedback">
 Please enter your billing address.
 </div>
@@ -1078,7 +1078,7 @@ Please enter your billing address.
 
 <div class="form-group">
 <label for="address2">Street Address 2 <span class="text-muted">(Optional)</span></label>
-<input type="text" class="form-control" id="ship-address2" placeholder="Flat No">
+<input type="text" class="form-control" id="shipaddress2" placeholder="Flat No">
 </div>
 
 
@@ -1090,7 +1090,7 @@ Please enter your billing address.
 
 <div class="col-md-6 form-group">
 <label for="city">City</label>
-<input type="text" class="form-control" id="ship-city" placeholder="City">
+<input type="text" class="form-control" id="shipcity" placeholder="City">
 <div class="invalid-feedback">
 Please provide a valid city.
 </div>
@@ -1098,7 +1098,7 @@ Please provide a valid city.
 
 <div class="col-md-6 form-group">
 <label for="postcode">Postcode</label>
-<input type="text" class="form-control" id="ship-postcode" placeholder="Postcode">
+<input type="text" class="form-control" id="shippostcode" placeholder="Postcode">
 <div class="invalid-feedback">
 Postcode required.
 </div>
@@ -1115,7 +1115,7 @@ Postcode required.
 <div class="col-md-4 form-group">
 
 <label for="country">Country</label>
-<select type="text" class="form-control" id="ship-country">
+<select type="text" class="form-control" id="shipcountry">
 <option value>Choose...</option>
 <option value="Afganistan">Afghanistan</option>
    <option value="Albania">Albania</option>
@@ -1492,9 +1492,9 @@ function load_address(){
   
   var x = document.getElementById("secure-form");
 
-  cc = document.getElementById("bill-country");
+  cc = document.getElementById("billcountry");
 
-  cs = document.getElementById("ship-country");
+  cs = document.getElementById("shipcountry");
   
   
   for (i = 0; i < x.length; i++) {
@@ -1509,8 +1509,8 @@ function load_address(){
       {
         //console.log( "Defined: ", address[x[i].id] );
         x[i].value = address[x[i].id];
-        cc.value = address["bill-country"];
-        cs.value = address["ship-country"];
+        cc.value = address["billcountry"];
+        cs.value = address["shipcountry"];
       }
 
     }
@@ -1532,15 +1532,15 @@ function save_address(){
   var x = document.getElementById("secure-form");
 
 
-  var ch = document.getElementById("ship-address-checkbox");
+  var ch = document.getElementById("shipaddress-checkbox");
 
 
   if (ch.checked) {
-     document.getElementById("ship-address").value = document.getElementById("bill-address").value;
-     document.getElementById("ship-address2").value = document.getElementById("bill-address2").value;
-     document.getElementById("ship-city").value = document.getElementById("bill-city").value;
-     document.getElementById("ship-postcode").value = document.getElementById("bill-postcode").value; 
-     document.getElementById("ship-country").value = document.getElementById("bill-country").value;     
+     document.getElementById("shipaddress").value = document.getElementById("billaddress").value;
+     document.getElementById("shipaddress2").value = document.getElementById("billaddress2").value;
+     document.getElementById("shipcity").value = document.getElementById("billcity").value;
+     document.getElementById("shippostcode").value = document.getElementById("billpostcode").value; 
+     document.getElementById("shipcountry").value = document.getElementById("billcountry").value;     
   }
 
 
@@ -1562,11 +1562,11 @@ function save_address(){
 
 
   // Add Country
-  cc = document.getElementById("bill-country");
-  key["bill-country"] = cc.value;
+  cc = document.getElementById("billcountry");
+  key["billcountry"] = cc.value;
 
-  cs = document.getElementById("ship-country");
-  key["ship-country"] = cs.value;
+  cs = document.getElementById("shipcountry");
+  key["shipcountry"] = cs.value;
   
 
   address.push(key);
@@ -1595,18 +1595,18 @@ function hideAllForms(){
 
 
 
-/// ship-address-checkbox ///
+/// shipaddress-checkbox ///
 
 function checkedStatus()
 {
 
-  if( $('#ship-address-checkbox').is(":checked") === true)
+  if( $('#shipaddress-checkbox').is(":checked") === true)
   {
-    document.querySelector("#ship-address-group").classList.add("stripe-hidden");
+    document.querySelector("#shipaddress-group").classList.add("stripe-hidden");
   }
   else{
-    // ship-address-group
-    document.querySelector("#ship-address-group").classList.remove("stripe-hidden");
+    // shipaddress-group
+    document.querySelector("#shipaddress-group").classList.remove("stripe-hidden");
   }
 
 }
