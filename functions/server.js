@@ -37,7 +37,7 @@ console.log("\nJSON:\n", typeof(address), address["firstname"] , address.firstna
 console.log("\naddress\n",typeof(address), address);
 console.log("\ncart\n", typeof(cart), cart);
 
-  /*
+
 var totalCount = 0.0;
 var totalCart = 0.0;
 
@@ -65,11 +65,11 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
       name: address.firstname + " " + address.lastname ,
       phone: address.tel,
       address: {
-        line1: address.ship-address + "  " + address.ship-address2 ,
-        postal_code: address.ship-postcode ,
-        city: address.ship-city ,
+        line1: address.shipaddress + "  " + address.shipaddress2 ,
+        postal_code: address.shippostcode ,
+        city: address.shipcity ,
         state: 'CA',
-        country: address.ship-country,
+        country: address.shipcountry,
       },
     },
     amount: totalCart,
@@ -83,21 +83,21 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
   phone: address.tel,
   email: address.email,
   address: {
-    line1: address.bill-address + "  " + address.bill-address2 ,
-    postal_code: address.bill-postcode ,
-    city: address.bill-city ,
+    line1: address.billaddress + "  " + address.billaddress2 ,
+    postal_code: address.billpostcode ,
+    city: address.billcity ,
     state: 'CA',
-    country: address.bill-country,
+    country: address.billcountry,
   },
   shipping: {
       name: address.firstname + " " + address.lastname ,
       phone: address.tel,
       address: {
-        line1: address.ship-address + "  " + address.ship-address2 ,
-        postal_code: address.ship-postcode ,
-        city: address.ship-city ,
+        line1: address.shipaddress + "  " + address.shipaddress2 ,
+        postal_code: address.shippostcode ,
+        city: address.shipcity ,
         state: 'CA',
-        country: address.ship-country,
+        country: address.shipcountry,
       },
   },
   
