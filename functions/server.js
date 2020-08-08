@@ -77,14 +77,28 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
   });
 
   var customer = await stripe.customers.create({
-  name: 'Jenny Rosen',
+  name: address.firstname + " " + address.lastname ,
+  phone: address.tel,
+  email: address.email,
   address: {
-    line1: '510 Townsend St',
-    postal_code: '98140',
-    city: 'San Francisco',
+    line1: address.bill-address + "  " + address.bill-address2 ,
+    postal_code: address.bill-postcode ,
+    city: address.bill-city ,
     state: 'CA',
-    country: 'US',
-  }
+    country: address.bill-country,
+  },
+  shipping: {
+      name: address.firstname + " " + address.lastname ,
+      phone: address.tel,
+      address: {
+        line1: address.ship-address + "  " + address.ship-address2 ,
+        postal_code: address.ship-postcode ,
+        city: address.ship-city ,
+        state: 'CA',
+        country: address.ship-country,
+      },
+  },
+  
 });
   
   console.log("customer: ", customer );
