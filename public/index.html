@@ -751,9 +751,6 @@ Please enter your shipping address.
 
 
 
-
-
-
 <div class="form-row">
 
 <div class="col-md-6 form-group">
@@ -1495,23 +1492,32 @@ function load_address(){
   
   var x = document.getElementById("secure-form");
 
+  cc = document.getElementById("bill-country");
+
+  cs = document.getElementById("ship-country");
+  
+  
   for (i = 0; i < x.length; i++) {
     
     if (x[i].tagName == "INPUT"){
       
       if (address[x[i].id] === 'undefined' || address[x[i].id] === "" || address[x[i].id] === undefined)
       {
-        console.log( "Undefined: ", address[x[i].id] );
+        //console.log( "Undefined: ", address[x[i].id] );
       }
       else
       {
-        console.log( "Defined: ", address[x[i].id] );
+        //console.log( "Defined: ", address[x[i].id] );
         x[i].value = address[x[i].id];
+        cc.value = address["bill-country"];
+        cs.value = address["ship-country"];
       }
 
     }
 
   }
+
+  console.log("Load address:", address);
 
 }
 
@@ -1524,6 +1530,18 @@ function save_address(){
   var address = [];
 
   var x = document.getElementById("secure-form");
+
+
+  var ch = document.getElementById("ship-address-checkbox");
+
+
+  if (ch.checked) {
+     document.getElementById("ship-address").value = document.getElementById("bill-address").value;
+     document.getElementById("ship-address2").value = document.getElementById("bill-address2").value;
+     document.getElementById("ship-city").value = document.getElementById("bill-city").value;
+     document.getElementById("ship-postcode").value = document.getElementById("bill-postcode").value;     
+  }
+
 
   var key = {};
 
@@ -1540,14 +1558,25 @@ function save_address(){
     }
 
   }
+
+
+  // Add Country
+  cc = document.getElementById("bill-country");
+  key["bill-country"] = cc.value;
+
+  cs = document.getElementById("ship-country");
+  key["ship-country"] = cs.value;
   
+
   address.push(key);
   
+  
   //console.log("Obj key: ", key);
-  //console.log(address);
+  console.log("Save address:", address);
   
   sessionStorage.setItem('address', JSON.stringify(address));
   
+
 }
 
 
