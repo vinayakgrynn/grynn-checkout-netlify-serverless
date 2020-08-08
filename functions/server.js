@@ -56,8 +56,9 @@ totalCart = parseInt(vtotal * 100);
 console.log("totalCount,  totalCart: ", totalCount, totalCart);
 
   
-  
-  const cust = await stripe.customers.create({
+/*
+
+const cust = await stripe.customers.create({
   name: address.firstname + " " + address.lastname ,
   phone: address.tel,
   email: address.email,
@@ -80,14 +81,15 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
       },
   },
   
-  });
-  
+});
+
+*/
   
 ///////////////////////////
 //////////////////////////
 /////////////////////////
 
-  const paymentIntent = await stripe.paymentIntents.create({
+const paymentIntent = await stripe.paymentIntents.create({
     description: 'Software development services',
     customer: cust.id ,
     shipping: {
@@ -105,7 +107,7 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
     currency: "usd",
     payment_method_types: ['card'],
     receipt_email: address.email
-  });
+});
 
   
   
@@ -113,14 +115,13 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
   
   console.log("paymentIntent: ", paymentIntent );
   
-  
-
-  console.log("clientSecret: ", paymentIntent.client_secret);
+  //console.log("clientSecret: ", paymentIntent.client_secret);
   
   return {
     statusCode: 200,
     headers: {"Access-Control-Allow-Origin":"*"},
     body: JSON.stringify({
+      customerID: cust.id , 
       clientSecret: paymentIntent.client_secret,
       publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
     }),
