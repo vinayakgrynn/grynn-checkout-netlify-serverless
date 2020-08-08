@@ -120,6 +120,6 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
       publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
     }),
   };
-*/
+  
   
 };
