@@ -61,6 +61,7 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
     description: 'Software development services',
     shipping: {
       name: address.firstname + " " + address.lastname ,
+      phone: address.tel,
       address: {
         line1: address.ship-address + "  " + address.ship-address2 ,
         postal_code: address.ship-postcode ,
