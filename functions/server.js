@@ -102,6 +102,10 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
 });
   
   console.log("customer: ", customer );
+  
+  console.log("paymentIntent: ", paymentIntent );
+  
+  
 
   console.log("clientSecret: ", paymentIntent.client_secret);
   
