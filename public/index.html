@@ -270,6 +270,7 @@ input {
 
 
 
+
 <div class="container">
 <div class="row">
 <div class="col">
@@ -1559,7 +1560,7 @@ function hideAllForms(){
   $('.vPrevious').hide();
   $('.next-address').hide();
   $(".signin-holder").hide();
-  $(".vGuestLogin").hide();
+  //$(".vGuestLogin").hide();
 }
 
 
@@ -1733,13 +1734,33 @@ var cartArray = shoppingCart.listCart();
 
 var purchase = JSON.stringify(cartArray);
 
-//console.log("Loading datavv: ", purchase);
+console.log("Loading datavv: ", purchase);
 
 var address = get_address();
 
 //console.log("Loading_address_form...", address, address.email);
 
+var data = []
 
+data.push(address);
+
+data.push(cartArray);
+
+console.log("Loading_address...", JSON.stringify(data) );
+console.log("Loading_address...", data[0]);
+console.log("Loading_address...", data[1]);
+
+var resData = JSON.stringify(data);
+
+var dat1 = JSON.parse(resData);
+
+console.log("dat1[0]: ", typeof(dat1) ,dat1[0]);
+
+console.log("dat1[1]: ", typeof(dat1) ,dat1[1]);
+
+
+
+/*
 
 var cart = JSON.parse(purchase);
 
@@ -1755,8 +1776,9 @@ for (i = 0; i < len; i++) {
   totalCart += cart[i].price;
 }
 
-
 console.log("totalCount,  totalCart: ", totalCount, totalCart);
+
+*/
 
 
 // Disable the button until we have Stripe set up on the page
@@ -1771,7 +1793,7 @@ fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
     "Content-Type": "application/json"
   },
 
-  body: JSON.stringify(purchase)
+  body: JSON.stringify(resData)
 
 })
   .then(function(result) {
