@@ -13,7 +13,7 @@ console.log(datav);
   
 //const data = JSON.parse(datav);
   
-console.log(data);
+//console.log(data);
   
 //const address = data[0];
 /*
