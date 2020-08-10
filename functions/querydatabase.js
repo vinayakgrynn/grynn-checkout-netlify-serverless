@@ -38,8 +38,7 @@ exports.handler = async (event, context, callback) => {
     statusCode: 200,
     headers: {"Access-Control-Allow-Origin":"*"},
     body: JSON.stringify({
-      clientSecret: paymentIntent.client_secret,
-      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+      rdata: data
     }),
   };
   
