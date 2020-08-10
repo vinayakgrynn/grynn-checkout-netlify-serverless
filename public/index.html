@@ -359,10 +359,18 @@ input {
   <button type="button" class="btn btn-secondary" onclick="vGuestLogin()">Continue as guest</button>
 
 <br>
-
-
 </div>
 </div>
+
+
+
+
+
+<div class=" h-100 d-flex justify-content-center align-items-center">
+<div class="checkout-summary"></div>
+</div>
+
+
 
 
 
@@ -2001,6 +2009,9 @@ function alertFunction() {
 window.onload = alterMenu;
 
 
+var user_id = "";
+
+var user_email = "";
 
 function loginNetlifyIdentity(user) {
 
@@ -2011,6 +2022,12 @@ function loginNetlifyIdentity(user) {
   var userEmail = vv.email;
   
   console.log(user);
+
+  user_id = user.id;
+
+  user_email = user.email;
+
+  console.log("user_id: user_email", user_id , user_email);
 
 }
 
