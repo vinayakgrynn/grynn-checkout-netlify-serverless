@@ -2014,6 +2014,8 @@ var user_email = "";
 
 var user_stripe_id = "";
 
+
+
 function loginNetlifyIdentity(user) {
 
   netlifyIdentity.refresh().then((jwt)=>console.log(jwt));
@@ -2033,18 +2035,17 @@ function loginNetlifyIdentity(user) {
   var qc = {"query" : user_id};
 
   getFaunaID( qc );
-  
-  getFaunaID( {"query" : "Delibrate Error" } );
 
   var samm = { title : user_id ,  key_value: user_id };
 
-  createFaunaID(samm); 
+  createFaunaID(samm);
 
 }
 
 
 
 function getFaunaID ( user_id ) {
+
 
   fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/querydatabase", {
 
@@ -2062,10 +2063,20 @@ function getFaunaID ( user_id ) {
     })
     .then(function(data) {
 
-      console.log("user_stripe_id: ", data);   
+      console.log("user_stripe_id: ", data);
 
-    }
-  );
+      var dat = JSON.parse(data);
+
+      console.log("data: ", dat.data );
+      console.log("title: ", dat.data.title );
+      console.log("key_value: ", dat.data.key_value );
+
+      
+
+    }).catch((error) => {
+      console.log('error', error);
+    });
+
 
 }
 
@@ -2091,8 +2102,9 @@ function createFaunaID ( user_id ) {
 
       console.log("create Fauna DB: ", data);   
 
-    }
-  );
+    }).catch((error) => {
+      console.log('error', error);
+    });
 
 }
 
@@ -2230,10 +2242,10 @@ try {
 ///// Fauna DB /////
 
 
-q = faunadb.query;
+//q = faunadb.query;
 
 
-var serverClient = new faunadb.Client({ secret: '' });
+//var serverClient = new faunadb.Client({ secret: '' });
 
 
 /*
