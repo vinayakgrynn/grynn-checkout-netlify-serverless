@@ -2072,11 +2072,10 @@ function getFaunaID ( user_id ) {
         console.log("incoming data: ", data);
         console.log("typeof: ", typeof(data));
 
-        var dat = JSON.parse(data);
-
-        console.log("data: ", dat.data );
-        console.log("title: ", dat.data.title );
-        console.log("key_value: ", dat.data.key_value );
+        
+        console.log("data: ", data.data );
+        console.log("title: ", data.data.title );
+        console.log("key_value: ", data.data.key_value );
       }
       else
       {
