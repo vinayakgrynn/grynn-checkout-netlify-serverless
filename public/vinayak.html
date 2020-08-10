@@ -2066,17 +2066,24 @@ function getFaunaID ( user_id ) {
       return result.json();
     })
     .then(function(data) {
-
-      console.log("user_stripe_id: ", data);
-
-      var dat = JSON.parse(data);
-
-      console.log("data: ", dat.data );
-      console.log("title: ", dat.data.title );
-      console.log("key_value: ", dat.data.key_value );
-
       
+      if (data)
+      {
+        console.log("incoming data: ", data);
+        console.log("typeof: ", typeof(data));
 
+        var dat = JSON.parse(data);
+
+        console.log("data: ", dat.data );
+        console.log("title: ", dat.data.title );
+        console.log("key_value: ", dat.data.key_value );
+      }
+      else
+      {
+        console.log("No Data");
+      }
+      
+    
     }).catch((error) => {
       console.log('error', error);
     });
