@@ -21,11 +21,10 @@ exports.handler = async (event, context, callback) => {
   
   console.log( "type: ", typeof(queryData), queryData );
   
-  
   return client.query(
     q.Create(
       q.Collection('grynntable'),
-      { data: queryData },
+      { data: { title : queryData.title ,  key_value: queryData.key_value } },
     )
   )
   .then((response) => {
