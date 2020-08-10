@@ -40,7 +40,9 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
 
 
 
-const cust = await stripe.customers.update({
+const cust = await stripe.customers.update(
+  address.customerID ,
+  {
   name: address.firstname + " " + address.lastname ,
   phone: address.tel,
   email: address.email,
@@ -63,7 +65,7 @@ const cust = await stripe.customers.update({
       },
   },
   
-});
+  });
   
 
 
