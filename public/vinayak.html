@@ -270,6 +270,7 @@ input {
 
 
 
+
 <div class="container">
 <div class="row">
 <div class="col">
@@ -305,6 +306,8 @@ input {
 </div>
 </div>
 
+
+
 <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog modal-lg" role="document">
 <div class="modal-content">
@@ -334,9 +337,42 @@ input {
 <div class="modal-body">
 
 
+
+
 <div class=" h-100 d-flex justify-content-center align-items-center">
 <div class="payment-holder"></div>
 </div>
+
+
+
+
+<div class=" h-100 d-flex justify-content-center align-items-center">
+<div class="signin-holder">
+
+  <p class="text-left">Sign in</p>
+  <p class="text-left">Have an account already?</p>
+  <!-- Add a simpler button: Simple button that will open the modal.-->
+  <div class="btn btn-outline-primary on-top-modal-body " data-netlify-identity-button></div>
+
+<hr>
+  <p class="text-left">New to Grynn.com?</p>
+  <button type="button" class="btn btn-secondary" onclick="vGuestLogin()">Continue as guest</button>
+
+<br>
+</div>
+</div>
+
+
+
+
+
+<div class=" h-100 d-flex justify-content-center align-items-center">
+<div class="checkout-summary"></div>
+</div>
+
+
+
+
 
 
 <div class="form-holder"></div>
@@ -412,25 +448,6 @@ input {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -439,9 +456,7 @@ input {
 
 
 
-
-<script src="https://cdn.rawgit.com/PascaleBeier/bootstrap-validate/v2.2.0/dist/bootstrap-validate.js" ></script>
-
+<script src="https://cdn.jsdelivr.net/gh/fauna/faunadb-js-release@latest/faunadb-min.js"></script>
 
 
 
@@ -665,7 +680,6 @@ $('.show-cart').on("click", ".plus-item", function (event) {
 });
 
 
-
 // Item count input
 $('.show-cart').on("change", ".item-count", function (event) {
   var name = $(this).data('name');
@@ -680,11 +694,17 @@ function displayAddressForm() {
   var form = "";
 
 // onsubmit="event.preventDefault(); validateMyForm();"
+
+
 form = `<form id="secure-form" class="needs-validation" onsubmit="event.preventDefault();">
+
+
 
 <div class="form-row">
 <div class="col-md-6 form-group">
 <label for="firstname">First Name</label>
+
+
 
 <input type="text" class="form-control" id="firstname" placeholder="First Name" required>
 <div class="invalid-feedback">
@@ -708,6 +728,14 @@ Valid last name is required.
 </div>
 
 
+
+<div class="form-group">
+<label for="tel">Phone Number <span class="text-muted">Format: (+41-123456789) (Optional)</span></label>
+<input type="tel" class="form-control" id="tel" pattern="[+]{0,1}[0-9]{0,3}-[0-9]{4,14}" placeholder="Your Phone Number">
+</div>
+
+
+
 <hr>
 <br>
 
@@ -717,7 +745,7 @@ Valid last name is required.
 
 <div class="form-group">
 <label for="address">Street Address</label>
-<input type="text" class="form-control" id="bill-address" placeholder="1234 Main Street" required>
+<input type="text" class="form-control" id="billaddress" placeholder="1234 Main Street" required>
 <div class="invalid-feedback">
 Please enter your shipping address.
 </div>
@@ -726,11 +754,8 @@ Please enter your shipping address.
 
 <div class="form-group">
 <label for="address2">Street Address 2<span class="text-muted">(Optional)</span></label>
-<input type="text" class="form-control" id="bill-address2" placeholder="Flat No">
+<input type="text" class="form-control" id="billaddress2" placeholder="Flat No">
 </div>
-
-
-
 
 
 
@@ -738,7 +763,7 @@ Please enter your shipping address.
 
 <div class="col-md-6 form-group">
 <label for="city">City</label>
-<input type="text" class="form-control" id="bill-city" placeholder="City" required>
+<input type="text" class="form-control" id="billcity" placeholder="City" required>
 <div class="invalid-feedback">
 Please provide a valid city.
 </div>
@@ -746,7 +771,7 @@ Please provide a valid city.
 
 <div class="col-md-6 form-group">
 <label for="postcode">Postcode</label>
-<input type="text" class="form-control" id="bill-postcode" placeholder="Postcode" required>
+<input type="text" class="form-control" id="billpostcode" placeholder="Postcode" required>
 <div class="invalid-feedback">
 Postcode required.
 </div>
@@ -764,7 +789,7 @@ Postcode required.
 <div class="col-md-4 form-group">
 
 <label for="country">Country</label>
-<select type="text" class="form-control" id="bill-country" required>
+<select type="text" class="form-control" id="billcountry" required>
 <option value>Choose...</option>
 <option value="Afganistan">Afghanistan</option>
    <option value="Albania">Albania</option>
@@ -1032,7 +1057,7 @@ Please select a valid country.
 
 
 <div class="form-check">
-<input type="checkbox" class="form-check-input" id="ship-address-checkbox" onclick="checkedStatus()" checked>
+<input type="checkbox" class="form-check-input" id="shipaddress-checkbox" onclick="checkedStatus()" checked>
 <label for="shipping-adress" class="form-check-label">Shipping address is the same as my billing address</label>
 </div>
 
@@ -1044,7 +1069,7 @@ Please select a valid country.
 
 
  
-<div id="ship-address-group" class="ship-address-group">
+<div id="shipaddress-group" class="shipaddress-group">
 <label for="adress"><b>Shipping Address: </b></label>
 <span class="text-muted">(Optional)</span>
 <br>
@@ -1052,7 +1077,7 @@ Please select a valid country.
 
 <div class="form-group">
 <label for="address">Street Address</label>
-<input type="text" class="form-control" id="ship-address" placeholder="1234 Main Street" >
+<input type="text" class="form-control" id="shipaddress" placeholder="1234 Main Street" >
 <div class="invalid-feedback">
 Please enter your billing address.
 </div>
@@ -1061,7 +1086,7 @@ Please enter your billing address.
 
 <div class="form-group">
 <label for="address2">Street Address 2 <span class="text-muted">(Optional)</span></label>
-<input type="text" class="form-control" id="ship-address2" placeholder="Flat No">
+<input type="text" class="form-control" id="shipaddress2" placeholder="Flat No">
 </div>
 
 
@@ -1073,7 +1098,7 @@ Please enter your billing address.
 
 <div class="col-md-6 form-group">
 <label for="city">City</label>
-<input type="text" class="form-control" id="ship-city" placeholder="City">
+<input type="text" class="form-control" id="shipcity" placeholder="City">
 <div class="invalid-feedback">
 Please provide a valid city.
 </div>
@@ -1081,7 +1106,7 @@ Please provide a valid city.
 
 <div class="col-md-6 form-group">
 <label for="postcode">Postcode</label>
-<input type="text" class="form-control" id="ship-postcode" placeholder="Postcode">
+<input type="text" class="form-control" id="shippostcode" placeholder="Postcode">
 <div class="invalid-feedback">
 Postcode required.
 </div>
@@ -1098,7 +1123,7 @@ Postcode required.
 <div class="col-md-4 form-group">
 
 <label for="country">Country</label>
-<select type="text" class="form-control" id="ship-country">
+<select type="text" class="form-control" id="shipcountry">
 <option value>Choose...</option>
 <option value="Afganistan">Afghanistan</option>
    <option value="Albania">Albania</option>
@@ -1357,10 +1382,6 @@ Please select a valid country.
 
 
 
-
-
-
-
 <br>
 
 <hr>
@@ -1369,13 +1390,7 @@ Please select a valid country.
 
 
 
-
-
-
-
 <br>
-
-
 
 
 
@@ -1485,23 +1500,32 @@ function load_address(){
   
   var x = document.getElementById("secure-form");
 
+  cc = document.getElementById("billcountry");
+
+  cs = document.getElementById("shipcountry");
+  
+  
   for (i = 0; i < x.length; i++) {
     
     if (x[i].tagName == "INPUT"){
       
       if (address[x[i].id] === 'undefined' || address[x[i].id] === "" || address[x[i].id] === undefined)
       {
-        console.log( "Undefined: ", address[x[i].id] );
+        //console.log( "Undefined: ", address[x[i].id] );
       }
       else
       {
-        console.log( "Defined: ", address[x[i].id] );
+        //console.log( "Defined: ", address[x[i].id] );
         x[i].value = address[x[i].id];
+        cc.value = address["billcountry"];
+        cs.value = address["shipcountry"];
       }
 
     }
 
   }
+
+  console.log("Load address:", address);
 
 }
 
@@ -1509,11 +1533,24 @@ function load_address(){
 
 function save_address(){
 
-  console.log("Saving_address...");
+  //console.log("Saving_address...");
 
   var address = [];
 
   var x = document.getElementById("secure-form");
+
+
+  var ch = document.getElementById("shipaddress-checkbox");
+
+
+  if (ch.checked) {
+     document.getElementById("shipaddress").value = document.getElementById("billaddress").value;
+     document.getElementById("shipaddress2").value = document.getElementById("billaddress2").value;
+     document.getElementById("shipcity").value = document.getElementById("billcity").value;
+     document.getElementById("shippostcode").value = document.getElementById("billpostcode").value; 
+     document.getElementById("shipcountry").value = document.getElementById("billcountry").value;     
+  }
+
 
   var key = {};
 
@@ -1530,15 +1567,25 @@ function save_address(){
     }
 
   }
+
+
+  // Add Country
+  cc = document.getElementById("billcountry");
+  key["billcountry"] = cc.value;
+
+  cs = document.getElementById("shipcountry");
+  key["shipcountry"] = cs.value;
   
+
   address.push(key);
   
-  console.log("Obj key: ", key);
-
-  console.log(address);
+  
+  //console.log("Obj key: ", key);
+  console.log("Save address:", address);
   
   sessionStorage.setItem('address', JSON.stringify(address));
   
+
 }
 
 
@@ -1550,22 +1597,24 @@ function hideAllForms(){
   $('.form-holder').hide();
   $('.vPrevious').hide();
   $('.next-address').hide();
+  $(".signin-holder").hide();
+  //$(".vGuestLogin").hide();
 }
 
 
 
-/// ship-address-checkbox ///
+/// shipaddress-checkbox ///
 
 function checkedStatus()
 {
 
-  if( $('#ship-address-checkbox').is(":checked") === true)
+  if( $('#shipaddress-checkbox').is(":checked") === true)
   {
-    document.querySelector("#ship-address-group").classList.add("stripe-hidden");
+    document.querySelector("#shipaddress-group").classList.add("stripe-hidden");
   }
   else{
-    // ship-address-group
-    document.querySelector("#ship-address-group").classList.remove("stripe-hidden");
+    // shipaddress-group
+    document.querySelector("#shipaddress-group").classList.remove("stripe-hidden");
   }
 
 }
@@ -1582,6 +1631,12 @@ function checkRelevance(){
 
   if (state === 1){
     hideAllForms();
+    $(".signin-holder").show();
+    $('.vPrevious').show();
+  }
+
+  if (state === 2){
+    hideAllForms();
     $('.form-holder').show();
     //$('.vPrevious').show();
     //$('.next-address').show();
@@ -1591,7 +1646,7 @@ function checkRelevance(){
   }
 
   // Payment Gateway //
-  if (state === 2){
+  if (state === 3){
     save_address();
     hideAllForms();
     $('.payment-holder').show();
@@ -1612,15 +1667,10 @@ function checkRelevance(){
 var state = 0;
 // This Runs when Page is Loaded.
 $( document ).ready(function() {
-  console.log( "Page Reloaded...\nLoading Data..." );
+  //console.log( "Page Reloaded...\nLoading Data..." );
   state = 0;
   checkRelevance();
 });
-
-
-
-
-
 
 
 
@@ -1631,11 +1681,20 @@ $('.next-address').click(function (event) {
 });
 
 
+function vGuestLogin () {
+  event.preventDefault();
+  state += 1;
+  checkRelevance();
+  //closeCart();
+}
+
+
 function vPrevious(){
   event.preventDefault();
   state -= 1;
   checkRelevance();
 }
+
 
 
 $('.vPrevious').click(function (event) {
@@ -1654,7 +1713,7 @@ $('.grynn-order-now').click(function (event) {
 
   cartArray.push("")
 
-  console.log(cartArray);
+  //console.log(cartArray);
 
   //alert(shoppingCart.totalCart());
 
@@ -1709,7 +1768,7 @@ var stripe = Stripe("pk_test_51HAbz2AQ0qxfxSJ1BFA6VdksLhae4TOWuqTgb3jgZD2Ep9Zu9x
 
 var cartArray = shoppingCart.listCart();
 
-console.log("Loading Cart: ", cartArray);
+//console.log("Loading Cart: ", cartArray);
 
 var purchase = JSON.stringify(cartArray);
 
@@ -1717,9 +1776,29 @@ console.log("Loading datavv: ", purchase);
 
 var address = get_address();
 
-console.log("Loading_address_form...", address, address.email);
+//console.log("Loading_address_form...", address, address.email);
+
+var data = []
+
+data.push(address);
+
+data.push(cartArray);
+
+console.log("Loading_address...", JSON.stringify(data) );
+console.log("Loading_address...", data[0]);
+console.log("Loading_address...", data[1]);
+
+var resData = JSON.stringify(data);
+
+var dat1 = JSON.parse(resData);
+
+console.log("dat1[0]: ", typeof(dat1) ,dat1[0]);
+
+console.log("dat1[1]: ", typeof(dat1) ,dat1[1]);
 
 
+
+/*
 
 var cart = JSON.parse(purchase);
 
@@ -1735,8 +1814,9 @@ for (i = 0; i < len; i++) {
   totalCart += cart[i].price;
 }
 
-
 console.log("totalCount,  totalCart: ", totalCount, totalCart);
+
+*/
 
 
 // Disable the button until we have Stripe set up on the page
@@ -1751,7 +1831,7 @@ fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
     "Content-Type": "application/json"
   },
 
-  body: JSON.stringify(purchase)
+  body: JSON.stringify(resData)
 
 })
   .then(function(result) {
@@ -1898,7 +1978,6 @@ function alterMenu() {
 
 
 
-
 function alertFunction() {
 
   setTimeout(
@@ -1929,6 +2008,11 @@ function alertFunction() {
 window.onload = alterMenu;
 
 
+var user_id = "";
+
+var user_email = "";
+
+var user_stripe_id = "";
 
 function loginNetlifyIdentity(user) {
 
@@ -1939,6 +2023,45 @@ function loginNetlifyIdentity(user) {
   var userEmail = vv.email;
   
   console.log(user);
+
+  user_id = user.id;
+
+  user_email = user.email;
+
+  console.log( "user_id: user_email", user_id , user_email );
+
+  var qc = {"query" : user_id};
+
+  getFaunaID( qc );
+
+}
+
+
+
+function getFaunaID ( user_id ) {
+
+
+  fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/querydatabase", {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify(user_id)
+
+    })
+    .then(function(result) {
+      return result.json();
+    })
+    .then(function(data) {
+
+      console.log("user_stripe_id: ", data);   
+
+    }
+  );
+
 
 }
 
@@ -1952,28 +2075,77 @@ function logoutNetlifyIdentity(user) {
 
 
 
-netlifyIdentity.open();
+var statusNetlify = false;
 
+function netlifyIdentityWidgetopened() {
 
-// Get the current user:
-const user = netlifyIdentity.currentUser();
+  statusNetlify = $('#cart').is(':visible');
 
+  if (statusNetlify){
+    $('#cart').modal('hide');
+  }
 
-// Bind to events
-netlifyIdentity.on('login', user => loginNetlifyIdentity(user));
-
-netlifyIdentity.on('logout', user => logoutNetlifyIdentity(user));
-
-
-// Change language
-netlifyIdentity.setLocale('en');
-
-
-// Close the modal
-netlifyIdentity.close();
+}
 
 
 
+function netlifyIdentityWidgetclosed() {
+
+  if (statusNetlify){
+    $('#cart').modal('show');
+    statusNetlify = false;
+  }
+
+  
+}
+
+
+
+
+
+
+
+
+try {
+
+
+
+  // netlifyIdentity.open();
+
+
+  // Get the current user:
+  const user = netlifyIdentity.currentUser();
+
+
+  // Bind to events
+  netlifyIdentity.on('login', user => loginNetlifyIdentity(user));
+
+  netlifyIdentity.on('logout', user => logoutNetlifyIdentity(user));
+
+  //////////////
+  netlifyIdentity.on('init', user => console.log('init', user));
+
+  netlifyIdentity.on('error', err => console.error('Error', err));
+
+  netlifyIdentity.on('open', () => netlifyIdentityWidgetopened() );
+
+  netlifyIdentity.on('close', () => netlifyIdentityWidgetclosed() );
+  /////////////
+
+  // Change language
+  netlifyIdentity.setLocale('en');
+
+
+  // Close the modal
+  // netlifyIdentity.close();
+
+
+
+}
+catch(err) {
+  console.log("Some Error")
+  console.log(err)
+}
 
 
 
@@ -1988,7 +2160,7 @@ netlifyIdentity.close();
 ////// Stripe Query
 
 // https://api.stripe.com/v1/search?query=vinayak.patel@grynn.in&prefix=false
-
+/*
 
 fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/queryStripe", {
 
@@ -2010,6 +2182,175 @@ fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/queryStripe"
 
   }
 );
+
+*/
+
+
+
+
+
+
+
+try {
+
+
+
+///// Fauna DB /////
+
+
+q = faunadb.query;
+
+
+var serverClient = new faunadb.Client({ secret: '' });
+
+
+/*
+
+
+serverClient.query(
+  faunadb.query.Create(
+    faunadb.query.Collection('grynntable'),
+    { data: { title: 'What I had for breakfast ..' } },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Get(
+    q.Match(q.Index('posts_by_title'), 'What I had for breakfast ..')
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Update(
+    q.Ref(q.Collection('grynntable'), '273181600287556102'),
+    { data: { title: 'Vinayak is the best programmer...' } },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Get(q.Ref(q.Collection('grynntable'), '273181600287556102'))
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.CreateIndex({
+    name: 'posts_by_title',
+    source: q.Collection('grynntable'),
+    terms: [{ field: ['data', 'title'] }],
+  })
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Create(
+    q.Collection('grynntable'),
+    { data: { title: 'What I had for breakfast ..' } },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+
+
+
+serverClient.query(
+  q.Create(
+    q.Collection('grynntable'),
+    { data: { title : '123456789' ,  key_value: 'some value is 123456789'} },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Get(
+    q.Match(q.Index('posts_by_title'), '123456789')
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+
+
+
+
+
+
+serverClient.query(
+  q.Create(
+    q.Collection('grynntable'),
+    { data: { title : 'netlify_ID deepak grynn' ,  key_value: 'stripe_ID deepak strip 12356790'} },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+
+
+serverClient.query(
+  q.Get(
+    q.Match(q.Index('posts_by_title'), 'vinayak')
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+
+serverClient.query(
+  q.Create(
+    q.Collection('grynntable'),
+    { data: { title : '123456789' ,  key_value: 'some value is 123456789'} },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+serverClient.query(
+  q.Get(
+    q.Match(q.Index('posts_by_title'), '123456789')
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+}
+catch(err) {
+  console.log("Some Error")
+  console.log(err)
+}
+
 
 </script>
 
