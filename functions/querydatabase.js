@@ -1,15 +1,13 @@
 /* code from functions/todos-create.js */
-import faunadb from 'faunadb';
-
-const q = faunadb.query;
-
-const client = new faunadb.Client({
-  secret: process.env.FAUNADB_SECRET
-});
-
+const faunadb = require('faunadb')
+const q = faunadb.query
 
 
 exports.handler = async (event, context, callback) => { 
+  /* configure faunaDB Client with our secret */
+  const client = new faunadb.Client({
+    secret: process.env.FAUNADB_SERVER_SECRET
+  }) 
   
   /* parse the string body into a useable JS object */
   const data = JSON.parse(event.body);
