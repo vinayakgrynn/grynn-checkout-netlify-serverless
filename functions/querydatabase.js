@@ -21,7 +21,6 @@ exports.handler = async (event, context, callback) => {
   
   console.log( "type: ", typeof(queryData), queryData );
   
-  
   return client.query(
     q.Get(
       q.Match(q.Index('posts_by_title'), queryData )
