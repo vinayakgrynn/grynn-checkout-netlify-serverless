@@ -16,8 +16,8 @@ const data = JSON.parse(datav);
   
 console.log(data);
   
-const address = data[0];
-
+//const address = data[0];
+/*
 const cust = await stripe.customers.retrieve(
   address.customerID , 
   function(err, customer) {
@@ -36,6 +36,6 @@ return {
       Customer: cust,
     }),
 };
-  
+*/
   
 };
