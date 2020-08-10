@@ -8,7 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "stripe": "^8.81.0",
-    "faunadb": "^2.13.1",
+    "faunadb": "^2.13.1"
   },
   "description": "Use Stripe Checkout with Netlify Functions to sell your products online.",
   "devDependencies": {},
