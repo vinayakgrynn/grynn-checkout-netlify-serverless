@@ -2040,6 +2040,8 @@ function loginNetlifyIdentity(user) {
   {
     // User already has stripe ID associated to Netlify account.
 
+    console.log("retrieveCustomer Starting");
+
     retrieveCustomer(user_stripe_id);
 
   }
@@ -2136,6 +2138,7 @@ function getFaunaID ( user_id ) {
         if (key.length > 2) {
           has_account = true;
           user_stripe_id = key;
+          return has_account;
         }
 
       }
