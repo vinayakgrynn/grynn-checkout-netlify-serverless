@@ -367,7 +367,13 @@ input {
 
 
 <div class=" h-100 d-flex justify-content-center align-items-center">
-<div class="checkout-summary"></div>
+
+<div class="summary-holder">
+
+<p class="text-left">Address and Items Summary</p>
+
+</div>
+
 </div>
 
 
@@ -628,6 +634,7 @@ $('.add-to-cart').click(function (event) {
 $('.clear-cart').click(function () {
   shoppingCart.clearCart();
   displayCart();
+  closeCart();
 });
 
 
@@ -1432,9 +1439,9 @@ function validateForm() {
   {
     save_address();
     hideAllForms();
-    $('.payment-holder').show();
-    $('.vPrevious').show();
-    displayPayment();
+    //$('.payment-holder').show();
+    //$('.vPrevious').show();
+    //displayPayment();
 
     state += 1;
     checkRelevance();
@@ -1598,7 +1605,7 @@ function hideAllForms(){
   $('.vPrevious').hide();
   $('.next-address').hide();
   $(".signin-holder").hide();
-  //$(".vGuestLogin").hide();
+  $(".summary-holder").hide();
 }
 
 
@@ -1645,13 +1652,31 @@ function checkRelevance(){
     checkedStatus();
   }
 
-  // Payment Gateway //
   if (state === 3){
+    hideAllForms();
+    $(".summary-holder").show();
+    $('.vPrevious').show();
+    $('.next-address').show();
+
+    if(createCustomer){
+      // Create Stripe Customer With address and Add it to FaunnaDB
+      console.log("creating new Customer in Stripe");
+      
+      createCustomerStripe();
+      
+    }
+
+  }
+
+  // Payment Gateway //
+  if (state === 4){
+
     save_address();
     hideAllForms();
     $('.payment-holder').show();
     $('.vPrevious').show();
     displayPayment();
+
   }
 
   // document.getElementById("secure-form").submit();
@@ -1660,6 +1685,7 @@ function checkRelevance(){
   
 
   console.log("state: ", state);
+
 }
 
 
@@ -1784,39 +1810,17 @@ data.push(address);
 
 data.push(cartArray);
 
-console.log("Loading_address...", JSON.stringify(data) );
-console.log("Loading_address...", data[0]);
-console.log("Loading_address...", data[1]);
+data.push({ "customerID" : user_stripe_id });
 
+//console.log("Loading_address...", JSON.stringify(data) );
+//console.log("Loading_address...", data[0]);
+//console.log("Loading_address...", data[1]);
+
+console.log("data...", data);
 var resData = JSON.stringify(data);
 
-var dat1 = JSON.parse(resData);
+console.log("resData...", resData);
 
-console.log("dat1[0]: ", typeof(dat1) ,dat1[0]);
-
-console.log("dat1[1]: ", typeof(dat1) ,dat1[1]);
-
-
-
-/*
-
-var cart = JSON.parse(purchase);
-
-console.log("cart: ", cart);
-
-var totalCount = 0;
-var totalCart = 0;
-var len = cart.length;
-
-for (i = 0; i < len; i++) {
-  console.log("Cart: ", cart[i]);
-  totalCount += cart[i].count;
-  totalCart += cart[i].price;
-}
-
-console.log("totalCount,  totalCart: ", totalCount, totalCart);
-
-*/
 
 
 // Disable the button until we have Stripe set up on the page
@@ -1951,8 +1955,6 @@ var loading = function(isLoading) {
   }
 };
 
-
-
 }
 
 
@@ -2014,6 +2016,7 @@ var user_email = "";
 var user_stripe_id = "";
 var user_full_name = "";
 var createCustomer = false;
+var payasguest = true;
 
 
 function loginNetlifyIdentity(user) {
@@ -2029,37 +2032,17 @@ function loginNetlifyIdentity(user) {
   user_id = user.id;
   user_email = user.email;
   user_full_name = user.user_metadata.full_name;
-
+  payasguest = false;
 
   console.log( "user_id: user_email : user_full_name ", user_id , user_email , user_full_name);
 
-
+  // Check Netlify ID on Faunna DB
   var qc = {"query" : user_id};
 
-  if (getFaunaID( qc ))
-  {
-    // User already has stripe ID associated to Netlify account.
-
-    console.log("retrieveCustomer Starting");
-
-    retrieveCustomer(user_stripe_id);
-
-  }
-  else
-  {
-    // User does not have Stripe ID added to Netlify account
-    // Need to create a new faunadb account entry
-    
-    //var samm = { title : user_id ,  key_value: user_id };
-    //createFaunaID(samm);
-
-    console.log("Need to createCustomer.");
-
-    createCustomer = true;
-
-  }
+  getFaunaID( qc );
 
 }
+
 
 
 
@@ -2100,6 +2083,54 @@ function retrieveCustomer ( customerID ) {
 
     });
 
+}
+
+
+
+function createCustomerStripe ( ) {
+
+  var address = get_address();
+  
+  var data = []
+  
+  data.push(address);
+  
+  
+  fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/createCustomer", {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify(data)
+
+    })
+
+    .then(function(result) {
+      return result.json();
+    })
+
+    .then(function(data) {
+
+
+      console.log("createCustomerStripe data: ", data);
+
+      console.log("typeof: ", typeof(data));
+
+      user_stripe_id = data.id;
+
+      var dat = { title : user_id ,  key_value: user_stripe_id } ;
+
+      createFaunaID(dat);
+
+    
+    }).catch((error) => {
+
+      console.log('error', error);
+
+    });
 
 }
 
@@ -2124,10 +2155,7 @@ function getFaunaID ( user_id ) {
     })
     .then(function(data) {
 
-      var has_account = false;      
 
-      if (data)
-      {
         console.log("incoming data: ", data);
         console.log("typeof: ", typeof(data));
 
@@ -2135,33 +2163,31 @@ function getFaunaID ( user_id ) {
         console.log("title: ", data.data.title );
         console.log("key_value: ", data.data.key_value );
         
-        var key = data.data.key_value;
+        if (data.data.key_value){
 
-        if (key.length > 2) {
-          has_account = true;
-          user_stripe_id = key;
-          
-          retrieveCustomer("cus_Ho7ONViaXcFXOy"); #(user_stripe_id);
+          var key = data.data.key_value;
+
+          if (key.length > 2) {
+
+            user_stripe_id = key;
+            retrieveCustomer("cus_Ho7ONViaXcFXOy"); //(user_stripe_id);
+
+          }
+          else
+          {
+            createCustomer = true;
+            vGuestLogin();
+          }
+
         }
-        else
-        {
-          
-        }
 
-      }
-      else
-      {
-        console.log("No Data");
-      }
+      
 
-      return has_account;
       
     
     }).catch((error) => {
 
       console.log('error', error);
-
-      return false;
 
     });
 
