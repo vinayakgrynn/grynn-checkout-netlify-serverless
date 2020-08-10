@@ -7,6 +7,6 @@
     "@sendgrid/mail": "^7.0.0",
     "stripe": "^8.81.0",
     "express": "^4.17.1",
-    "faunadb": "^2.13.1",
+    "faunadb": "^2.13.1"
   }
 }
