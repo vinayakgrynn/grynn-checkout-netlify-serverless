@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "main": "index.js",
   "contributors": [
+    "Vinayak Patel <vinayak.patel@grynn.in>"
     "Jason Lengstorf <jason@lengstorf.com>",
     "Thor 雷神 <thorsten@stripe.com>"
   ],
