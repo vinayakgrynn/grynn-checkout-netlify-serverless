@@ -14,6 +14,12 @@ exports.handler = async (event, context, callback) => {
   
   console.log("data: ", data);
   
+  console.log("type: ", typeof(data) );
+  
+  var dat = data["query"];
+  
+  console.log( "type: ", typeof(dat), dat );
+  
   ///* construct the fauna query */
   /*
   return client.query(q.Create(q.Ref("classes/todos"), todoItem))
