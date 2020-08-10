@@ -2008,12 +2008,12 @@ function alertFunction() {
 window.onload = alterMenu;
 
 
+
 var user_id = "";
-
 var user_email = "";
-
 var user_stripe_id = "";
-
+var user_full_name = "";
+var createCustomer = false;
 
 
 function loginNetlifyIdentity(user) {
@@ -2027,22 +2027,75 @@ function loginNetlifyIdentity(user) {
   console.log(user);
 
   user_id = user.id;
-
   user_email = user.email;
+  user_full_name = user.user_metadata.full_name;
 
-  console.log( "user_id: user_email", user_id , user_email );
+
+  console.log( "user_id: user_email : user_full_name ", user_id , user_email , user_full_name);
+
 
   var qc = {"query" : user_id};
 
-  getFaunaID( qc );
+  if (getFaunaID( qc ))
+  {
+    // User already has stripe ID associated to Netlify account.
 
-  var er = {"query" : " Nothing Here " };
+    retrieveCustomer(user_stripe_id);
 
-  getFaunaID( er );
+  }
+  else
+  {
+    // User does not have Stripe ID added to Netlify account
+    // Need to create a new faunadb account entry
+    
+    //var samm = { title : user_id ,  key_value: user_id };
+    //createFaunaID(samm);
 
-  var samm = { title : user_id ,  key_value: user_id };
+    createCustomer = true;
 
-  createFaunaID(samm);
+  }
+
+}
+
+
+
+function retrieveCustomer ( customerID ) {
+
+  fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/retrieveCustomer", {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify(customerID)
+
+    })
+    .then(function(result) {
+      return result.json();
+    })
+    .then(function(data) {
+
+
+      if (data)
+      {
+        console.log("retrieveCustomer data: ", data);
+        console.log("typeof: ", typeof(data));
+
+      }
+      else
+      {
+        console.log("No Data");
+      }
+      
+    
+    }).catch((error) => {
+
+      console.log('error', error);
+
+    });
+
 
 }
 
@@ -2066,25 +2119,40 @@ function getFaunaID ( user_id ) {
       return result.json();
     })
     .then(function(data) {
-      
+
+      var has_account = false;      
+
       if (data)
       {
         console.log("incoming data: ", data);
         console.log("typeof: ", typeof(data));
 
-        
         console.log("data: ", data.data );
         console.log("title: ", data.data.title );
         console.log("key_value: ", data.data.key_value );
+        
+        var key = data.data.key_value;
+
+        if (key.length > 2) {
+          has_account = true;
+          user_stripe_id = key;
+        }
+
       }
       else
       {
         console.log("No Data");
       }
+
+      return has_account;
       
     
     }).catch((error) => {
+
       console.log('error', error);
+
+      return false;
+
     });
 
 
@@ -2122,6 +2190,14 @@ function createFaunaID ( user_id ) {
 
 
 function logoutNetlifyIdentity(user) {
+  user_id = "";
+
+  user_email = "";
+
+  user_stripe_id = "";
+
+  user_full_name = "";
+
   // Unbind from events
   netlifyIdentity.off('login'); // to unbind all registered handlers
   netlifyIdentity.off('login', loginNetlifyIdentity); // to unbind a single handler
