@@ -17,9 +17,9 @@ exports.handler = async (event, context, callback) => {
   
   console.log("type: ", typeof(data) );
   
-  var queryData = data["create"];
+  var queryData = data;
   
-  console.log( "type: ", typeof(queryData), queryData );
+  console.log( "queryData: ", typeof(queryData), queryData );
   
   return client.query(
     q.Create(
