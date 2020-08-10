@@ -11,8 +11,8 @@ const client = new faunadb.Client({
 });
 
 
-/* export our lambda function as named "handler" export */
-exports.handler = (event, context, callback) => {
+
+exports.handler = async (event, context, callback) => { 
   
   /* parse the string body into a useable JS object */
   const data = JSON.parse(event.body);
@@ -43,8 +43,10 @@ exports.handler = (event, context, callback) => {
     statusCode: 200,
     headers: {"Access-Control-Allow-Origin":"*"},
     body: JSON.stringify({
-      rdata: data,
+      clientSecret: paymentIntent.client_secret,
+      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
     }),
+  };
+  
+  
 };
-
-}
