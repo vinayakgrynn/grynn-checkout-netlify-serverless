@@ -2053,6 +2053,8 @@ function loginNetlifyIdentity(user) {
     //var samm = { title : user_id ,  key_value: user_id };
     //createFaunaID(samm);
 
+    console.log("Need to createCustomer.");
+
     createCustomer = true;
 
   }
@@ -2138,7 +2140,12 @@ function getFaunaID ( user_id ) {
         if (key.length > 2) {
           has_account = true;
           user_stripe_id = key;
-          return has_account;
+          
+          retrieveCustomer(user_stripe_id);
+        }
+        else
+        {
+          
         }
 
       }
