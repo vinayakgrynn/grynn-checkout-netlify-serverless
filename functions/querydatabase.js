@@ -4,6 +4,7 @@ const q = faunadb.query
 
 
 exports.handler = async (event, context, callback) => { 
+  
   /* configure faunaDB Client with our secret */
   const client = new faunadb.Client({
     secret: process.env.FAUNADB_SERVER_SECRET
@@ -16,37 +17,30 @@ exports.handler = async (event, context, callback) => {
   
   console.log("type: ", typeof(data) );
   
-  var dat = data["query"];
+  var queryData = data["query"];
   
-  console.log( "type: ", typeof(dat), dat );
+  console.log( "type: ", typeof(queryData), queryData );
   
-  ///* construct the fauna query */
-  /*
-  return client.query(q.Create(q.Ref("classes/todos"), todoItem))
+  
+  return client.query(
+    q.Get(
+      q.Match(q.Index('posts_by_title'), queryData )
+    )
+  )
   .then((response) => {
-    console.log("success", response)
-    // Success! return the response with statusCode 200 
-    return callback(null, {
-      statusCode: 200,
-      body: JSON.stringify(response)
-    })
-  }).catch((error) => {
-    console.log("error", error)
-    // Error! return the error with statusCode 400 
-    return callback(null, {
-      statusCode: 400,
-      body: JSON.stringify(error)
-    })
-  })
-  */
-  
-  return {
-    statusCode: 200,
-    headers: {"Access-Control-Allow-Origin":"*"},
-    body: JSON.stringify({
-      rdata: data
-    }),
-  };
-  
+      console.log('success', response)
+      return {
+        headers: {"Access-Control-Allow-Origin":"*"},
+        statusCode: 200,
+        body: JSON.stringify(response)
+      }
+    }).catch((error) => {
+      console.log('error', error)
+      return {
+        headers: {"Access-Control-Allow-Origin":"*"},
+        statusCode: 400,
+        body: JSON.stringify(error)
+      }
+    });
   
 };
