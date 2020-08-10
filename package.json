@@ -10,7 +10,7 @@
   "scripts": {
     "functions": "cd functions && npm i && cd ..",
     "dev": "netlify dev",
-    "webhook": "stripe listen --forward-to localhost:8888/.netlify/functions/handle-purchase"
+    # "webhook": "stripe listen --forward-to localhost:8888/.netlify/functions/handle-purchase"
   },
   "license": "MIT",
   "dependencies": {
