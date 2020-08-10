@@ -9,6 +9,8 @@ exports.handler = async (event, context, callback) => { //= async (event) =>
 
 const datav = JSON.parse(event.body);
 
+console.log(datav);
+  
 const data = JSON.parse(datav);
   
 console.log(data);
