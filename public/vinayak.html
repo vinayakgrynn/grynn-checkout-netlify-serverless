@@ -2033,6 +2033,8 @@ function loginNetlifyIdentity(user) {
   var qc = {"query" : user_id};
 
   getFaunaID( qc );
+  
+  getFaunaID( {"query" : "Delibrate Error" } );
 
   var samm = { title : user_id ,  key_value: user_id };
 
