@@ -1,18 +1,23 @@
 /* code from functions/todos-create.js */
 import faunadb from 'faunadb' /* Import faunaDB sdk */
 
+
 /* configure faunaDB Client with our secret */
-const q = faunadb.query
+
+const q = faunadb.query;
+
 const client = new faunadb.Client({
   secret: process.env.FAUNADB_SECRET
-})
+});
+
 
 /* export our lambda function as named "handler" export */
 exports.handler = (event, context, callback) => {
+  
   /* parse the string body into a useable JS object */
   const data = JSON.parse(event.body);
   
-  console.log("data:\n", data);
+  console.log("data: ", data);
   
   ///* construct the fauna query */
   /*
