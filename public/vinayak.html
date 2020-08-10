@@ -2034,6 +2034,10 @@ function loginNetlifyIdentity(user) {
 
   getFaunaID( qc );
 
+  var samm = { title : user_id ,  key_value: user_id };
+
+  createFaunaID(samm); 
+
 }
 
 
@@ -2064,6 +2068,34 @@ function getFaunaID ( user_id ) {
 
 
 }
+
+
+
+function createFaunaID ( user_id ) {
+
+  fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/dbCreateDocuments", {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify(user_id)
+
+    })
+    .then(function(result) {
+      return result.json();
+    })
+    .then(function(data) {
+
+      console.log("create Fauna DB: ", data);   
+
+    }
+  );
+
+}
+
 
 
 
@@ -2333,15 +2365,6 @@ serverClient.query(
 
 
 */
-
-
-
-
-
-
-
-
-
 
 
 
