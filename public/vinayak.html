@@ -2030,20 +2030,19 @@ function loginNetlifyIdentity(user) {
 
   console.log( "user_id: user_email", user_id , user_email );
 
-  var qc = {"query" : user_id};
+  //var qc = {"query" : user_id};
 
-  getFaunaID( qc );
+  //getFaunaID( qc );
 
-  //var samm = { title : user_id ,  key_value: user_id };
+  var samm = { title : user_id ,  key_value: user_id };
 
-  //createFaunaID(samm); 
+  createFaunaID(samm); 
 
 }
 
 
 
 function getFaunaID ( user_id ) {
-
 
   fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/querydatabase", {
 
@@ -2065,7 +2064,6 @@ function getFaunaID ( user_id ) {
 
     }
   );
-
 
 }
 
