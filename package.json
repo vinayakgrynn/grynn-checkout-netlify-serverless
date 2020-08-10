@@ -9,13 +9,12 @@
   ],
   "scripts": {
     "functions": "cd functions && npm i && cd ..",
-    "dev": "netlify dev",
-    # "webhook": "stripe listen --forward-to localhost:8888/.netlify/functions/handle-purchase"
+    "dev": "netlify dev"
   },
   "license": "MIT",
   "dependencies": {
     "stripe": "^8.81.0",
-    "faunadb": "^0.2.2",
+    "faunadb": "^0.2.2"
   },
   "description": "Use Stripe Checkout with Netlify Functions to sell your products online.",
   "devDependencies": {},
