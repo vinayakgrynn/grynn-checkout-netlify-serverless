@@ -1,8 +1,5 @@
 /* code from functions/todos-create.js */
-import faunadb from 'faunadb' /* Import faunaDB sdk */
-
-
-/* configure faunaDB Client with our secret */
+import faunadb from 'faunadb';
 
 const q = faunadb.query;
 
