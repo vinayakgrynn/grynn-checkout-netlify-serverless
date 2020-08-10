@@ -69,7 +69,7 @@ const paymentIntent = await stripe.paymentIntents.create({
   
 console.log("paymentIntent: ", paymentIntent );
   
-  
+/*
 const cust = await stripe.customers.create({
   name: address.firstname + " " + address.lastname ,
   phone: address.tel,
@@ -97,7 +97,7 @@ const cust = await stripe.customers.create({
   
 
 console.log("customer: ", cust );
-  
+*/
   
 return {
     statusCode: 200,
