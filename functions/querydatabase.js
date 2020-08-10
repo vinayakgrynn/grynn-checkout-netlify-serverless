@@ -35,40 +35,12 @@ exports.handler = async (event, context, callback) => {
     
       console.log('success', response);
       
-      var dat = JSON.stringify(response);
-    
-      if (dat) {
-        
-        var key = dat.data.key_value;
-        
-        if (key.length > 2) {
-          
-          var user_stripe_id = key;
-          
-          const cust = stripe.customers.retrieve(
-              user_stripe_id , 
-              function(err, customer) {
-              // asynchronously called
-              }
-          );
-          
-          return {
-              statusCode: 200,
-              headers: {"Access-Control-Allow-Origin":"*"},
-              body: JSON.stringify({
-                Customer: cust,
-              }),
-          }; 
-         
-        
+      return {
+        headers: {"Access-Control-Allow-Origin":"*"},
+        statusCode: 200,
+        body: JSON.stringify(response)
       }
-      else{
-        return {
-          headers: {"Access-Control-Allow-Origin":"*"},
-          statusCode: 200,
-          body: JSON.stringify(response)
-        }
-      }
+      
   }).catch((error) => {
       console.log('error', error)
       return {
