@@ -2,6 +2,11 @@
 const faunadb = require('faunadb')
 const q = faunadb.query
 
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2020-03-02',
+  maxNetworkRetries: 2,
+});
+
 
 exports.handler = async (event, context, callback) => { 
   
@@ -27,11 +32,42 @@ exports.handler = async (event, context, callback) => {
     )
   )
   .then((response) => {
-      console.log('success', response)
-      return {
-        headers: {"Access-Control-Allow-Origin":"*"},
-        statusCode: 200,
-        body: JSON.stringify(response)
+    
+      console.log('success', response);
+      
+      var dat = JSON.stringify(response);
+    
+      if (dat) {
+        
+        var key = dat.data.key_value;
+        
+        if (key.length > 2) {
+          
+          var user_stripe_id = key;
+          
+          const cust = await stripe.customers.retrieve(
+              user_stripe_id , 
+              function(err, customer) {
+              // asynchronously called
+              }
+          );
+          
+          return {
+              statusCode: 200,
+              headers: {"Access-Control-Allow-Origin":"*"},
+              body: JSON.stringify({
+                Customer: cust,
+              }),
+          }; 
+         
+        
+      }
+      else{
+        return {
+          headers: {"Access-Control-Allow-Origin":"*"},
+          statusCode: 200,
+          body: JSON.stringify(response)
+        }
       }
   }).catch((error) => {
       console.log('error', error)
