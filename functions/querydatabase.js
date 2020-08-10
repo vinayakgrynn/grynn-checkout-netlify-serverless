@@ -45,7 +45,7 @@ exports.handler = async (event, context, callback) => {
           
           var user_stripe_id = key;
           
-          const cust = await stripe.customers.retrieve(
+          const cust = stripe.customers.retrieve(
               user_stripe_id , 
               function(err, customer) {
               // asynchronously called
