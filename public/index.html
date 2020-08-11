@@ -1684,14 +1684,16 @@ function checkRelevance(){
     $(".signin-holder").show();
     $('.vPrevious').show();
 
+
     statusNetlify = $('#cart').is(':visible');
 
     console.log( "userloggedin : statusNetlify", userloggedin, statusNetlify );
 
-    if(userloggedin && statusNetlify)
+    if(user_id.length > 1 && statusNetlify)
     {
       vNextState();
     }
+
 
   }
 
@@ -2083,8 +2085,6 @@ function loginNetlifyIdentity(user) {
 
   userloggedin = true;
 
-  checkRelevance();
-
   netlifyIdentity.refresh().then((jwt)=>console.log(jwt));
 
   const vv = netlifyIdentity.currentUser();
@@ -2316,7 +2316,6 @@ function logoutNetlifyIdentity(user) {
 
 
 
-
 var statusNetlify = false;
 
 
@@ -2332,26 +2331,25 @@ function netlifyIdentityWidgetopened() {
 
 
 
+
 function netlifyIdentityWidgetclosed() {
 
-  if (statusNetlify){
+  if (statusNetlify)
+  {
     $('#cart').modal('show');
+
     statusNetlify = false;
+
+    checkRelevance();
+
   }
 
-  
 }
 
 
 
 
-
-
-
-
 try {
-
-
 
   // netlifyIdentity.open();
 
