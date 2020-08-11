@@ -1688,7 +1688,8 @@ function checkRelevance(){
 
     console.log( "userloggedin : statusNetlify", userloggedin, statusNetlify );
 
-    if(userloggedin && statusNetlify){
+    if(userloggedin)// && statusNetlify)
+    {
       vNextState();
     }
 
@@ -2314,7 +2315,10 @@ function logoutNetlifyIdentity(user) {
 
 
 
+
+
 var statusNetlify = false;
+
 
 function netlifyIdentityWidgetopened() {
 
