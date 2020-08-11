@@ -1643,10 +1643,11 @@ function checkRelevance(){
     $(".signin-holder").show();
     $('.vPrevious').show();
 
+    console.log( "userloggedin : statusNetlify", userloggedin, statusNetlify );
+
     if(userloggedin && statusNetlify){
       vNextState();
     }
-
 
   }
 
