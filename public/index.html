@@ -1685,11 +1685,11 @@ function checkRelevance(){
     $('.vPrevious').show();
 
 
-    statusNetlify = $('#cart').is(':visible');
+    statusN = $('#cart').is(':visible');
 
-    console.log( "userloggedin : statusNetlify", userloggedin, statusNetlify );
+    console.log( "userloggedin : statusN", userloggedin, statusN );
 
-    if(user_id.length > 1 && statusNetlify)
+    if(user_id.length > 1 && statusN)
     {
       vNextState();
     }
@@ -2337,6 +2337,10 @@ function netlifyIdentityWidgetclosed() {
     $('#cart').modal('show');
 
     statusNetlify = false;
+
+    if (state === 1){
+      state += 1;
+    }
 
     checkRelevance();
 
