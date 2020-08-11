@@ -1723,6 +1723,12 @@ function vGuestLogin () {
 }
 
 
+function vNextState() {
+  state += 1;
+  checkRelevance();
+}
+
+
 function vPrevious(){
   event.preventDefault();
   state -= 1;
@@ -2188,7 +2194,7 @@ function getFaunaID ( user_id ) {
           else
           {
             createCustomer = true;
-            vGuestLogin();
+            vNextState();
             console.log("createCustomer = true");
           }
 
@@ -2196,7 +2202,7 @@ function getFaunaID ( user_id ) {
         else
         {
             createCustomer = true;
-            vGuestLogin();
+            vNextState();
             console.log("createCustomer = true");
         }
     
