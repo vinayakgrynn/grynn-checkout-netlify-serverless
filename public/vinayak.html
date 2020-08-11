@@ -2143,9 +2143,11 @@ function createCustomerStripe ( ) {
 
       console.log("typeof: ", typeof(data));
 
-      user_stripe_id = data.id;
+      user_stripe_id = data.Customer.id;
 
       var dat = { title : user_id ,  key_value: user_stripe_id } ;
+
+      console.log('Creating FaunaID: ', dat);
 
       createFaunaID(dat);
 
