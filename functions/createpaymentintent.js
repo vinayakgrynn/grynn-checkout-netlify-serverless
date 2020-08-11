@@ -16,6 +16,7 @@ console.log(data);
   
 const address = data[0];
 const cart = data[1];
+const customerID = data[2];
 const len = cart.length;
 
 console.log("\nJSON:\n", typeof(address), address["firstname"] , address.firstname);
@@ -45,10 +46,9 @@ console.log("totalCount,  totalCart: ", totalCount, totalCart);
 ///////////////////////////
 //////////////////////////
 /////////////////////////
-
 const paymentIntent = await stripe.paymentIntents.create({
     description: 'Software development services',
-    customer: address.customerID ,
+    customer: customerID.customerID ,
     shipping: {
       name: address.firstname + " " + address.lastname ,
       phone: address.tel,
