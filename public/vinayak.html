@@ -1581,6 +1581,8 @@ function save_address(){
   key["billcountry"] = cc.value;
 
   cs = document.getElementById("shipcountry");
+
+  //var key = {};
   key["shipcountry"] = cs.value;
   
 
@@ -1592,6 +1594,44 @@ function save_address(){
   
   sessionStorage.setItem('address', JSON.stringify(address));
   
+
+}
+
+
+function stripeAddress( customer )
+{
+  var addr = get_address();
+
+  //var key = {};
+  //key["shipcountry"] = cs.value;
+  //address.push(key);
+  //console.log("Obj key: ", key);
+  //console.log("Save address:", address);
+
+  
+  var address = {};
+
+  address.firstname = customer.name.split(" ")[0];
+  address.lastname = customer.name.split(" ")[1];
+  address.email = customer.email;
+  address.tel = customer.phone;
+  address.billaddress = customer.address.line1;
+  address.billaddress2 = customer.address.line2;
+  address.billcity = customer.address.city;
+  address.billpostcode = customer.address.postal_code;
+  address.billcountry = customer.address.country;
+
+  address.shipaddress = customer.shipping.address.line1;
+  address.shipaddress2 = customer.shipping.address.line2;
+  address.shipcity = customer.shipping.address.city;
+  address.shippostcode = customer.shipping.address.postal_code;
+  address.shipcountry = customer.shipping.address.country;
+
+
+  addr.push(address);
+
+  sessionStorage.setItem( 'address' , JSON.stringify(addr) );
+
 
 }
 
@@ -2089,6 +2129,8 @@ function retrieveCustomer ( customerID ) {
       console.log("retrieveCustomer data: ", data);
 
       console.log("typeof: ", typeof(data));
+
+      stripeAddress( data.Customer );  /// Retrieve Address
       
     }).catch((error) => {
 
