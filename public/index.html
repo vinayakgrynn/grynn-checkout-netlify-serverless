@@ -1713,12 +1713,23 @@ function checkRelevance(){
     $('.vPrevious').show();
     $('.next-address').show();
 
-    if(createCustomer){
-      // Create Stripe Customer With address and Add it to FaunnaDB
+
+    if(createCustomer)
+    {
+
+      /// Create Stripe Customer With address and Add it to FaunnaDB
+
       console.log("creating new Customer in Stripe");
       
       createCustomerStripe();
       
+    }
+    else
+    {
+
+       /// Update existing Customer ///
+       updateCustomerStripe();
+
     }
 
   }
@@ -2142,6 +2153,86 @@ function retrieveCustomer ( customerID ) {
     });
 
 }
+
+
+
+//////////////////
+/////////////////
+////////////////
+///////////////
+
+
+function updateCustomerStripe ( ) {
+
+
+  var cartArray = shoppingCart.listCart();
+
+  var purchase = JSON.stringify(cartArray);
+
+  var address = get_address();
+
+  var data = []
+
+  data.push(address);
+
+  data.push(cartArray);
+
+  data.push({ "customerID" : user_stripe_id });
+
+  var resData = JSON.stringify(data);
+
+  console.log("resData...", resData);
+  
+  
+  fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/updateCustomer", 
+  {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify(resData)
+
+    })
+
+    .then(function(result) {
+
+      return result.json();
+
+    })
+
+    .then(function(data) {
+
+      console.log("createCustomerStripe data: ", data);
+
+      console.log("typeof: ", typeof(data));
+
+      user_stripe_id = data.Customer.id;
+
+      var dat = { title : user_id ,  key_value: user_stripe_id } ;
+
+      console.log('Creating FaunaID: ', dat);
+
+      createFaunaID(dat);
+
+    
+    }).catch((error) => {
+
+      console.log('error', error);
+
+    });
+
+  }
+
+
+
+//////////////////
+/////////////////
+////////////////
+///////////////
+
 
 
 
