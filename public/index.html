@@ -1686,19 +1686,6 @@ function checkRelevance(){
     $(".signin-holder").show();
     $('.vPrevious').show();
 
-
-    statusN = $('#cart').is(':visible');
-
-    console.log( "userloggedin : statusN", userloggedin, statusN );
-
-
-    if(user_id.length > 1)
-    {
-      //vNextState();
-      $('.next-address').show();
-    }
-
-
   }
 
   if (state === 2){
@@ -1772,8 +1759,18 @@ $( document ).ready(function() {
 
 $('.next-address').click(function (event) {
   event.preventDefault();
-  state += 1;
+
+  /// Skip State 1 when user is loggedin
+  if (isUserloggedIn() && state === 0){
+    state += 2;
+  }
+  else
+  {
+    state += 1;
+  }
+  
   checkRelevance();
+
 });
 
 
@@ -1781,7 +1778,6 @@ function vGuestLogin () {
   event.preventDefault();
   state += 1;
   checkRelevance();
-  //closeCart();
 }
 
 
@@ -1793,8 +1789,18 @@ function vNextState() {
 
 function vPrevious(){
   event.preventDefault();
-  state -= 1;
+
+  /// Skip State 1 when user is loggedin
+  if (isUserloggedIn() && state === 2){
+    state -= 2;
+  }
+  else
+  {
+    state -= 1;
+  }
+
   checkRelevance();
+
 }
 
 
@@ -1859,6 +1865,10 @@ function closeCart(){
 }
 
 
+function isUserloggedIn(){
+  return user_id.length > 1;
+}
+
 
 function LoadPayment(){
 
@@ -1903,7 +1913,11 @@ console.log("resData...", resData);
 document.querySelector(".stripe-button").disabled = true;
 
 
-fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
+
+if (isUserloggedIn())
+{
+
+  fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/createpaymentintent", {
 
   method: "POST",
 
@@ -1913,7 +1927,71 @@ fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
 
   body: JSON.stringify(resData)
 
-})
+  })
+  .then(function(result) {
+    //console.log(result.json());
+    return result.json();
+  })
+  .then(function(data) {
+
+    console.log(data);    
+
+    var elements = stripe.elements();
+
+    var style = {
+      base: {
+        color: "#32325d",
+        fontFamily: 'Arial, sans-serif',
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          color: "#32325d"
+        }
+      },
+      invalid: {
+        fontFamily: 'Arial, sans-serif',
+        color: "#fa755a",
+        iconColor: "#fa755a"
+      }
+    };
+
+    var card = elements.create("card", { style: style });
+    // Stripe injects an iframe into the DOM
+    card.mount("#card-element");
+
+    card.on("change", function (event) {
+      // Disable the Pay button if there are no card details in the Element
+      document.querySelector(".stripe-button").disabled = event.empty; 
+      document.querySelector("#payment-form-card-error").textContent = event.error ? event.error.message : "";
+    });
+
+    var form = document.getElementById("payment-form");
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+      // Complete payment when the submit button is clicked
+      payWithCard(stripe, card, data.clientSecret);
+    });
+  });
+  
+
+
+
+}
+else
+{
+
+
+  fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
+
+  method: "POST",
+
+  headers: {
+    "Content-Type": "application/json"
+  },
+
+  body: JSON.stringify(resData)
+
+  })
   .then(function(result) {
     //console.log(result.json());
     return result.json();
@@ -1959,6 +2037,7 @@ fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
     });
   });
 
+}
 
 
 // Calls stripe.confirmCardPayment
@@ -1987,6 +2066,7 @@ var payWithCard = function(stripe, card, clientSecret) {
       }
     });
 };
+
 
 
 
@@ -2433,9 +2513,9 @@ function netlifyIdentityWidgetclosed() {
 
     statusNetlify = false;
 
-    //if (state === 1){
-      //vNextState();
-    //}
+    if (state === 1){
+      vNextState();
+    }
 
   }
 
