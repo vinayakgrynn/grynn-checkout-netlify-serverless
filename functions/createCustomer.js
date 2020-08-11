@@ -7,16 +7,16 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 
 exports.handler = async (event, context, callback) => { //= async (event) =>
 
-const datav = JSON.parse(event.body);
+const data = JSON.parse(event.body);
 
-console.log(datav);
-  
-const data = JSON.parse(datav);
-  
 console.log(data);
+  
+//const data = JSON.parse(datav);
+//console.log(data);
   
 const address = data[0];
 
+console.log(address);
 
 const cust = await stripe.customers.create({
   name: address.firstname + " " + address.lastname ,
