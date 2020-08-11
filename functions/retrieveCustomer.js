@@ -7,25 +7,22 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 
 exports.handler = async (event, context, callback) => { 
 
-const datav = JSON.parse(event.body);
+  const data = JSON.parse(event.body);
 
-console.log(datav);
-  
-//const data = JSON.parse(datav);
-  
-//console.log(data);
-  
-//const address = data[0];
-/*
+  console.log(data);
+ 
+  const customerID = data;
+
   const cust = await stripe.customers.retrieve(
-    address.customerID , 
+    customerID , 
     function(err, customer) {
       // asynchronously called
     }
   );
 
-
+  
   console.log("customer: ", cust ); 
+  
   
   return {
     statusCode: 200,
@@ -35,6 +32,5 @@ console.log(datav);
       Customer: cust,
     }),
   };
-*/
   
 };
