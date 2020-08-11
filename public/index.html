@@ -1688,7 +1688,7 @@ function checkRelevance(){
 
     console.log( "userloggedin : statusNetlify", userloggedin, statusNetlify );
 
-    if(userloggedin)// && statusNetlify)
+    if(userloggedin && statusNetlify)
     {
       vNextState();
     }
@@ -2083,6 +2083,8 @@ function loginNetlifyIdentity(user) {
 
   userloggedin = true;
 
+  checkRelevance();
+
   netlifyIdentity.refresh().then((jwt)=>console.log(jwt));
 
   const vv = netlifyIdentity.currentUser();
@@ -2234,7 +2236,6 @@ function getFaunaID ( user_id ) {
 
             console.log(" data.data in data === true - All Good!!! ");
             createCustomer = true;
-            checkRelevance();
             console.log("createCustomer = true");
 
           }
@@ -2251,7 +2252,6 @@ function getFaunaID ( user_id ) {
         else
         {
             createCustomer = true;
-            checkRelevance();
             console.log(" data.data in data === false ");
             console.log("createCustomer = true");
         }
