@@ -2172,7 +2172,7 @@ function getFaunaID ( user_id ) {
         console.log("typeof: ", typeof(data));
         
         
-        if ( data.data.key_value === 'undefined' || data.data.key_value === "" || data.data.key_value === undefined )
+        if ( data.data in data )// && data.data === 'undefined' || data.data === "" || data.data === undefined )
         {
           
           console.log("data: ", data.data );
@@ -2524,6 +2524,7 @@ catch(err) {
 
 
 </body>
+
 
 
 </html>
