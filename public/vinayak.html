@@ -1637,9 +1637,17 @@ function checkRelevance(){
   }
 
   if (state === 1){
+    /// Login FORM ///
+
     hideAllForms();
     $(".signin-holder").show();
     $('.vPrevious').show();
+
+    if(userloggedin){
+      vGuestLogin();
+    }
+
+
   }
 
   if (state === 2){
@@ -2017,9 +2025,12 @@ var user_stripe_id = "";
 var user_full_name = "";
 var createCustomer = false;
 var payasguest = true;
+var userloggedin = false;
 
 
 function loginNetlifyIdentity(user) {
+
+  userloggedin = true;
 
   netlifyIdentity.refresh().then((jwt)=>console.log(jwt));
 
@@ -2038,6 +2049,8 @@ function loginNetlifyIdentity(user) {
 
   // Check Netlify ID on Faunna DB
   var qc = {"query" : user_id};
+
+  console.log( "getFaunaID started" );
 
   getFaunaID( qc );
 
@@ -2109,11 +2122,12 @@ function createCustomerStripe ( ) {
     })
 
     .then(function(result) {
+
       return result.json();
+
     })
 
     .then(function(data) {
-
 
       console.log("createCustomerStripe data: ", data);
 
@@ -2138,7 +2152,6 @@ function createCustomerStripe ( ) {
 
 function getFaunaID ( user_id ) {
 
-
   fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/querydatabase", {
 
     method: "POST",
@@ -2154,24 +2167,21 @@ function getFaunaID ( user_id ) {
       return result.json();
     })
     .then(function(data) {
-
-
+     
         console.log("incoming data: ", data);
         console.log("typeof: ", typeof(data));
 
-        console.log("data: ", data.data );
-        console.log("title: ", data.data.title );
-        console.log("key_value: ", data.data.key_value );
-        
         if (data.data.key_value){
+
+          console.log("data: ", data.data );
+          console.log("title: ", data.data.title );
+          console.log("key_value: ", data.data.key_value );
 
           var key = data.data.key_value;
 
           if (key.length > 2) {
-
             user_stripe_id = key;
             retrieveCustomer("cus_Ho7ONViaXcFXOy"); //(user_stripe_id);
-
           }
           else
           {
@@ -2180,10 +2190,12 @@ function getFaunaID ( user_id ) {
           }
 
         }
+        else
+        {
+            createCustomer = true;
+            vGuestLogin();
 
-      
-
-      
+        }
     
     }).catch((error) => {
 
@@ -2191,8 +2203,8 @@ function getFaunaID ( user_id ) {
 
     });
 
-
 }
+
 
 
 
@@ -2226,6 +2238,9 @@ function createFaunaID ( user_id ) {
 
 
 function logoutNetlifyIdentity(user) {
+
+  userloggedin = false;
+
   user_id = "";
 
   user_email = "";
@@ -2430,9 +2445,6 @@ serverClient.query(
 
 
 
-
-
-
 serverClient.query(
   q.Create(
     q.Collection('grynntable'),
@@ -2449,11 +2461,6 @@ serverClient.query(
   )
 )
 .then((ret) => console.log(ret))
-
-
-
-
-
 
 
 
