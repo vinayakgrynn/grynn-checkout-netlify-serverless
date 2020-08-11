@@ -32,7 +32,7 @@ var totalCart = 0.0;
   
 const cust = await stripe.customers.update(
   
-  customerID ,
+  customerID.customerID ,
   
   {
     
