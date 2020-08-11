@@ -2086,20 +2086,11 @@ function retrieveCustomer ( customerID ) {
       return result.json();
     })
     .then(function(data) {
-
-
-      if (data)
-      {
-        console.log("retrieveCustomer data: ", data);
-        console.log("typeof: ", typeof(data));
-
-      }
-      else
-      {
-        console.log("No Data");
-      }
       
-    
+      console.log("retrieveCustomer data: ", data);
+
+      console.log("typeof: ", typeof(data));
+      
     }).catch((error) => {
 
       console.log('error', error);
@@ -2184,7 +2175,7 @@ function getFaunaID ( user_id ) {
         console.log("typeof: ", typeof(data));
         
         
-        if ( data.data in data )// && data.data === 'undefined' || data.data === "" || data.data === undefined )
+        if ( data.data in data )
         {
           
           console.log("data: ", data.data );
@@ -2193,15 +2184,22 @@ function getFaunaID ( user_id ) {
           
           var key = data.data.key_value;
 
-          if (key.length > 2) {
-            user_stripe_id = key;
-            retrieveCustomer("cus_Ho7ONViaXcFXOy"); //(user_stripe_id);
-          }
-          else
+          if (key === 'undefined' || key === "" || key === undefined)
           {
+
+            console.log(" data.data in data === true - All Good!!! ");
             createCustomer = true;
             checkRelevance();
             console.log("createCustomer = true");
+
+          }
+          else
+          {
+            console.log(" data.data in data === true but key === undefined ");
+            user_stripe_id = key;
+            console.log("retrieveCustomer: ", user_stripe_id);
+            retrieveCustomer(user_stripe_id);
+            createCustomer = false;
           }
 
         }
@@ -2209,6 +2207,7 @@ function getFaunaID ( user_id ) {
         {
             createCustomer = true;
             checkRelevance();
+            console.log(" data.data in data === false ");
             console.log("createCustomer = true");
         }
     
