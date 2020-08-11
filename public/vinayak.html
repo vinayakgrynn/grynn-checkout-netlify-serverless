@@ -1925,7 +1925,7 @@ var payWithCard = function(stripe, card, clientSecret) {
         console.log("The payment succeeded! \n", result);
         closeCart();
         DisplayPaymentResult( result.paymentIntent.id, false);
-        orderComplete(result.paymentIntent.id, false);
+        //orderComplete(result.paymentIntent.id, false);
       }
     });
 };
@@ -2068,7 +2068,6 @@ function loginNetlifyIdentity(user) {
 
 
 
-
 function retrieveCustomer ( customerID ) {
 
   fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/retrieveCustomer", {
@@ -2173,7 +2172,7 @@ function getFaunaID ( user_id ) {
         
         console.log("incoming data: ", data);
         console.log("typeof: ", typeof(data));
-        
+        console.log("data.data: ", data.data );
         
         if ( data.data in data )
         {
