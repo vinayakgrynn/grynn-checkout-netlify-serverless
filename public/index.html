@@ -366,13 +366,21 @@ input {
 
 
 
-<div class=" h-100 d-flex justify-content-center align-items-center">
 
 <div class="summary-holder">
 
-<p class="text-left">Address and Items Summary</p>
+  <table class="table summary-holder-show-cart table-striped"></table>
 
-</div>
+<hr>
+  <div class="">Total Price: $<span class="summary-holder-total-cart"></span></div>
+<hr>
+<br>
+
+  <table class="table summary-holder-user-details table-striped"></table>
+
+<br>
+
+  <table class="table summary-holder-show-address table-striped"></table>
 
 </div>
 
@@ -382,6 +390,7 @@ input {
 
 
 <div class="form-holder"></div>
+
 
 <table class="show-cart table vCart"></table>
 
@@ -636,6 +645,122 @@ $('.clear-cart').click(function () {
   displayCart();
   closeCart();
 });
+
+
+
+
+function displaySummary() {
+
+  var cartArray = shoppingCart.listCart();
+  var output = "";
+
+
+  //// Table Headers ////
+  output += "<thead><tr>" +
+    "<th> Product </th>" +
+    "<th> Price </th>" +
+    "<th>  Quantity </th>" +
+    "<th> Total </th>" +
+    "</tr></thead>";
+
+
+  output += "<tbody>";
+
+  for (var i in cartArray) {
+    output += "<tr>" +
+    "<td>" + cartArray[i].name + "</td>" +
+    "<td>" + cartArray[i].price + "</td>" +
+    "<td>" + cartArray[i].count + "</td>" +
+    "<td>" + cartArray[i].total + "</td>" +
+    "</tr>";
+  }
+
+  output += "</tbody>";
+
+  $('.summary-holder-show-cart').html(output);
+  $('.summary-holder-total-cart').html(shoppingCart.totalCart());
+
+
+
+  /// Address ///
+
+  var address = get_address();
+
+  var usersummary = "";
+
+usersummary += "<thead><tr>" +
+    "<th> Labels </th>" +
+    "<th> User Details </th>" +
+    "</tr></thead>";
+
+usersummary += "<tbody>";
+
+usersummary += "<tr>" +
+    "<td> First Name: </td>"  +
+    "<td>" + address.firstname + "</td>"  +
+    "</tr>";
+
+usersummary += "<tr>" +
+    "<td> Last Name: </td>"  +
+    "<td>" + address.lastname + "</td>"  +
+    "</tr>";
+
+usersummary += "<tr>" +
+    "<td> Email: </td>"  +
+    "<td>" + address.email + "</td>"  +
+    "</tr>";
+
+usersummary += "<tr>" +
+    "<td> Phone: </td>"  +
+    "<td>" + address.tel + "</td>"  +
+    "</tr>";
+
+  usersummary += "</tbody>";
+
+
+  $('.summary-holder-user-details').html(usersummary);
+
+
+  var output = "";
+
+  //// Table Headers ////
+
+  output += "<thead><tr>" +
+    "<th> Billing Address  </th>" +
+    "<th> Shipping Address </th>" +
+    "</tr></thead>";
+
+
+  output += "<tbody>";
+
+  output += "<tr>" +
+    "<td>" + address.billaddress + "</td>"  +
+    "<td>" + address.shipaddress + "</td>"  +
+    "</tr>";
+
+  output += "<tr>" +
+    "<td>" + address.billaddress2 + "</td>"  +
+    "<td>" + address.shipaddress2 + "</td>"  +
+    "</tr>";
+
+  output += "<tr>" +
+    "<td>" + address.billcity + " " +  address.billpostcode + "</td>"  +
+    "<td>" + address.shipcity + " " +  address.shippostcode + "</td>"  +
+    "</tr>";
+
+  output += "<tr>" +
+    "<td>" + address.billcountry + "</td>"  +
+    "<td>" + address.shipcountry + "</td>"  +
+    "</tr>";
+
+  output += "</tbody>";
+
+
+  $('.summary-holder-show-address').html(output);
+
+
+}
+
 
 
 
@@ -1703,7 +1828,7 @@ function checkRelevance(){
     $(".summary-holder").show();
     $('.vPrevious').show();
     $('.next-address').show();
-
+    displaySummary();
 
     if(createCustomer)
     {
@@ -2572,6 +2697,187 @@ catch(err) {
 
 
 
+
+
+
+
+
+////// Stripe Query
+
+// https://api.stripe.com/v1/search?query=vinayak.patel@grynn.in&prefix=false
+/*
+
+fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/queryStripe", {
+
+  method: "POST",
+
+  headers: {
+    "Content-Type": "application/json"
+  },
+
+  body: JSON.stringify("")
+
+})
+  .then(function(result) {
+    return result.json();
+  })
+  .then(function(data) {
+
+    console.log("Query: ", data);   
+
+  }
+);
+
+*/
+
+
+
+
+
+
+
+try {
+
+
+
+///// Fauna DB /////
+
+
+//q = faunadb.query;
+
+
+//var serverClient = new faunadb.Client({ secret: '' });
+
+
+/*
+
+
+serverClient.query(
+  faunadb.query.Create(
+    faunadb.query.Collection('grynntable'),
+    { data: { title: 'What I had for breakfast ..' } },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Get(
+    q.Match(q.Index('posts_by_title'), 'What I had for breakfast ..')
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Update(
+    q.Ref(q.Collection('grynntable'), '273181600287556102'),
+    { data: { title: 'Vinayak is the best programmer...' } },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Get(q.Ref(q.Collection('grynntable'), '273181600287556102'))
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.CreateIndex({
+    name: 'posts_by_title',
+    source: q.Collection('grynntable'),
+    terms: [{ field: ['data', 'title'] }],
+  })
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Create(
+    q.Collection('grynntable'),
+    { data: { title: 'What I had for breakfast ..' } },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Create(
+    q.Collection('grynntable'),
+    { data: { title : '123456789' ,  key_value: 'some value is 123456789'} },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+serverClient.query(
+  q.Get(
+    q.Match(q.Index('posts_by_title'), '123456789')
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+
+serverClient.query(
+  q.Create(
+    q.Collection('grynntable'),
+    { data: { title : 'netlify_ID deepak grynn' ,  key_value: 'stripe_ID deepak strip 12356790'} },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+
+
+serverClient.query(
+  q.Get(
+    q.Match(q.Index('posts_by_title'), 'vinayak')
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+
+serverClient.query(
+  q.Create(
+    q.Collection('grynntable'),
+    { data: { title : '123456789' ,  key_value: 'some value is 123456789'} },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+serverClient.query(
+  q.Get(
+    q.Match(q.Index('posts_by_title'), '123456789')
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
+*/
+
+
+
+}
+catch(err) {
+  console.log("Some Error")
+  console.log(err)
+}
 
 
 </script>
