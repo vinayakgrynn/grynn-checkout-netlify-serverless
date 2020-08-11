@@ -2299,13 +2299,11 @@ function createFaunaID ( user_id ) {
 function logoutNetlifyIdentity(user) {
 
   userloggedin = false;
-
+  payasguest = true;
+  createCustomer = false;
   user_id = "";
-
   user_email = "";
-
   user_stripe_id = "";
-
   user_full_name = "";
 
   // Unbind from events
