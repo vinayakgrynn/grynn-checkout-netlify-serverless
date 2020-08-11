@@ -1781,6 +1781,11 @@ function vGuestLogin () {
 }
 
 
+function vPreviousState() {
+  state -= 1;
+  checkRelevance();
+}
+
 function vNextState() {
   state += 1;
   checkRelevance();
@@ -1789,7 +1794,6 @@ function vNextState() {
 
 function vPrevious(){
   event.preventDefault();
-
   /// Skip State 1 when user is loggedin
   if (isUserloggedIn() && state === 2){
     state -= 2;
@@ -2514,7 +2518,7 @@ function netlifyIdentityWidgetclosed() {
     statusNetlify = false;
 
     if (state === 1){
-      vNextState();
+      vPreviousState();
     }
 
   }
@@ -2568,187 +2572,6 @@ catch(err) {
 
 
 
-
-
-
-
-
-////// Stripe Query
-
-// https://api.stripe.com/v1/search?query=vinayak.patel@grynn.in&prefix=false
-/*
-
-fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/queryStripe", {
-
-  method: "POST",
-
-  headers: {
-    "Content-Type": "application/json"
-  },
-
-  body: JSON.stringify("")
-
-})
-  .then(function(result) {
-    return result.json();
-  })
-  .then(function(data) {
-
-    console.log("Query: ", data);   
-
-  }
-);
-
-*/
-
-
-
-
-
-
-
-try {
-
-
-
-///// Fauna DB /////
-
-
-//q = faunadb.query;
-
-
-//var serverClient = new faunadb.Client({ secret: '' });
-
-
-/*
-
-
-serverClient.query(
-  faunadb.query.Create(
-    faunadb.query.Collection('grynntable'),
-    { data: { title: 'What I had for breakfast ..' } },
-  )
-)
-.then((ret) => console.log(ret))
-
-
-
-serverClient.query(
-  q.Get(
-    q.Match(q.Index('posts_by_title'), 'What I had for breakfast ..')
-  )
-)
-.then((ret) => console.log(ret))
-
-
-
-serverClient.query(
-  q.Update(
-    q.Ref(q.Collection('grynntable'), '273181600287556102'),
-    { data: { title: 'Vinayak is the best programmer...' } },
-  )
-)
-.then((ret) => console.log(ret))
-
-
-
-serverClient.query(
-  q.Get(q.Ref(q.Collection('grynntable'), '273181600287556102'))
-)
-.then((ret) => console.log(ret))
-
-
-
-serverClient.query(
-  q.CreateIndex({
-    name: 'posts_by_title',
-    source: q.Collection('grynntable'),
-    terms: [{ field: ['data', 'title'] }],
-  })
-)
-.then((ret) => console.log(ret))
-
-
-
-serverClient.query(
-  q.Create(
-    q.Collection('grynntable'),
-    { data: { title: 'What I had for breakfast ..' } },
-  )
-)
-.then((ret) => console.log(ret))
-
-
-
-serverClient.query(
-  q.Create(
-    q.Collection('grynntable'),
-    { data: { title : '123456789' ,  key_value: 'some value is 123456789'} },
-  )
-)
-.then((ret) => console.log(ret))
-
-
-
-serverClient.query(
-  q.Get(
-    q.Match(q.Index('posts_by_title'), '123456789')
-  )
-)
-.then((ret) => console.log(ret))
-
-
-
-
-serverClient.query(
-  q.Create(
-    q.Collection('grynntable'),
-    { data: { title : 'netlify_ID deepak grynn' ,  key_value: 'stripe_ID deepak strip 12356790'} },
-  )
-)
-.then((ret) => console.log(ret))
-
-
-
-
-
-serverClient.query(
-  q.Get(
-    q.Match(q.Index('posts_by_title'), 'vinayak')
-  )
-)
-.then((ret) => console.log(ret))
-
-
-
-
-serverClient.query(
-  q.Create(
-    q.Collection('grynntable'),
-    { data: { title : '123456789' ,  key_value: 'some value is 123456789'} },
-  )
-)
-.then((ret) => console.log(ret))
-
-
-serverClient.query(
-  q.Get(
-    q.Match(q.Index('posts_by_title'), '123456789')
-  )
-)
-.then((ret) => console.log(ret))
-
-
-
-*/
-
-
-
-}
-catch(err) {
-  console.log("Some Error")
-  console.log(err)
-}
 
 
 </script>
