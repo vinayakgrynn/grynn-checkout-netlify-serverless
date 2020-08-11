@@ -2167,16 +2167,18 @@ function getFaunaID ( user_id ) {
       return result.json();
     })
     .then(function(data) {
-     
+        
         console.log("incoming data: ", data);
         console.log("typeof: ", typeof(data));
-
-        if (data.data.key_value in data){
-
+        
+        
+        if ( data.data.key_value === 'undefined' || data.data.key_value === "" || data.data.key_value === undefined )
+        {
+          
           console.log("data: ", data.data );
           console.log("title: ", data.data.title );
           console.log("key_value: ", data.data.key_value );
-
+          
           var key = data.data.key_value;
 
           if (key.length > 2) {
