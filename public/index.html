@@ -367,7 +367,13 @@ input {
 
 
 <div class=" h-100 d-flex justify-content-center align-items-center">
-<div class="checkout-summary"></div>
+
+<div class="summary-holder">
+
+<p class="text-left">Address and Items Summary</p>
+
+</div>
+
 </div>
 
 
@@ -628,6 +634,7 @@ $('.add-to-cart').click(function (event) {
 $('.clear-cart').click(function () {
   shoppingCart.clearCart();
   displayCart();
+  closeCart();
 });
 
 
@@ -1432,9 +1439,9 @@ function validateForm() {
   {
     save_address();
     hideAllForms();
-    $('.payment-holder').show();
-    $('.vPrevious').show();
-    displayPayment();
+    //$('.payment-holder').show();
+    //$('.vPrevious').show();
+    //displayPayment();
 
     state += 1;
     checkRelevance();
@@ -1574,6 +1581,8 @@ function save_address(){
   key["billcountry"] = cc.value;
 
   cs = document.getElementById("shipcountry");
+
+  //var key = {};
   key["shipcountry"] = cs.value;
   
 
@@ -1589,6 +1598,44 @@ function save_address(){
 }
 
 
+function stripeAddress( customer )
+{
+  var addr = get_address();
+
+  //var key = {};
+  //key["shipcountry"] = cs.value;
+  //address.push(key);
+  //console.log("Obj key: ", key);
+  //console.log("Save address:", address);
+
+  
+  var address = {};
+
+  address.firstname = customer.name.split(" ")[0];
+  address.lastname = customer.name.split(" ")[1];
+  address.email = customer.email;
+  address.tel = customer.phone;
+  address.billaddress = customer.address.line1;
+  address.billaddress2 = customer.address.line2;
+  address.billcity = customer.address.city;
+  address.billpostcode = customer.address.postal_code;
+  address.billcountry = customer.address.country;
+
+  address.shipaddress = customer.shipping.address.line1;
+  address.shipaddress2 = customer.shipping.address.line2;
+  address.shipcity = customer.shipping.address.city;
+  address.shippostcode = customer.shipping.address.postal_code;
+  address.shipcountry = customer.shipping.address.country;
+
+
+  addr.push(address);
+
+  sessionStorage.setItem( 'address' , JSON.stringify(addr) );
+
+
+}
+
+
 
 
 function hideAllForms(){
@@ -1598,7 +1645,7 @@ function hideAllForms(){
   $('.vPrevious').hide();
   $('.next-address').hide();
   $(".signin-holder").hide();
-  //$(".vGuestLogin").hide();
+  $(".summary-holder").hide();
 }
 
 
@@ -1630,9 +1677,21 @@ function checkRelevance(){
   }
 
   if (state === 1){
+
+    /// Login FORM ///
+
     hideAllForms();
     $(".signin-holder").show();
     $('.vPrevious').show();
+
+    statusNetlify = $('#cart').is(':visible');
+
+    console.log( "userloggedin : statusNetlify", userloggedin, statusNetlify );
+
+    if(userloggedin && statusNetlify){
+      vNextState();
+    }
+
   }
 
   if (state === 2){
@@ -1645,13 +1704,31 @@ function checkRelevance(){
     checkedStatus();
   }
 
-  // Payment Gateway //
   if (state === 3){
+    hideAllForms();
+    $(".summary-holder").show();
+    $('.vPrevious').show();
+    $('.next-address').show();
+
+    if(createCustomer){
+      // Create Stripe Customer With address and Add it to FaunnaDB
+      console.log("creating new Customer in Stripe");
+      
+      createCustomerStripe();
+      
+    }
+
+  }
+
+  // Payment Gateway //
+  if (state === 4){
+
     save_address();
     hideAllForms();
     $('.payment-holder').show();
     $('.vPrevious').show();
     displayPayment();
+
   }
 
   // document.getElementById("secure-form").submit();
@@ -1660,6 +1737,7 @@ function checkRelevance(){
   
 
   console.log("state: ", state);
+
 }
 
 
@@ -1686,6 +1764,12 @@ function vGuestLogin () {
   state += 1;
   checkRelevance();
   //closeCart();
+}
+
+
+function vNextState() {
+  state += 1;
+  checkRelevance();
 }
 
 
@@ -1784,39 +1868,17 @@ data.push(address);
 
 data.push(cartArray);
 
-console.log("Loading_address...", JSON.stringify(data) );
-console.log("Loading_address...", data[0]);
-console.log("Loading_address...", data[1]);
+data.push({ "customerID" : user_stripe_id });
 
+//console.log("Loading_address...", JSON.stringify(data) );
+//console.log("Loading_address...", data[0]);
+//console.log("Loading_address...", data[1]);
+
+console.log("data...", data);
 var resData = JSON.stringify(data);
 
-var dat1 = JSON.parse(resData);
+console.log("resData...", resData);
 
-console.log("dat1[0]: ", typeof(dat1) ,dat1[0]);
-
-console.log("dat1[1]: ", typeof(dat1) ,dat1[1]);
-
-
-
-/*
-
-var cart = JSON.parse(purchase);
-
-console.log("cart: ", cart);
-
-var totalCount = 0;
-var totalCart = 0;
-var len = cart.length;
-
-for (i = 0; i < len; i++) {
-  console.log("Cart: ", cart[i]);
-  totalCount += cart[i].count;
-  totalCart += cart[i].price;
-}
-
-console.log("totalCount,  totalCart: ", totalCount, totalCart);
-
-*/
 
 
 // Disable the button until we have Stripe set up on the page
@@ -1903,7 +1965,7 @@ var payWithCard = function(stripe, card, clientSecret) {
         console.log("The payment succeeded! \n", result);
         closeCart();
         DisplayPaymentResult( result.paymentIntent.id, false);
-        orderComplete(result.paymentIntent.id, false);
+        //orderComplete(result.paymentIntent.id, false);
       }
     });
 };
@@ -1951,8 +2013,6 @@ var loading = function(isLoading) {
   }
 };
 
-
-
 }
 
 
@@ -1975,7 +2035,6 @@ function alterMenu() {
 
   //console.log(login);
 }
-
 
 
 
@@ -2009,11 +2068,19 @@ function alertFunction() {
 window.onload = alterMenu;
 
 
-var user_id = "";
 
+var user_id = "";
 var user_email = "";
+var user_stripe_id = "";
+var user_full_name = "";
+var createCustomer = false;
+var payasguest = true;
+var userloggedin = false;
+
 
 function loginNetlifyIdentity(user) {
+
+  userloggedin = true;
 
   netlifyIdentity.refresh().then((jwt)=>console.log(jwt));
 
@@ -2024,16 +2091,222 @@ function loginNetlifyIdentity(user) {
   console.log(user);
 
   user_id = user.id;
-
   user_email = user.email;
+  user_full_name = user.user_metadata.full_name;
+  payasguest = false;
 
-  console.log("user_id: user_email", user_id , user_email);
+  console.log( "user_id: user_email : user_full_name ", user_id , user_email , user_full_name);
+
+  // Check Netlify ID on Faunna DB
+  var qc = {"query" : user_id};
+
+  console.log( "getFaunaID started" );
+
+  getFaunaID( qc );
 
 }
 
 
 
+function retrieveCustomer ( customerID ) {
+
+  fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/retrieveCustomer", {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify(customerID)
+
+    })
+    .then(function(result) {
+      return result.json();
+    })
+    .then(function(data) {
+      
+      console.log("retrieveCustomer data: ", data);
+
+      console.log("typeof: ", typeof(data));
+
+      stripeAddress( data.Customer );  /// Retrieve Address
+      
+    }).catch((error) => {
+
+      console.log('error', error);
+
+    });
+
+}
+
+
+
+function createCustomerStripe ( ) {
+
+  var address = get_address();
+  
+  var data = []
+  
+  data.push(address);
+  
+  
+  fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/createCustomer", {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify(data)
+
+    })
+
+    .then(function(result) {
+
+      return result.json();
+
+    })
+
+    .then(function(data) {
+
+      console.log("createCustomerStripe data: ", data);
+
+      console.log("typeof: ", typeof(data));
+
+      user_stripe_id = data.Customer.id;
+
+      var dat = { title : user_id ,  key_value: user_stripe_id } ;
+
+      console.log('Creating FaunaID: ', dat);
+
+      createFaunaID(dat);
+
+    
+    }).catch((error) => {
+
+      console.log('error', error);
+
+    });
+
+}
+
+
+
+function getFaunaID ( user_id ) {
+
+  fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/querydatabase", {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify(user_id)
+
+    })
+    .then(function(result) {
+      return result.json();
+    })
+    .then(function(data) {
+        
+        console.log("incoming data: ", data);
+        console.log("typeof: ", typeof(data));
+        console.log("data.data: ", data.data );
+
+        //var data = {data: {title: "49c7ffad-fda0-4cc6-a42c-62fa58b860ce", key_value: "cus_HoTewLaPBGI6f0"} } ;
+        
+        if ( "data" in data )
+        {
+          
+
+          console.log("data: ", data.data );
+          console.log("title: ", data.data.title );
+          console.log("key_value: ", data.data.key_value );
+          
+          var key = data.data.key_value;
+
+          if (key === 'undefined' || key === "" || key === undefined)
+          {
+
+            console.log(" data.data in data === true - All Good!!! ");
+            createCustomer = true;
+            checkRelevance();
+            console.log("createCustomer = true");
+
+          }
+          else
+          {
+            console.log(" data.data in data === true but key === undefined ");
+            user_stripe_id = key;
+            console.log("retrieveCustomer: ", user_stripe_id);
+            retrieveCustomer(user_stripe_id);
+            createCustomer = false;
+          }
+
+        }
+        else
+        {
+            createCustomer = true;
+            checkRelevance();
+            console.log(" data.data in data === false ");
+            console.log("createCustomer = true");
+        }
+    
+    }).catch((error) => {
+
+      console.log('error', error);
+
+    });
+
+}
+
+
+
+
+function createFaunaID ( user_id ) {
+
+  fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/dbCreateDocuments", {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify(user_id)
+
+    })
+    .then(function(result) {
+      return result.json();
+    })
+    .then(function(data) {
+
+      console.log("create Fauna DB: ", data);   
+
+    }).catch((error) => {
+      console.log('error', error);
+    });
+
+}
+
+
+
+
 function logoutNetlifyIdentity(user) {
+
+  userloggedin = false;
+
+  user_id = "";
+
+  user_email = "";
+
+  user_stripe_id = "";
+
+  user_full_name = "";
+
   // Unbind from events
   netlifyIdentity.off('login'); // to unbind all registered handlers
   netlifyIdentity.off('login', loginNetlifyIdentity); // to unbind a single handler
@@ -2164,14 +2437,13 @@ try {
 ///// Fauna DB /////
 
 
+//q = faunadb.query;
+
+
+//var serverClient = new faunadb.Client({ secret: '' });
+
 
 /*
-q = faunadb.query;
-
-
-
-var serverClient = new faunadb.Client({ secret: 'YZrq7zYRE5WHlqtLTDPmUu5I' });
-
 
 
 serverClient.query(
@@ -2231,9 +2503,6 @@ serverClient.query(
 
 
 
-
-
-
 serverClient.query(
   q.Create(
     q.Collection('grynntable'),
@@ -2250,11 +2519,6 @@ serverClient.query(
   )
 )
 .then((ret) => console.log(ret))
-
-
-
-
-
 
 
 
@@ -2281,15 +2545,25 @@ serverClient.query(
 
 
 
+serverClient.query(
+  q.Create(
+    q.Collection('grynntable'),
+    { data: { title : '123456789' ,  key_value: 'some value is 123456789'} },
+  )
+)
+.then((ret) => console.log(ret))
+
+
+serverClient.query(
+  q.Get(
+    q.Match(q.Index('posts_by_title'), '123456789')
+  )
+)
+.then((ret) => console.log(ret))
+
+
+
 */
-
-
-
-
-
-
-
-
 
 
 
