@@ -2171,7 +2171,7 @@ function getFaunaID ( user_id ) {
         console.log("incoming data: ", data);
         console.log("typeof: ", typeof(data));
 
-        if (data.data.key_value){
+        if (data.data.key_value in data){
 
           console.log("data: ", data.data );
           console.log("title: ", data.data.title );
@@ -2194,7 +2194,6 @@ function getFaunaID ( user_id ) {
         {
             createCustomer = true;
             vGuestLogin();
-
         }
     
     }).catch((error) => {
