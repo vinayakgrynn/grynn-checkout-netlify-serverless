@@ -2173,10 +2173,13 @@ function getFaunaID ( user_id ) {
         console.log("incoming data: ", data);
         console.log("typeof: ", typeof(data));
         console.log("data.data: ", data.data );
+
+        //var data = {data: {title: "49c7ffad-fda0-4cc6-a42c-62fa58b860ce", key_value: "cus_HoTewLaPBGI6f0"} } ;
         
-        if ( data.data in data )
+        if ( "data" in data )
         {
           
+
           console.log("data: ", data.data );
           console.log("title: ", data.data.title );
           console.log("key_value: ", data.data.key_value );
