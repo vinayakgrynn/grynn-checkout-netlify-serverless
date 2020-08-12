@@ -41,43 +41,76 @@ var vtotal = (totalCart).toFixed(2);
 totalCart = parseInt(vtotal * 100);
 console.log("totalCount,  totalCart: ", totalCount, totalCart);
 
+  
 
   
-///////////////////////////
-//////////////////////////
-/////////////////////////
-const paymentIntent = await stripe.paymentIntents.create({
-    description: 'Software development services',
-    customer: customerID.customerID ,
-    shipping: {
-      name: address.firstname + " " + address.lastname ,
-      phone: address.tel,
-      address: {
-        line1: address.shipaddress + "  " + address.shipaddress2 ,
-        postal_code: address.shippostcode ,
-        city: address.shipcity ,
-        state: '',
-        country: address.shipcountry,
-      },
-    },
-    amount: totalCart,
-    currency: "usd",
-    payment_method_types: ['card'],
-    receipt_email: address.email
-});
+var user_id = customerID["user_id"];
+
+var uuser = context.clientContext.user.sub;
 
   
-console.log("paymentIntent: ", paymentIntent );
-
+if( uuser.localeCompare(user_id) === 0 )
+{
   
-return {
-    statusCode: 200,
-    headers: {"Access-Control-Allow-Origin":"*"},
-    body: JSON.stringify({
-      clientSecret: paymentIntent.client_secret,
-      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-    }),
-};
+    console.log( " uuser === user_id ",  uuser, user_id );
+  
+  
+
+
+    ///////////////////////////
+    //////////////////////////
+    /////////////////////////
+    const paymentIntent = await stripe.paymentIntents.create({
+        description: 'Software development services',
+        customer: customerID.customerID ,
+        shipping: {
+          name: address.firstname + " " + address.lastname ,
+          phone: address.tel,
+          address: {
+            line1: address.shipaddress + "  " + address.shipaddress2 ,
+            postal_code: address.shippostcode ,
+            city: address.shipcity ,
+            state: '',
+            country: address.shipcountry,
+          },
+        },
+        amount: totalCart,
+        currency: "usd",
+        payment_method_types: ['card'],
+        receipt_email: address.email
+    });
+
+
+    console.log("paymentIntent: ", paymentIntent );
+
+
+    return {
+        statusCode: 200,
+        headers: {"Access-Control-Allow-Origin":"*"},
+        body: JSON.stringify({
+          clientSecret: paymentIntent.client_secret,
+          publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+        }),
+    };
+  
+  
+  
+}
+else
+{    
+    
+    console.log( " uuser !== user_id ",  uuser, user_id );
+    
+    return {
+        headers: {"Access-Control-Allow-Origin":"*"},
+        statusCode: 401,
+        body: JSON.stringify("Unauthorized: Bad Token")
+    }
+    
+}
+  
+  
+  
   
   
 };
