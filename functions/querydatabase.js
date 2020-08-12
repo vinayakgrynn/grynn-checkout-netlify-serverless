@@ -10,7 +10,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 
 exports.handler = async (event, context, callback) => { 
   
-  console.log( "context, callback ", context, callback );
   
   /* configure faunaDB Client with our secret */
   const client = new faunadb.Client({
@@ -23,10 +22,18 @@ exports.handler = async (event, context, callback) => {
   console.log("data: ", data);
   
   console.log("type: ", typeof(data) );
-  
+
   var queryData = data["query"];
   
   console.log( "type: ", typeof(queryData), queryData );
+  
+  
+  var netlify_access_token = data["netlify_access_token"];
+  
+  console.log( "netlify_access_token: ", typeof(netlify_access_token), netlify_access_token );
+  
+  console.log( " original context ", context );
+  
   
   return client.query(
     q.Get(
