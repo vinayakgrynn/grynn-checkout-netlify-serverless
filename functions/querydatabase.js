@@ -33,15 +33,16 @@ exports.handler = async (event, context, callback) => {
   
   console.log( " original context ", context );
   
-  var uuser = context.clientContext.user;
+  var uuser = context.clientContext.user.sub;
+
+  console.log( " uuser ", uuser, typeof(uuser) );
   
-  var d = new Date();
-  var n = d.getTime();
-  
-  console.log( " uuser ", uuser.sub, typeof(uuser.sub) );
-  
-  console.log( " uuser ",  uuser.exp , n ,  typeof(uuser.exp) );
-  
+  if( uuser.localeCompare(queryData) === 0 ){
+    console.log( " uuser === queryData ",  uuser, queryData );
+  }
+  else{
+    console.log( " uuser !== queryData ",  uuser, queryData );
+  }
   
   return client.query(
     q.Get(
