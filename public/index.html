@@ -2507,11 +2507,14 @@ function createCustomerStripe ( ) {
 
 function getFaunaID ( user_id ) {
 
+  var bearer = 'Bearer ' + user_id.netlify_access_token ;//bearer_token;
+
   fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/querydatabase", {
 
     method: "POST",
 
     headers: {
+      "Authorization": bearer,
       "Content-Type": "application/json"
     },
 
