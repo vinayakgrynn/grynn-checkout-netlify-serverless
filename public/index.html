@@ -2027,13 +2027,16 @@ data.push(address);
 
 data.push(cartArray);
 
-data.push({ "customerID" : user_stripe_id });
+const vv = netlifyIdentity.currentUser();
+
+data.push({ "customerID" : user_stripe_id, "user_id" : vv.id });
 
 //console.log("Loading_address...", JSON.stringify(data) );
 //console.log("Loading_address...", data[0]);
 //console.log("Loading_address...", data[1]);
 
 console.log("data...", data);
+
 var resData = JSON.stringify(data);
 
 console.log("resData...", resData);
@@ -2048,11 +2051,14 @@ document.querySelector(".stripe-button").disabled = true;
 if (isUserloggedIn())
 {
 
+  var bearer = 'Bearer ' + netlify_access_token ; 
+
   fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/createpaymentintent", {
 
   method: "POST",
 
   headers: {
+    "Authorization": bearer,
     "Content-Type": "application/json"
   },
 
@@ -2110,7 +2116,6 @@ if (isUserloggedIn())
 }
 else
 {
-
 
   fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/server", {
 
@@ -2397,19 +2402,25 @@ function updateCustomerStripe ( ) {
 
   data.push(cartArray);
 
-  data.push({ "customerID" : user_stripe_id });
+  const vv = netlifyIdentity.currentUser();
+
+  data.push({ "customerID" : user_stripe_id, "user_id" : vv.id , "netlify_access_token" : netlify_access_token });
+
 
   var resData = JSON.stringify(data);
 
   console.log("resData...", resData);
   
-  
+
+  var bearer = 'Bearer ' + netlify_access_token ;   
+
   fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/updateCustomer", 
   {
 
     method: "POST",
 
     headers: {
+      "Authorization": bearer,
       "Content-Type": "application/json"
     },
 
@@ -2425,7 +2436,7 @@ function updateCustomerStripe ( ) {
 
     .then(function(data) {
 
-      console.log("createCustomerStripe data: ", data);
+      console.log("updateCustomerStripe data: ", data);
 
       console.log("typeof: ", typeof(data));
 
@@ -2458,11 +2469,17 @@ function updateCustomerStripe ( ) {
 
 function createCustomerStripe ( ) {
 
+  var bearer = 'Bearer ' + netlify_access_token ; 
+
   var address = get_address();
   
   var data = []
   
   data.push(address);
+
+  const vv = netlifyIdentity.currentUser();
+
+  data.push({ "user_id" : vv.id , "netlify_access_token" : netlify_access_token });
   
   
   fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/createCustomer", {
@@ -2470,6 +2487,7 @@ function createCustomerStripe ( ) {
     method: "POST",
 
     headers: {
+      "Authorization": bearer,
       "Content-Type": "application/json"
     },
 
