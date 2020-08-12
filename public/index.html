@@ -2428,7 +2428,7 @@ function updateCustomerStripe ( ) {
 
       user_stripe_id = data.Customer.id;
 
-      var dat = { title : user_id ,  key_value: user_stripe_id } ;
+      var dat = { title : user_id ,  key_value: user_stripe_id, "netlify_access_token" : netlify_access_token } ;
 
       console.log('Creating FaunaID: ', dat);
 
@@ -2488,7 +2488,7 @@ function createCustomerStripe ( ) {
 
       user_stripe_id = data.Customer.id;
 
-      var dat = { title : user_id ,  key_value: user_stripe_id } ;
+      var dat = { title : user_id ,  key_value: user_stripe_id , "netlify_access_token" : netlify_access_token} ;
 
       console.log('Creating FaunaID: ', dat);
 
@@ -2507,7 +2507,7 @@ function createCustomerStripe ( ) {
 
 function getFaunaID ( user_id ) {
 
-  var bearer = 'Bearer ' + user_id.netlify_access_token ;//bearer_token;
+  var bearer = 'Bearer ' + user_id.netlify_access_token ; 
 
   fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/querydatabase", {
 
@@ -2580,11 +2580,14 @@ function getFaunaID ( user_id ) {
 
 function createFaunaID ( user_id ) {
 
+  var bearer = 'Bearer ' + user_id.netlify_access_token ;
+
   fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/dbCreateDocuments", {
 
     method: "POST",
 
     headers: {
+      "Authorization": bearer,
       "Content-Type": "application/json"
     },
 
