@@ -19,53 +19,66 @@ exports.handler = async (event, context, callback) => {
   /* parse the string body into a useable JS object */
   const data = JSON.parse(event.body);
   
-  console.log("data: ", data);
-  
-  console.log("type: ", typeof(data) );
+  //console.log("data: ", data);
+  //console.log("type: ", typeof(data) );
 
   var queryData = data["query"];
   
-  console.log( "type: ", typeof(queryData), queryData );
+  //console.log( "type: ", typeof(queryData), queryData );
   
   var netlify_access_token = data["netlify_access_token"];
   
-  console.log( "netlify_access_token: ", typeof(netlify_access_token), netlify_access_token );
-  
-  console.log( " original context ", context );
+  //console.log( "netlify_access_token: ", typeof(netlify_access_token), netlify_access_token );
+  //console.log( " original context ", context );
   
   var uuser = context.clientContext.user.sub;
 
-  console.log( " uuser ", uuser, typeof(uuser) );
+  //console.log( " uuser ", uuser, typeof(uuser) );
   
-  if( uuser.localeCompare(queryData) === 0 ){
-    console.log( " uuser === queryData ",  uuser, queryData );
-  }
-  else{
-    console.log( " uuser !== queryData ",  uuser, queryData );
-  }
-  
-  return client.query(
-    q.Get(
-      q.Match(q.Index('posts_by_title'), queryData )
-    )
-  )
-  .then((response) => {
+  if( uuser.localeCompare(queryData) === 0 )
+  {
     
-      console.log('success', response);
+    console.log( " uuser === queryData ",  uuser, queryData );
+  
+    return client.query(
+      q.Get(
+        q.Match(q.Index('posts_by_title'), queryData )
+      )
+    )
+    .then((response) => {
+
+        console.log('success', response);
+
+        return {
+          headers: {"Access-Control-Allow-Origin":"*"},
+          statusCode: 200,
+          body: JSON.stringify(response)
+        }
+
+    }).catch((error) => {
       
-      return {
-        headers: {"Access-Control-Allow-Origin":"*"},
-        statusCode: 200,
-        body: JSON.stringify(response)
-      }
+        console.log('error', error);
       
-  }).catch((error) => {
-      console.log('error', error)
-      return {
+        return {
+            headers: {"Access-Control-Allow-Origin":"*"},
+            statusCode: 400,
+            body: JSON.stringify(error)
+        }
+    });
+    
+    
+  }
+  else
+  {    
+    console.log( " uuser !== queryData ",  uuser, queryData );
+     
+    return {
         headers: {"Access-Control-Allow-Origin":"*"},
-        statusCode: 400,
-        body: JSON.stringify(error)
-      }
-  });
+        statusCode: 401,
+        body: JSON.stringify("Unauthorized: Bad Token")
+    }
+    
+  }
+    
 
 };
