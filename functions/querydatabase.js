@@ -27,12 +27,15 @@ exports.handler = async (event, context, callback) => {
   
   console.log( "type: ", typeof(queryData), queryData );
   
-  
   var netlify_access_token = data["netlify_access_token"];
   
   console.log( "netlify_access_token: ", typeof(netlify_access_token), netlify_access_token );
   
   console.log( " original context ", context );
+  
+  var uuser = context.clientContext.user;
+  
+  console.log( " uuser ", uuser.sub, uuser.exp , typeof(uuser.sub) , typeof(uuser.exp) );
   
   
   return client.query(
