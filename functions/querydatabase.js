@@ -10,6 +10,8 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 
 exports.handler = async (event, context, callback) => { 
   
+  console.log( "event, context, callback ", event, context, callback );
+  
   /* configure faunaDB Client with our secret */
   const client = new faunadb.Client({
     secret: process.env.FAUNADB_SECRET
