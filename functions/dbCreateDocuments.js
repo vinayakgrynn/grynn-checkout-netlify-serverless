@@ -62,6 +62,8 @@ exports.handler = async (event, context, callback) => {
   else
   {    
     
+    console.log( " uuser !== queryData.title ",  uuser, queryData.title );
+    
     return {
         headers: {"Access-Control-Allow-Origin":"*"},
         statusCode: 401,
