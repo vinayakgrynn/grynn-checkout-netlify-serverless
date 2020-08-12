@@ -35,7 +35,12 @@ exports.handler = async (event, context, callback) => {
   
   var uuser = context.clientContext.user;
   
-  console.log( " uuser ", uuser.sub, uuser.exp , typeof(uuser.sub) , typeof(uuser.exp) );
+  var d = new Date();
+  var n = d.getTime();
+  
+  console.log( " uuser ", uuser.sub, typeof(uuser.sub) );
+  
+  console.log( " uuser ",  uuser.exp , n ,  typeof(uuser.exp) );
   
   
   return client.query(
