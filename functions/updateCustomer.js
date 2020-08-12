@@ -28,54 +28,84 @@ console.log("\ncart\n", typeof(cart), cart);
 var totalCount = 0.0;
 var totalCart = 0.0;
 
+  
+var user_id = customerID["user_id"];
+
+var uuser = context.clientContext.user.sub;
 
   
-const cust = await stripe.customers.update(
+if( uuser.localeCompare(user_id) === 0 )
+{
   
-  customerID.customerID ,
-  
-  {
-    
-    name: address.firstname + " " + address.lastname ,
-    phone: address.tel,
-    email: address.email,
-    address: {
-      line1: address.billaddress ,
-      line2: address.billaddress2 ,
-      postal_code: address.billpostcode ,
-      city: address.billcity ,
-      state: '',
-      country: address.billcountry,
-    },
-    shipping: {
+    console.log( " uuser === user_id ",  uuser, user_id );
+
+    const cust = await stripe.customers.update(
+
+      customerID.customerID ,
+
+      {
+
         name: address.firstname + " " + address.lastname ,
         phone: address.tel,
+        email: address.email,
         address: {
-          line1: address.shipaddress ,
-          line2: address.shipaddress2 ,
-          postal_code: address.shippostcode ,
-          city: address.shipcity ,
+          line1: address.billaddress ,
+          line2: address.billaddress2 ,
+          postal_code: address.billpostcode ,
+          city: address.billcity ,
           state: '',
-          country: address.shipcountry,
+          country: address.billcountry,
         },
-    },
+        shipping: {
+            name: address.firstname + " " + address.lastname ,
+            phone: address.tel,
+            address: {
+              line1: address.shipaddress ,
+              line2: address.shipaddress2 ,
+              postal_code: address.shippostcode ,
+              city: address.shipcity ,
+              state: '',
+              country: address.shipcountry,
+            },
+        },
+
+      }
+
+    );
+
+
+
+    console.log("customer: ", cust );
+
+    return {
+        statusCode: 200,
+        headers: {"Access-Control-Allow-Origin":"*"},
+        body: JSON.stringify({
+          customerID: cust.id , 
+          Customer: cust,
+        }),
+    };
+  
+  
+  
+}
+else
+{    
     
-  }
+    console.log( " uuser !== user_id ",  uuser, user_id );
+    
+    return {
+        headers: {"Access-Control-Allow-Origin":"*"},
+        statusCode: 401,
+        body: JSON.stringify("Unauthorized: Bad Token")
+    }
+    
+}
   
-);
   
-
-
-console.log("customer: ", cust );
   
-return {
-    statusCode: 200,
-    headers: {"Access-Control-Allow-Origin":"*"},
-    body: JSON.stringify({
-      customerID: cust.id , 
-      Customer: cust,
-    }),
-};
+  
+  
   
   
 };
