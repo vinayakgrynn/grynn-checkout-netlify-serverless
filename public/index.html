@@ -2341,6 +2341,8 @@ function loginNetlifyIdentity(user) {
 
 function retrieveCustomer ( customerID ) {
 
+  var bearer = 'Bearer ' + customerID.netlify_access_token ; 
+
   fetch("https://sleepy-goodall-2e1697.netlify.app/.netlify/functions/retrieveCustomer", {
 
     method: "POST",
@@ -2552,19 +2554,25 @@ function getFaunaID ( user_id ) {
           }
           else
           {
+
             console.log(" data.data in data === true but key === undefined ");
             user_stripe_id = key;
             console.log("retrieveCustomer: ", user_stripe_id);
-            retrieveCustomer(user_stripe_id);
+
+            var dat = { title : user_id ,  key_value: user_stripe_id , "netlify_access_token" : netlify_access_token} ;
+            retrieveCustomer(dat);
             createCustomer = false;
+
           }
 
         }
         else
         {
+
             createCustomer = true;
             console.log(" data.data in data === false ");
             console.log("createCustomer = true");
+
         }
     
     }).catch((error) => {
