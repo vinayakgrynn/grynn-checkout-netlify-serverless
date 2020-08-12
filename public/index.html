@@ -2559,7 +2559,7 @@ function getFaunaID ( user_id ) {
             user_stripe_id = key;
             console.log("retrieveCustomer: ", user_stripe_id);
 
-            var dat = { title : user_id ,  key_value: user_stripe_id , "netlify_access_token" : netlify_access_token} ;
+            var dat = { title : data.data.title ,  key_value: data.data.key_value , "netlify_access_token" : netlify_access_token} ;
             retrieveCustomer(dat);
             createCustomer = false;
 
