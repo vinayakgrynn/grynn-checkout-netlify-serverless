@@ -2409,7 +2409,8 @@ function updateCustomerStripe ( ) {
   const vv = netlifyIdentity.currentUser();
   
   if (vv === 'undefined' || vv === undefined || vv === null){
-    data.push({ "customerID" : user_stripe_id, "user_id" : "" , "netlify_access_token" : netlify_access_token });
+    //data.push({ "customerID" : user_stripe_id, "user_id" : "" , "netlify_access_token" : netlify_access_token });
+    return;
   }
   else{
     data.push({ "customerID" : user_stripe_id, "user_id" : vv.id , "netlify_access_token" : netlify_access_token });
