@@ -2029,7 +2029,7 @@ data.push(cartArray);
 
 const vv = netlifyIdentity.currentUser();
 
-if (vv.id === 'undefined' || vv.id === "" || vv.id === undefined || vv.id === null){
+if (vv === 'undefined' || vv === undefined || vv === null){
   data.push({ "customerID" : user_stripe_id, "user_id" : "" });
 }
 else{
