@@ -2403,9 +2403,13 @@ function updateCustomerStripe ( ) {
   data.push(cartArray);
 
   const vv = netlifyIdentity.currentUser();
-
-  data.push({ "customerID" : user_stripe_id, "user_id" : vv.id , "netlify_access_token" : netlify_access_token });
-
+  
+  if (vv.id === 'undefined' || vv.id === "" || vv.id === undefined || vv.id === null){
+    data.push({ "customerID" : user_stripe_id, "user_id" : "" , "netlify_access_token" : netlify_access_token });
+  }
+  else{
+    data.push({ "customerID" : user_stripe_id, "user_id" : vv.id , "netlify_access_token" : netlify_access_token });
+  }
 
   var resData = JSON.stringify(data);
 
