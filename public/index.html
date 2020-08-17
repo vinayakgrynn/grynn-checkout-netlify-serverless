@@ -2029,8 +2029,12 @@ data.push(cartArray);
 
 const vv = netlifyIdentity.currentUser();
 
-data.push({ "customerID" : user_stripe_id, "user_id" : vv.id });
-
+if (vv.id === 'undefined' || vv.id === "" || vv.id === undefined || vv.id === null){
+  data.push({ "customerID" : user_stripe_id, "user_id" : "" });
+}
+else{
+  data.push({ "customerID" : user_stripe_id, "user_id" : vv.id });
+}
 //console.log("Loading_address...", JSON.stringify(data) );
 //console.log("Loading_address...", data[0]);
 //console.log("Loading_address...", data[1]);
